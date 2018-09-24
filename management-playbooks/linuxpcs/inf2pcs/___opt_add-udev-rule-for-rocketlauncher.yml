@@ -1,0 +1,7 @@
+---
+- hosts: inf2pcs
+
+  roles:
+  - ubuntu_clients/opt__add-udev-rule-for-rocketlauncher
+  
+

@@ -1,0 +1,13 @@
+---
+- hosts: linuxpcs
+
+  vars:
+    sleep_timeout: 0
+
+ 
+  roles:
+  - ubuntu_clients/configure_defaults4users/set_unity_defaults
+  
+
+
+

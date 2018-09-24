@@ -1,0 +1,11 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: update firefox
+    win_chocolatey: 
+      name: firefox
+      state: latest
+      ignore_checksums: True
+
+

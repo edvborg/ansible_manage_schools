@@ -1,0 +1,12 @@
+---
+
+- name: clone homedir for guest account from git repo
+  git:
+    repo: https://github.com/edvborg/homedir4guests.git
+    #repo: 'ssh://git@github.com:edvborg/homedir4guests.git'
+    dest: /etc/guest-session/skel2/
+    update: no
+    accept_hostkey: true
+
+- 
+

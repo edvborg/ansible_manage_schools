@@ -1,0 +1,7 @@
+---
+
+firefox_install_dir: "/usr/lib/firefox/"
+#firefox_nosync: False
+#firefox_bookmarks_toolbar: False
+#firefox_startup_homepage: True
+firefox_save_logins: True

@@ -1,0 +1,1 @@
+*       -fstype=nfs,rw,hard,nolock,intr        fs1:/volumes/tank/home/&

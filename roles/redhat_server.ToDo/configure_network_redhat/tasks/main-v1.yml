@@ -1,0 +1,58 @@
+---
+
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Install the required  packages in Redhat derivatives
+  yum: name={{ item }} state=installed
+  with_items: network_pkgs
+  when: ansible_os_family == 'RedHat'
+
+
+
+
+
+# First of all, create all configuration files
+- name: Create the network configuration file for ethernet devices
+  template: src=ethernet_{{ ansible_os_family }}.j2 dest={{ net_path }}/ifcfg-{{ item.device }}
+  with_items: network_ether_interfaces
+  when: network_ether_interfaces is defined
+  register: ether_result
+
+
+
+# Restart interfaces to load new configuration
+#
+# we had a lot of problems with lost connectivity, therefore we changed the
+# role to use a script for network reconfiguration. 
+# Tested on Ubuntu 14.04 LTS and Bonding
+
+- name: Create temporary interface script for seamless network reload
+  shell: mktemp
+  register: mktemp_script
+
+- lineinfile: line="{{ item }}" dest={{ mktemp_script.stdout }} state=present insertafter=EOF
+  with_items:
+    - "ifdown "
+    - "sleep 1"
+    - "ifup "
+
+# Shutdown current network configuration
+- lineinfile: line="\1 {{ item.item.device }}" dest={{ mktemp_script.stdout }} state=present insertafter=EOF backrefs=True regexp='(ifdown .*)'
+  with_items: ether_result.results
+  when: ether_result is defined and 'results' in ether_result and item.changed
+
+
+# Start new network configuration
+- lineinfile: line="\1 {{ item.item.device }}" dest={{ mktemp_script.stdout }} state=present insertafter=EOF backrefs=True regexp='(ifup .*)'
+  with_items: ether_result.results
+  when: ether_result is defined and 'results' in ether_result and item.changed
+
+
+# Execute configuration change
+- name: Execute Network Restart
+  shell: bash {{ mktemp_script.stdout }} | true
+
+# Cleanup
+- name: Cleanup Network Restart script
+  shell: rm {{ mktemp_script.stdout }}

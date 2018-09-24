@@ -1,0 +1,11 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: update chromium
+    win_chocolatey: 
+      name: chromium
+      state: present
+      ignore_checksums: True
+
+

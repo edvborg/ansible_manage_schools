@@ -1,0 +1,28 @@
+---
+- hosts: UG-04-SW02
+  gather_facts: no
+  connection: local
+
+  
+  
+  vars:
+    cli:
+      host: UG-04-SW02
+      authorize: yes
+      username: rudi
+      password: borgibk
+      auth_pass: borgibk
+      # transport: cli
+
+  tasks:
+  - name: IOS | Show clock
+    ios_command:
+      commands: show version
+      host: UG-04-SW02
+      provider: 
+        username: rudi
+        password: borgibk
+    register: output
+
+  - name: print output
+    debug: msg="{{ output.stdout }}"

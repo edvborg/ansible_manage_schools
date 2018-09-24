@@ -1,0 +1,96 @@
+#version=RHEL7
+# System authorization information
+auth --enableshadow --passalgo=sha512
+# Use network installation
+#
+#
+install
+nfs --server=laus --dir=/opt/ks-netinstall/CentOSx64/7/
+#repo --name="CentOS-7 - Installation" --mirrorlist="http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=os" --install
+#url --url="http://ftp.tugraz.at/mirror/centos/7/os/x86_64/" --proxy=proxy:8080
+#url --url="http://mirror.centos.org/centos/7/os/x86_64/"
+#
+# Use text install
+#text
+#
+# Run the Setup Agent on first boot
+firstboot --enable
+ignoredisk --only-use=sdb,sda
+# Keyboard layouts
+keyboard --vckeymap=at-nodeadkeys --xlayouts='at (nodeadkeys)'
+# System language
+lang de_AT.UTF-8
+#
+#
+#
+# Network information
+network  --bootproto=dhcp --device=ens192 --ipv6=auto --activate
+network  --hostname="{{ hostname_client }}"
+#
+# Root password
+rootpw --iscrypted $6$rUQL25cyTHLGaz2A$26LR2Y0ZOKQDQmeHMv6dSCDdKPM4mzSG7mvPdTjBrUUMirbmmYCDyQV0RdntpLYnraTIsjFoUHjE2Tw4MrSfj0
+# System timezone
+timezone Europe/Vienna --isUtc --ntpservers=192.168.200.254
+# System bootloader configuration
+bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=sda
+# Partition clearing information
+#
+clearpart --drives=sda --all
+zerombr
+#clearpart --none --initlabel
+#
+part /boot --fstype=ext4 --size=250 --ondisk=sda
+part /var --fstype=ext4 --size=4000 --ondisk=sda
+part /tmp --fstype=ext4 --size=500 --ondisk=sda
+part / --fstype=ext4 --grow --maxsize=16000 --size=6000 --ondisk=sda
+part swap --fstype swap --grow  --maxsize=4000 --size=2000 --ondisk=sdb
+#
+#
+#
+selinux --disabled
+#
+reboot
+#
+#
+%packages
+@core
+kexec-tools
+%end
+#
+#
+%post --log=/root/my-post-log
+#exec < /dev/tty3 > /dev/tty3
+#chvt 3
+#echo
+#echo "################################"
+#echo "# Running Post Configuration   #"
+#echo "################################"
+# update the system
+yum update -y 
+#
+# prevent future yum updates pulling down & install new kernels (and breaking VMware & video drivers).
+echo "exclude=kernel*" >> /etc/yum.conf
+# 
+yum -y install epel-release
+yum -y update 
+yum -y install ansible open-vm-tools nfs-utils git wget
+#
+wget --no-check-certificate http://github.com/edvborg/config_with_ansible/raw/master/public_key 
+mkdir /root/.ssh 
+cat public_key > /root/.ssh/authorized_keys
+chmod 0700 /root/.ssh
+chmod 0600 /root/.ssh/*
+#
+echo 'localhost ansible_connection=local' > /etc/ansible/hosts 
+echo 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games' > /etc/cron.d/ansible-pull
+echo '@reboot root bash -c "sleep 20 && /usr/bin/ansible-pull -U https://github.com/edvborg/Schul-IT_by_ansible.git -d /var/lib/ansible/ >> /var/log/ansible.log 2>&1" ' >> /etc/cron.d/ansible-pull 
+chown root /etc/cron.d/ansible-pull 
+chmod 0644 /etc/cron.d/ansible-pull 
+#
+#
+%end
+#
+#
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end

@@ -1,0 +1,8 @@
+---
+- hosts: inf1pcs
+  gather_facts: false
+
+  tasks:
+  - name: Alle PCs im Informatikraum 1 anpingen
+    ping:
+

@@ -1,0 +1,8 @@
+---
+- hosts: linuxpcs
+  
+  vars:
+    firefox_save_logins: None
+    
+  roles: 
+  - ubuntu_clients/opt__configure-firefox-policies  

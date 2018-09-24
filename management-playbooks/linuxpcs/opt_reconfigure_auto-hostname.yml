@@ -1,0 +1,7 @@
+﻿---
+- hosts: linuxpcs
+  
+  roles:
+  - ubuntu_clients/configure_auto_hostname
+  
+

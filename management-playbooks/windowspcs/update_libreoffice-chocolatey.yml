@@ -1,0 +1,11 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: update Libreoffice
+    win_chocolatey: 
+      name: libreoffice-still
+      state: latest
+      ignore_checksums: True
+
+

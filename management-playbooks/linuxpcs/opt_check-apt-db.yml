@@ -1,0 +1,24 @@
+---
+- hosts: linuxpcs
+  
+  tasks:
+  - name: update apt database
+    command: apt-get update
+
+  - name: check apt-database
+    command: apt-get check
+    register: aptstatus
+    ignore_errors: true
+
+  - name: repair apt database with dpkg
+    command: "dpkg --configure -a"
+    when: aptstatus.rc != 0 and aptstatus.stdout | search("'dpkg --configure -a'")
+
+  - name: repair apt database with apt-get  
+    command: "apt-get -y -f install"
+    when: aptstatus.rc != 0 and aptstatus.stdout | search("'apt-get -f install'")
+
+  - name: update apt-Cache
+    apt: update_cache=yes
+
+

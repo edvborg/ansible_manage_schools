@@ -1,0 +1,20 @@
+---
+
+### cinelerra
+
+- name: add ppa repository for cinelerra
+  apt_repository:
+    repo: ppa:cinelerra-ppa/ppa
+    state: present
+
+- name: update apt cache if not done in last hour
+  apt: 
+    update_cache=yes 
+    cache_valid_time=3600
+
+
+- name: install cinelerra
+  apt: name={{ item }} state=latest
+  with_items:
+    - cinelerra-cv
+

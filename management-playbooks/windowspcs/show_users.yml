@@ -1,0 +1,14 @@
+---
+- hosts: windowspcs
+  gather_facts: False
+  tasks:
+  - name: show logged in users 
+    win_shell: wmic computersystem get username
+    register: out
+
+  - debug: var=out.stdout_lines[2]
+    
+
+ 
+
+

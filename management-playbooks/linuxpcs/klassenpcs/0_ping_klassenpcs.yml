@@ -1,0 +1,8 @@
+---
+- hosts: klassenpcs
+  gather_facts: no
+  
+  tasks:
+  - name: Alle klassenpcs anpingen
+    ping:
+

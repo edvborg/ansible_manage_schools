@@ -1,0 +1,22 @@
+<pam_mount>
+<debug        enable  = "0" />
+<mntoptions   allow   = "nosuid,nodev,loop,encryption,fsck,nonempty,allow_root,allow_other,noexec" />
+<mntoptions   require = "nosuid,nodev,noexec" />
+<logout       wait    = "5" hup    = "0"    term="yes" kill="0" />
+<mkmountpoint enable  = "1" remove = "true" />
+
+{%   for item in pam_mount_share_list %}
+<volume fstype     = "cifs"
+server     = "samba.borg-ibk.local"
+path       = "{{ item }}"
+mountpoint = "/home/%(USER)/meine_Freigaben/{{ item }}"
+options    = "uid=%(USER),nosuid,nodev,noexec"
+user       = "*"/>
+{%   endfor %}
+
+</pam_mount>
+
+
+
+
+

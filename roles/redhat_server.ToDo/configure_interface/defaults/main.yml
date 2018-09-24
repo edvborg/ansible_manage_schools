@@ -1,0 +1,9 @@
+---
+# defaults file for ansible-config-interfaces
+
+# Defines if interfaces should be configured as defined
+config_network_interfaces: true
+configuration_method: static
+
+
+

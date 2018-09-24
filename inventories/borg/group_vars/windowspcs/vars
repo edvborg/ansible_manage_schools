@@ -1,0 +1,40 @@
+ansible_user: admin	
+ansible_password: "{{ vaulted_ws_password }}"
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+
+
+### list of software packages chocolatey ############
+
+packages_choco_win10:
+  - firefox            # ok
+  - chromium           # ok
+  - opera              # ok
+  - bluegriffon        # ok
+  - filezilla          # ok
+  - putty              # ok
+  - wireshark          # ok
+  - bluefish           # ok
+  - libreoffice-still    # ok
+  - hunspell.portable    # ok
+  - adobereader          # ok
+  - virtualbox          # ok
+  - teraterm            # ok
+  - arduino             # ok
+  - 7zip                # ok
+  - softerraldapbrowser # ok
+  - musescore         # ok
+  - audacity          # ok
+  - audacity-lame     # ok
+  - vlc               # ok
+  - mediainfo         # ok
+  - handbrake         # ok
+  - youtube-dl        # ok
+  - irfanview         # ok
+  - gimp              # ok
+  - inkscape          # ok
+  - blender           # ok
+
+#  - flashplayerplugin  # ok
+#  - adobereader-update   # ok

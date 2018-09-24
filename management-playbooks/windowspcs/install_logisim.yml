@@ -1,0 +1,34 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: Create logisim directory
+    win_file:
+      path: C:\Programme\logisim
+      state: directory
+
+  - name: grab logisim jar file
+    win_get_url:
+      url: http://sourceforge.net/projects/circuit/files/latest/download
+      dest: C:\Programme\logisim\logisim.jar
+      
+  - name: download logisim icon 
+    win_get_url: 
+      url: http://a.fsdn.com/allura/p/circuit/icon?1367254782?&w=90
+      dest: C:\Programme\logisim\logisim.png
+
+  - name: install logisim
+    win_lineinfile:
+      path: C:\Programme\logisim\start_logisim.cmd
+      line: 'java -jar C:\Programme\logisim\logisim.jar'
+      create: yes
+      regex: logisim.jar
+
+
+  - name: add logisim to start menu 
+    win_shortcut: 
+      src:  'C:\Programme\logisim\start_logisim.cmd'
+      dest: 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\logisim.lnk' 
+      directory: 'C:\Programme\logisim\'
+      icon: 'C:\Programme\logisim\logisim.png'
+

@@ -1,0 +1,8 @@
+---
+- hosts: inf3pcs
+  gather_facts: False
+  
+  tasks:
+  - name: Alle PCs im Informatikraum 3 anpingen
+    ping:
+

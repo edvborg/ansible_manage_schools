@@ -1,0 +1,9 @@
+start on desktop-start
+stop on desktop-end
+
+script
+gvfs-set-attribute -t string 'Schreibtisch/videoserver.desktop' 'metadata::nautilus-icon-position' '{{ iconposition_x }},200'
+gvfs-set-attribute -t string 'Schreibtisch/audioserver.desktop' 'metadata::nautilus-icon-position' '{{ iconposition_x }},300'
+gvfs-set-attribute -t string 'Schreibtisch/material.desktop' 'metadata::nautilus-icon-position' '{{ iconposition_x }},400'
+end script
+

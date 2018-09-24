@@ -1,0 +1,12 @@
+---
+- hosts: Win7-64-Master
+
+  tasks:
+  - name: install extra software
+    win_chocolatey: name={{ item }}  state=present
+    with_items:
+    - pycharm-community 
+
+
+
+

@@ -1,0 +1,8 @@
+---
+- hosts: inf2pcs
+  gather_facts: False
+  
+  tasks:
+  - name: Alle PCs im Informatikraum 2 anpingen
+    ping:
+

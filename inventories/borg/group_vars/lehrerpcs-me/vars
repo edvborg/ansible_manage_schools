@@ -1,0 +1,4 @@
+fach: "me"
+fach_langbezeichnung: "Musikerziehung"
+smbpassword: "{{ vaulted_smbpassword_me }}"
+

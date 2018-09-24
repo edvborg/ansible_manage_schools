@@ -1,0 +1,11 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: add blender to start menu 
+    win_shortcut: 
+      src:  'C:\Program Files\Blender Foundation\Blender\blender.exe'
+      dest: 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Blender.lnk' 
+      icon: 'C:\Program Files\Blender Foundation\Blender\blender.exe,0'
+
+

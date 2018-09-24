@@ -1,0 +1,7 @@
+---
+- hosts: bibliothekpcs
+
+  tasks:
+  - name: Alle Linux-PCs in der Bibliothek herunterfahren
+    command: poweroff
+

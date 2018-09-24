@@ -1,0 +1,4 @@
+fach: "be"
+fach_langbezeichnung: "Bildnerische Erziehung"
+smbpassword: "{{ vaulted_smbpassword_be }}"
+

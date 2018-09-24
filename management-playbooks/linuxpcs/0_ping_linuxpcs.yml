@@ -1,0 +1,8 @@
+---
+
+- hosts: linuxpcs
+  gather_facts: False
+
+  tasks:
+  - ping:
+  

@@ -1,0 +1,28 @@
+---
+#### Variables:
+##   hostname
+##   ipaddress
+##   action ( add / delete )
+##
+
+- name: test if hostname exists in domain
+  command: host "{{ hostname }}"
+  register: hoststatus
+  #failed_when: hoststatus.rc == 0
+  
+  
+- name: create directory for scripts
+  file: 
+    path: /root/dnsscripts/ 
+    state: directory 
+    mode: 0700
+    
+- name: create and copy script     
+  template: 
+    src: script.sh.j2
+    dest: "{{ '/root/dnsscripts/script_' + action + '_' + hostname + '.sh' }}"
+    backup: yes
+    force: yes 
+   
+- name: execute script
+  command: bash "{{ '/root/dnsscripts/script_' + action + '_' + hostname + '.sh' }}"

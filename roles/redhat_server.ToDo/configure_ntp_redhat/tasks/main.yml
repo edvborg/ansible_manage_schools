@@ -1,0 +1,23 @@
+---
+
+- name: chronyd deaktivieren
+  command: systemctl stop chronyd
+  command: systemctl disable chronyd
+
+
+- name: Installation der ntp-Pakete
+  yum: name={{ item }} state=present
+  with_items:
+    - ntp
+
+
+- name: ntp aktivieren und starten
+  command: systemctl enable ntpd
+  command: systemctl restart ntpd
+
+- name: Setzen des ntp-Servers in ntp.conf
+  lineinfile: dest=/etc/ntp.conf regexp='^\s*server.*' line='server 192.168.200.254' owner=root group=root mode=0644
+
+- name: ntp neu starten
+  command: systemctl restart ntpd
+

@@ -1,0 +1,6 @@
+---
+- hosts: linuxpcs
+  
+  roles:
+  - ubuntu_clients/configure_defaults4users/set_firefox_startup-homepage
+

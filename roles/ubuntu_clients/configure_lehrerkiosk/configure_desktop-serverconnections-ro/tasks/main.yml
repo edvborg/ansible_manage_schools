@@ -1,0 +1,61 @@
+---
+
+- name: create directory Schreibtisch for guest
+  file: 
+    path: /home2/{{ localuser }}/Schreibtisch
+    state: directory 
+    mode: 0755
+    owner: "{{ localuser }}"
+
+###
+
+- name: copy audioserver.desktop to remote host 1604
+  copy:
+    src: audioserver.desktop.1604
+    dest: /home2/{{ localuser }}/Schreibtisch/audioserver.desktop
+    mode: 0755
+    owner: "{{ localuser }}"  
+  when: ansible_distribution_version == "16.04"
+
+
+###
+
+- name: copy videoserver.desktop to remote host 1604
+  copy:
+    src: videoserver.desktop.1604
+    dest: /home2/{{ localuser }}/Schreibtisch/videoserver.desktop
+    mode: 0755
+    owner: "{{ localuser }}"  
+  when: ansible_distribution_version == "16.04"
+
+
+###
+
+- name: copy material.desktop to remote host 1604
+  copy:
+    src: material.desktop.1604
+    dest: /home2/{{ localuser }}/Schreibtisch/material.desktop
+    mode: 0755
+    owner: "{{ localuser }}"  
+  when: ansible_distribution_version == "16.04"
+
+
+### configure upstart for user
+
+- name: ensure .config folder
+  file: path=/home2/{{ localuser }}/.config state=directory owner={{ localuser }}
+
+
+- name: ensure .config/upstart folder
+  file: path=/home2/{{ localuser }}/.config/upstart state=directory owner={{ localuser }}
+
+
+- name: copy script for icon positioning
+  template:
+    src: set-icon-positions-serverconnections.conf.j2
+    dest: /home2/{{ localuser }}/.config/upstart/set-icon-positions-serverconnections.conf
+    mode: 0644
+    owner: "{{ localuser }}"  
+
+
+  

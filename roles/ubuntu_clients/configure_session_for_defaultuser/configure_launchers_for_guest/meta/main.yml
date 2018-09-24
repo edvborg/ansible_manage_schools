@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - { role: ubuntu_clients/configure_session_for_defaultuser/configure_webuntis_for_guest }
+ 
+
+

@@ -1,0 +1,26 @@
+--- 
+
+### configure samba client
+
+- name: ensure smbclient
+  apt:
+    name: smbclient
+    state: present
+    update_cache: yes 
+
+- name: configure samba client | set workgroup
+  lineinfile:
+    dest: /etc/samba/smb.conf
+    state: present
+    backup: yes
+    regexp: '^\s*workgroup\s*=.*'
+    line: " workgroup = BORG-IBK.LOCAL"
+    
+- name: configure samba client | set wins server
+  lineinfile:
+    dest: /etc/samba/smb.conf
+    state: present
+    regexp: '^.*wins.*server.*=.*$'
+    line: " wins server = samba.borg-ibk.local"
+
+

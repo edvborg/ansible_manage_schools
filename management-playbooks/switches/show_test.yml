@@ -1,0 +1,24 @@
+---
+- hosts: switches
+  connection: local
+
+  vars:
+    cli:
+      host: UG-04-SW02
+      username: rudi
+      password: borgibk
+  
+  
+
+  tasks:
+  - name: print output
+    ios_facts:
+      provider: "{{ cli }}"
+    register: result
+
+      
+  - name: print output
+    debug: 
+      var: result 
+
+      

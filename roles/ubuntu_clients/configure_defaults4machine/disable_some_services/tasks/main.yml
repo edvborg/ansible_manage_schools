@@ -1,0 +1,30 @@
+--- 
+
+############################ disable services ##################################
+
+- name: disable services
+  service:
+    name: "{{ item }}"
+    enabled: no 
+    state: stopped
+  with_items: "{{ list_services_to_disable_1604 }}"
+  when:   ansible_distribution_version == "16.04"  
+
+- name: disable services
+  service:
+    name: "{{ item }}"
+    enabled: no 
+    state: stopped
+  with_items: "{{ list_services_to_disable_1804 }}"
+  when:   ansible_distribution_version == "18.04"  
+  
+### disable apport - erstellt Fehlerberichte
+
+- name: disable apport
+  lineinfile:
+    dest: /etc/default/apport
+    state: present
+    regexp: '^\s*enabled=.*'
+    line: "enabled=0"
+ 
+

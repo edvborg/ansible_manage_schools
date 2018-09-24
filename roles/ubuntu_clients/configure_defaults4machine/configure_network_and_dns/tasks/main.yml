@@ -1,0 +1,49 @@
+--- 
+
+########################## Netzwerk konfigurieren ##################################
+
+### NIC
+#
+# list all services: systemctl list-unit-files --no-pager
+#
+
+- name: delete line iface for interface in /etc/network/interfaces
+  lineinfile:
+    dest: /etc/network/interfaces
+    state: absent
+    backup: yes
+    regexp: '^\s*iface.*eno'
+    #regexp: "{{ ^\s*iface.* + ansible_interfaces[1]  }}"
+
+- name: delete line auto for interface in /etc/network/interfaces
+  lineinfile:
+    dest: /etc/network/interfaces
+    state: absent
+    backup: yes
+    # regexp: '{{ "^\s*auto.*" + ansible_interfaces[1]  }}'
+    regexp: '^\s*auto.*eno1'
+
+### delete hostname in /etc/hosts löschen;
+#
+- name: delete hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    state: absent
+    backup: yes
+    regexp: '.*{{ ansible_hostname }}.*'
+
+
+############ Namensauflösung ##########################
+
+### mdns für Namensauflösung hintanstellen
+
+- name: change order for mdns in /etc/nsswitch.conf
+  lineinfile:
+    dest: /etc/nsswitch.conf
+    state: present
+    backup: yes
+    backrefs: yes
+    regexp: 'hosts:\s*files\s*mdns4_minimal.*'
+    line: "hosts:\t\tfiles dns mdns4_minimal [NOTFOUND=return] mdns4" 
+  
+

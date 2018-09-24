@@ -1,0 +1,10 @@
+---
+- hosts: inf3pcs O2-10-PCT1
+
+  tasks:
+  - name: install default printer in inf-3
+    win_shell: rundll32 printui.dll,PrintUIEntry /b "Drucker Informatiksaal 3" /x /n "Samsung ML-3050" /if /r "http://cups:631/printers/INF-3-PR01" /m "Samsung Universal Print Driver 2 PS"
+
+ 
+
+

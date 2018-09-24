@@ -1,0 +1,14 @@
+---
+
+- name: ensure firefox global config folder 
+  file: path=/etc/firefox mode=0700 state=directory owner=root
+
+
+- name: set borg-homepage as startup homepage
+  lineinfile:
+    dest: /etc/firefox/syspref.js
+    state: present
+    create: yes
+    line: 'defaultPref("browser.startup.homepage", "http://www.borg-ibk.tsn.at/");'
+    regexp: 'browser.startup.homepage'
+

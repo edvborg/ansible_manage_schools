@@ -1,0 +1,437 @@
+virtualmachines_path: /virtualmachines/winontop/
+virtualbox_machines_dir: /virtualbox-machines
+### definition of software packages ############
+
+applist_in_launcher: ['application://org.gnome.Nautilus.desktop', 'application://firefox.desktop', 'application://libreoffice-writer.desktop', 'application://libreoffice-calc.desktop', 'application://libreoffice-impress.desktop', 'application://gnome-terminal.desktop', 'unity://running-apps', 'application://virtualbox.desktop', 'unity://expo-icon', 'unity://devices']
+
+
+
+packages_list_desktop_1604:
+  - ubuntu-desktop
+  - language-pack-gnome-en
+  - language-pack-gnome-de
+  - openssh-server 
+  - ssh 
+  - nfs-common
+  - cifs-utils 
+  - ntpdate 
+  - wget 
+  - screen 
+  - smartmontools
+  - debconf-utils 
+  - language-pack-de 
+  - apt-rdepends
+  - ttf-liberation 
+  - ttf-opensymbol 
+  - ttf-dejavu 
+  - default-jre 
+  - autofs 
+  - cups 
+  - gparted
+  - ntp
+  - apt-file
+  - apt-transport-https
+  - at
+  - ack-grep
+  - quota
+  - quotatool
+  - tracker                      ## für Dateisuche
+  - ubuntustudio-wallpapers
+
+packages_list_graphics_1604:
+  - gimp 			#
+  - gimp-help-en 		#
+  - gimp-help-de 		#
+  - dia 			#
+  - inkscape 			#
+  - kipi-plugins 		#
+  - digikam 			#
+  - digikam-doc 		#
+  - blender 			#
+  - easytag			#
+
+packages_list_internet_1604:
+  - firefox-locale-de 			# Firefox deutsch
+  - firefox-locale-en 			# 
+  - chromium-browser 			# Chromium Browser
+  - chromium-browser-l10n 		#  
+  - chromium-codecs-ffmpeg-extra 		#  
+  - thunderbird 			# Kommentar
+  - thunderbird-locale-de 		# 
+  - thunderbird-locale-en 		# 
+  - filezilla  			# 
+  - transmission 		# 
+  - wireshark 			# Kommentar
+  - ettercap-text-only 		# Kommentar
+  - ekiga 			# Kommentar
+  - empathy 			# Kommentar
+  - vinagre 			# Kommentar
+  - ftp 			# ftp Client CLI
+  - gftp-gtk 			# ftp Client GUI
+  - tftp-hpa 			# tftp Client
+  - tftpd-hpa			# tftp Server
+  - remmina  			# rdp Client
+  - grdesktop 		  	# rdp Client
+  - nmap 		   	# Network scanner
+  - tcpdump
+  - mtr             # network ping traceroute tester
+
+packages_list_multimedia_1604:
+  - vlc 			# Medienplayer
+  - vlc-plugin-fluidsynth 	#
+  - browser-plugin-vlc 		#
+  - xine-ui 			# Medienplayer
+  - gxine 			# Medienplayer
+  - mplayer 			# Medienplayer
+  - transcode 			#
+  - audacity 			# Audio-Editor
+  - muse 			#
+  - gtkpod 			#
+  - x264 			# 
+  - sound-juicer 
+  - brasero
+  - gxmms2
+  - xmms2-plugin-all
+  - musescore 
+  - fluidsynth 
+  - timidity 
+  - hydrogen 
+  - handbrake			# Videos/DVDs konvertieren
+  - mediainfo-gui
+  - pitivi 			# Video-Editor 
+  - kino 
+  - mjpegtools 
+  - cheese 
+  - mencoder 
+  - libav-tools 
+  - winff 
+  - libxvidcore4  
+  - libfaac0 
+  - oxideqt-codecs-extra 
+  - gstreamer1.0-fluendo-mp3
+  - gstreamer1.0-plugins-bad 
+  - gstreamer1.0-plugins-ugly
+  - kazam   # session recorder
+
+packages_list_office_1604:
+  - openoffice.org-thesaurus-de 	#
+  - libreoffice-l10n-de 		#
+  - libreoffice-help-de 		#
+  - libreoffice-writer2latex 		#
+  - libreoffice-math 			#
+  - libreoffice-calc 			#
+  - libreoffice-impress 		#
+  - libreoffice-base 			#
+  - libreoffice-pdfimport 		#
+  - hyphen-de 	#
+  - libreoffice-l10n-en-gb 		#
+  - libreoffice-l10n-en-za 		#
+  - libreoffice-help-en-gb 		#
+  - libreoffice-help-en-us 		#
+  - libreoffice-help-de		#
+  - hunspell-de-at 			#
+  - hunspell-de-de 			#
+  - hunspell-de-ch 			#
+  - hunspell-en-ca 			#
+  - myspell-en-za  			#
+  - myspell-en-au 			#
+  - myspell-en-gb 			#
+  - hyphen-en-us 			#
+  - wbritish 				#
+  - wswiss 				#
+  - wamerican 				#
+  - goldendict 				#
+  - gnumeric 				#
+  - scribus 				#
+  - kile 				#
+  - kde-l10n-engb 			#
+  - language-pack-kde-en 		#
+  - language-pack-kde-de 		#
+  - kde-l10n-de 			#
+  - mythes-en-au  			#
+  - mythes-en-us 			#
+  - mythes-de-ch 			#
+  - evince 				#
+  - poppler-data			#
+
+
+packages_list_science_1604:
+  - openuniverse		#
+  - wxmaxima 		#
+  - marble 		#
+  - stellarium 
+
+packages_list_softwaredevelopment_1604:
+  - bluefish 		# kleine IDE
+  - geany           # kleine IDE
+  - idle 		    #
+  - python-usb 		#
+  - eclipse 		#
+  - scratch 		#
+  - arduino
+
+packages_list_tools_1604:
+   - tree 		#
+   - iftop 		#
+   - minicom 		#
+   - rar 		#
+   - clusterssh 		#
+   - synaptic 		#
+   - exfat-utils		#
+   - exfat-fuse 		#
+   - sysbench
+   - kleopatra
+   - virtualbox
+   - virtualbox-qt
+   - virtualbox-ext-pack
+   - vde2
+   - virtualbox-guest-additions-iso
+   - smbclient
+   - apt-file
+   - dconf-editor
+   - dconf-tools
+   - mlocate
+   - at
+   - tracker
+   - sl
+   - cowsay
+
+
+############################################################################
+
+### definition of software packages ############
+
+packages_list_desktop_1804:
+  - ubuntu-desktop
+  - language-pack-gnome-en
+  - language-pack-gnome-de
+  - openssh-server 
+  - ssh 
+  - nfs-common
+  - cifs-utils 
+  - ntpdate 
+  - wget 
+  - screen 
+  - smartmontools
+  - debconf-utils 
+  - language-pack-de 
+  - apt-rdepends
+  - fonts-liberation
+  - fonts-dejavu-core 
+  - default-jre 
+  - autofs 
+  - cups 
+  - gparted
+  - ntp
+  - net-tools
+  - apt-file
+  - apt-transport-https
+  - at
+  - ack-grep
+  - quota
+  - quotatool
+  - tracker                      ## für Dateisuche
+  - ubuntustudio-wallpapers
+
+packages_list_graphics_1804:
+  - gimp 			#
+  - gimp-help-en 		#
+  - gimp-help-de 		#
+  - dia 			#
+  - inkscape 			#
+  - kipi-plugins 		#
+  - digikam 			#
+  - digikam-doc 		#
+  - blender 			#
+  - easytag			#
+
+packages_list_internet_1804:
+  - firefox-locale-de 			# Firefox deutsch
+  - firefox-locale-en 			# 
+  - chromium-browser 			# Chromium Browser
+  - chromium-browser-l10n 		#  
+  - chromium-codecs-ffmpeg-extra 		#  
+  - thunderbird 			# Kommentar
+  - thunderbird-locale-de 		# 
+  - thunderbird-locale-en 		# 
+  - filezilla  			# 
+  - transmission 		# 
+  - wireshark 			# Kommentar
+  - ettercap-text-only 		# Kommentar
+  - ekiga 			# Kommentar
+  - empathy 			# Kommentar
+  - vinagre 			# Kommentar
+  - ftp 			# ftp Client CLI
+  - gftp-gtk 			# ftp Client GUI
+  - tftp-hpa 			# tftp Client
+  - tftpd-hpa			# tftp Server
+  - remmina  			# rdp Client
+  - grdesktop 		  	# rdp Client
+  - nmap 		   	# Network scanner
+  - tcpdump
+  - mtr             # network ping traceroute tester
+
+packages_list_multimedia_1804:
+  - vlc 			# Medienplayer
+  - vlc-plugin-fluidsynth 	#
+  - browser-plugin-vlc 		#
+  - mplayer 			# Medienplayer
+  - transcode 			#
+  - audacity 			# Audio-Editor
+  - muse 			#
+  - gtkpod 			#
+  - x264 			# 
+  - sound-juicer 
+  - brasero
+  - gxmms2
+  - xmms2-plugin-all
+  - musescore 
+  - fluidsynth 
+  - timidity 
+  - hydrogen 
+  - handbrake			# Videos/DVDs konvertieren
+  - mediainfo-gui
+  - pitivi 			# Video-Editor 
+  - kino 
+  - mjpegtools 
+  - cheese 
+  - mencoder 
+  - ffmpeg
+  - winff 
+  - libxvidcore4  
+  - libfaac0 
+  - ubuntu-restricted-extras
+  #- oxideqt-codecs-extra 
+  - gstreamer1.0-fluendo-mp3
+  - gstreamer1.0-plugins-bad 
+  - gstreamer1.0-plugins-ugly
+  - kazam   # session recorder
+
+packages_list_office_1804:
+  - openoffice.org-thesaurus-de 	#
+  - libreoffice-l10n-de 		#
+  - libreoffice-help-de 		#
+  - libreoffice-writer2latex 		#
+  - libreoffice-math 			#
+  - libreoffice-calc 			#
+  - libreoffice-impress 		#
+  - libreoffice-base 			#
+  - libreoffice-pdfimport 		#
+  - hyphen-de 	#
+  - hyphen-en-us 			#
+  - libreoffice-l10n-en-gb 		#
+  - libreoffice-l10n-en-za 		#
+  - libreoffice-help-en-gb 		#
+  - libreoffice-help-en-us 		#
+  - libreoffice-help-de		#
+  - hunspell-de-at 			#
+  - hunspell-de-de 			#
+  - hunspell-de-ch 			#
+  - hunspell-en-ca 
+  - hunspell-en-gb
+  - hunspell-en-us			#			#
+  - wbritish 				#
+  - wswiss 				#
+  - wamerican 				#
+  - goldendict 				#
+  - gnumeric 				#
+  - scribus 				#
+  - kile 				#
+  - kde-l10n-engb 			#
+  - language-pack-kde-en 		#
+  - language-pack-kde-de 		#
+  - kde-l10n-de 			#
+  - mythes-en-au  			#
+  - mythes-en-us 			#
+  - mythes-de			        #
+  - evince 				#
+  - poppler-data			#
+
+
+packages_list_science_1804:
+  - openuniverse		#
+  - wxmaxima 		#
+  - marble 		#
+  - stellarium 
+
+packages_list_softwaredevelopment_1804:
+  - bluefish 		# Texteditor
+  - geany               # Texteditor
+  - idle 		# kleine Python IDE
+  - python-usb 		#
+  - eclipse 		#
+  - scratch 		#
+  - arduino
+
+packages_list_tools_1804:
+   - tree 		#
+   - iftop 		#
+   - minicom 		#
+   - rar 		#
+   - clusterssh 		#
+   - synaptic 		#
+   - exfat-utils		#
+   - exfat-fuse 		#
+   - sysbench
+   - kleopatra
+   - virtualbox
+   - virtualbox-qt
+   - virtualbox-ext-pack
+   - vde2
+   - virtualbox-guest-additions-iso
+   - smbclient
+   - apt-file
+   - dconf-editor
+   - dconf-tools
+   - mlocate
+   - at
+   - tracker
+   - sl
+   - cowsay
+
+############################################################################
+
+list_services_to_disable_1604:
+  - avahi-daemon
+  - bluetooth
+  - ModemManager
+  - unattended-upgrades
+  - pppd-dns
+  - whoopsie
+  - apparmor
+  
+list_services_to_disable_1804:
+  - avahi-daemon
+  - bluetooth
+  - ModemManager
+  - unattended-upgrades
+  - pppd-dns
+  - whoopsie
+  - apparmor
+  
+
+#################################################################################################### 
+#
+#    desktopbackground: "file:///usr/share/backgrounds/clock_by_Bernhard_Hanakam.jpg"
+#    desktopbackground: "file:///usr/share/backgrounds/Flora_by_Marek_Koteluk.jpg"
+#    desktopbackground: "file:///usr/share/backgrounds/Cielo_estrellado_by_Eduardo_Diez_Viñuela.jpg"
+#    desktopbackground: "file:///usr/share/backgrounds/ubuntustudio/1604_ghostcolor.png"
+#
+desktopbackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"   
+num_of_workspaces: 1
+lock_on_suspend: False
+screen_lock_enabled: False
+screen_timeout: 3000                 ## Abschalten Monitor
+volumes_visible: True
+sort_dirs_first: True
+darken_display: False
+screensaver_timeout: 600
+sleep_timeout: 3600
+integrated_menus_enabled: True
+always_show_menus: True
+webapps_enabled: False
+launcher_icon_size: 40
+show_name_in_panel: True
+show_home_trash_network_icons: False
+power_button_shutdown: True
+

@@ -1,0 +1,246 @@
+--- 
+
+## backgrounds Ubuntu 16.04
+#
+# Variable: desktopbackground
+#
+#desktopbackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"   
+#num_of_workspaces: 1
+#lock_on_suspend: False
+#screen_lock_enabled: False
+#screen_timeout: 600
+#volumes_visible: True
+#sort_dirs_first: True
+#darken_display: False
+#screensaver_timeout: 600
+#sleep_timeout: 3600
+#integrated_menus_enabled: True
+#always_show_menus: True
+#webapps_enabled: False
+#launcher_icon_size: 40
+#show_name_in_panel: True
+#show_home_trash_network_icons: False
+#power_button_shutdown: True
+
+
+    
+### set dconf defaults | create dirs
+
+### set number of workspaces
+### Var: num_of_workspaces: 1
+
+- name: remove old config
+  file:
+    path: /etc/dconf/db/site.d/15_site_setting_num-workspaces
+    state: absent   
+    
+- name: set number of workspaces
+  template:
+    src: 05_site_setting_num-workspaces.j2
+    dest: /etc/dconf/db/site.d/05_site_setting_num-workspaces
+  notify: update dconf
+
+
+- name: set background settings
+  template:
+    src: 10_site_setting_background.j2
+    dest: /etc/dconf/db/site.d/10_site_setting_background
+  notify: update dconf
+
+#- name: set lock for background image
+#  lineinfile:
+#    dest: /etc/dconf/db/site.d/locks/all_site_locks
+#    create: yes
+#    line: org/gnome/desktop/background/picture-uri
+#  notify: update dconf
+
+
+###
+### Defaults for nautilus
+###
+
+### var: volumes_visible: False/True
+- name: set/unset volumes visible
+  template:
+    src: 11_site_setting_volumes_visible.j2
+    dest: /etc/dconf/db/site.d/11_site_setting_volumes_visible
+  notify: update dconf
+
+
+### sort_dirs_first: True/False
+- name: set nautilus folders first
+  template:
+    src: 12_site_setting_nautilus_folders_first.j2
+    dest: /etc/dconf/db/site.d/12_site_setting_nautilus_folders_first
+  notify: update dconf
+
+
+#- name: set lock for background image
+#  lineinfile:
+#    dest: /etc/dconf/db/site.d/locks/all_site_locks
+#    create: yes
+#    line: org/gnome/nautilus/preferences/sort-directories-first
+#  notify: update dconf
+
+
+### set list view in file manager
+- name: set nautilus listview
+  template:
+    src: 13_site_setting_nautilus_listview.j2
+    dest: /etc/dconf/db/site.d/13_site_setting_nautilus_listview
+  notify: update dconf
+
+
+############################################################################
+
+###
+### Screensaver configuration
+###
+
+
+## Var: screen_lock_enabled: True/False
+
+- name: set/unset lock on screensaver
+  template:
+    src: 21_site_setting_lock_screen.j2
+    dest: /etc/dconf/db/site.d/21_site_setting_lock_screen
+  notify: update dconf
+
+
+## screen timeout setting: variable "screen_timeout"
+#
+# 5min: 300
+# 10min: 600
+#
+
+- name: remove old config
+  file:
+    path: /etc/dconf/db/site.d/33_site_setting_screensaver-timeout
+    state: absent   
+    
+    
+- name: set screensaver timeout
+  template:
+    src: 22_site_setting_screensaver-timeout.j2
+    dest: /etc/dconf/db/site.d/22_site_setting_screensaver-timeout
+  notify: update dconf
+    
+
+###########################################################################
+
+###
+### save energy
+###
+
+
+### Bildschirm abschalten nach  idle-delay (=50min)
+
+##  Var: timeout: 3000
+
+- name: remove old config
+  file:
+    path: /etc/dconf/db/site.d/22_site_setting_lock_timeout
+    state: absent   
+    
+- name: set timeout for monitor
+  template:
+    src: 30_site_setting_lock_timeout.j2
+    dest: /etc/dconf/db/site.d/30_site_setting_lock_timeout
+  notify: update dconf
+
+
+
+
+### in Bereitschaft gehen ( =3600) wirkungslos!
+- name: set/unset timeout for sleep state
+  template:
+    src: 31_site_setting_go-to-sleep-timeout.j2
+    dest: /etc/dconf/db/site.d/31_site_setting_go-to-sleep-timeout
+  notify: update dconf
+    
+
+
+- name: set/unset darken display
+  template:
+    src: 32_site_setting_darken-display.j2
+    dest: /etc/dconf/db/site.d/32_site_setting_darken-display
+  notify: update dconf
+
+
+## Var: lock_on_suspend: True/False
+- name: remove old config
+  file:
+    path: /etc/dconf/db/site.d/20_site_setting_lock_on_suspend
+    state: absent   
+    
+- name: set/unset lock on suspend
+  template:
+    src: 33_site_setting_lock_on_suspend.j2
+    dest: /etc/dconf/db/site.d/33_site_setting_lock_on_suspend
+  notify: update dconf
+
+######################################################################    
+
+- name: set/unset integrated menus
+  template:
+    src: 40_site_setting_show-integrated-menu.j2
+    dest: /etc/dconf/db/site.d/40_site_setting_show-integrated-menu
+  notify: update dconf
+
+### Var: 
+- name: set/unset always show menus
+  template:
+    src: 41_site_setting_always-show-menu.j2
+    dest: /etc/dconf/db/site.d/41_site_setting_always-show-menu
+  notify: update dconf
+
+- name: set/unset always show menus variant lowercase
+  template:
+    src: 41.b_site_setting_always-show-menu.j2
+    dest: /etc/dconf/db/site.d/41.b_site_setting_always-show-menu
+  notify: update dconf
+
+
+### Var: 
+- name: set/unset ubuntu websearch
+  template:
+    src: 42_site_setting_ubuntu-websearch.j2
+    dest: /etc/dconf/db/site.d/42_site_setting_ubuntu-websearch
+  notify: update dconf
+
+### Var: launcher_icon_size: 40
+- name: set launcher icon size
+  template:
+    src: 43_site_setting_launcher-icon-size.j2
+    dest: /etc/dconf/db/site.d/43_site_setting_launcher-icon-size
+  notify: update dconf
+
+### Var: 
+- name: set/unset show name in panel
+  template:
+    src: 45_site_setting_show-name-in-panel.j2
+    dest: /etc/dconf/db/site.d/45_site_setting_show-name-in-panel
+  notify: update dconf
+
+
+### Var: show_home-trash-network_icons false/false/false
+
+- name: remove old config
+  file:
+    path: /etc/dconf/db/site.d/46_site_setting_some-desktop-icons
+    state: absent   
+    
+- name: set/unset show some icons
+  template:
+    src: 46_site_setting_show_home-trash-network_icons.j2
+    dest: /etc/dconf/db/site.d/46_site_setting_show_home-trash-network_icons
+  notify: update dconf
+    
+### Var: power_button_shutdown: True/False
+- name: configure power-botton
+  template:
+    src: 50_site_setting_power-button.j2
+    dest: /etc/dconf/db/site.d/50_site_setting_power-button
+  notify: update dconf
+
+

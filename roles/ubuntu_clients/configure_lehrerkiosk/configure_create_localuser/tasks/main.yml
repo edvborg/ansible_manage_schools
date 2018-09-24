@@ -1,0 +1,12 @@
+---
+
+############################### Passwort ist Standardpasswort für lokalen admin
+
+- name: Benutzerkonto für "{{localuser}}" einrichten
+  user: 
+    name: "{{ localuser }}"
+    comment: "user for {{ fach }}"
+    groups: sudo 
+    home: "/home2/{{ localuser }}"
+    password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
+

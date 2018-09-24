@@ -1,0 +1,90 @@
+---
+
+### connect to home folder
+
+- name: copy connect2video-rw.sh to remote host
+  copy:
+    src: connect2video-rw.sh.1604
+    dest: /usr/local/bin/connect2video-rw.sh
+    mode: 0755
+    owner: root 
+  when: ansible_distribution_version == "16.04" 
+
+- name: ensure folder Schreibtisch is present
+  file: path="/home2/{{ localuser }}/Schreibtisch" state=directory mode=0700 owner="{{ localuser }}"
+
+- name: copy video.desktop to remote host
+  copy:
+    src: connect2video-rw.desktop.1604
+    dest: /home2/{{ localuser }}/Schreibtisch/connect2video-rw.desktop
+    mode: 0700
+    owner: "{{ localuser }}"
+    group: "{{ localuser }}" 
+
+- name: copy connect2audio-rw.sh to remote host
+  copy:
+    src: connect2audio-rw.sh.1604
+    dest: /usr/local/bin/connect2audio-rw.sh
+    mode: 0755
+    owner: root 
+  when: ansible_distribution_version == "16.04" 
+
+- name: copy audio.desktop to remote host
+  copy:
+    src: connect2audio-rw.desktop.1604
+    dest: /home2/{{ localuser }}/Schreibtisch/connect2audio-rw.desktop
+    mode: 0700
+    owner: "{{ localuser }}"
+    group: "{{ localuser }}" 
+
+- name: copy connect2material-rw.sh to remote host
+  copy:
+    src: connect2material-rw.sh.1604
+    dest: /usr/local/bin/connect2material-rw.sh
+    mode: 0755
+    owner: root 
+  when: ansible_distribution_version == "16.04" 
+
+- name: copy material.desktop to remote host
+  copy:
+    src: connect2material-rw.desktop.1604
+    dest: /home2/{{ localuser }}/Schreibtisch/connect2material-rw.desktop
+    mode: 0700
+    owner: "{{ localuser }}"
+    group: "{{ localuser }}" 
+
+
+### configure upstart for user
+
+- name: ensure .config folder
+  file: path="/home2/{{ localuser }}/.config" state=directory
+
+
+- name: ensure .config/upstart folder
+  file: path="/home2/{{ localuser }}/.config/upstart" state=directory
+
+
+- name: copy script for icon positioning video
+  copy:
+    src: set-icon-positions-connect2video-rw.conf
+    dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2video-rw.conf"
+    mode: 0644
+    owner: "{{ localuser }}"
+
+
+- name: copy script for icon positioning audio
+  copy:
+    src: set-icon-positions-connect2audio-rw.conf
+    dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2audio-rw.conf"
+    mode: 0644
+    owner: "{{ localuser }}"
+
+
+- name: copy script for icon positioning material
+  copy:
+    src: set-icon-positions-connect2material-rw.conf
+    dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2material-rw.conf"
+    mode: 0644
+    owner: "{{ localuser }}"
+
+

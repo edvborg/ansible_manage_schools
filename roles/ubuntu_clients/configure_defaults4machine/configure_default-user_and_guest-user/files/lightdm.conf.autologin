@@ -1,0 +1,9 @@
+[SeatDefaults]
+greeter-session=unity-greeter
+greeter-hide-users=true
+user-session=ubuntu
+allow-guest=true
+autologin-guest=true
+autologin-user-timeout=0
+autologin-session=lightdm-autologin
+

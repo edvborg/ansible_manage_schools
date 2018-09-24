@@ -1,0 +1,6 @@
+---
+- hosts: windowspcs O2-10-PCT1
+  
+  roles:
+  - windows_clients/install_ffmpeg-for-audacity.yml
+  

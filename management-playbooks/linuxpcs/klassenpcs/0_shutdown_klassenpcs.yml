@@ -1,0 +1,7 @@
+---
+- hosts: klassenpcs
+
+  tasks:
+  - name: Alle PCs in den Klassenräumen herunterfahren
+    command: poweroff
+

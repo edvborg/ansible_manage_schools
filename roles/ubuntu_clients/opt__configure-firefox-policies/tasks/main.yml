@@ -1,0 +1,7 @@
+---
+
+- name: copy policies file to remote host
+  template:
+    src: 'policies.j2'
+    dest: '{{ firefox_install_dir }}/distribution/policies.json'
+

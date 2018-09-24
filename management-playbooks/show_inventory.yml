@@ -1,0 +1,11 @@
+---
+  
+- hosts: all
+  gather_facts: False
+
+  tasks:
+  - name: show inventory host
+    debug:
+      msg: "Hello"
+#      var: inventory_hostname
+

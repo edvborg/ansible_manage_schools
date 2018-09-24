@@ -1,0 +1,17 @@
+---
+- hosts: klassenpcs inf1pcs inf2pcs O2-10-PCT2 O2-10-PC21
+
+  tasks:
+  - name: read sda3 partitions
+    parted:
+      device: /dev/sda
+      #part_type: primary
+      #number: 3
+      state: info
+    register: sda_info 
+
+  - name: show sda partitions
+    # debug: var=sda_info.partitions[0].num
+    debug: var=sda_info.partitions
+
+

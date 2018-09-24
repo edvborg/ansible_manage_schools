@@ -1,0 +1,7 @@
+--- 
+
+- name: remove amazon from menu
+  file:
+    path: /usr/share/applications/ubuntu-amazon-default.desktop
+    state: absent
+    

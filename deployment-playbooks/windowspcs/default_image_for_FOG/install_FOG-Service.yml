@@ -1,0 +1,21 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: create Downloads directory
+    win_file:
+      path: C:\Users\Administrator\Downloads
+      state: directory 
+
+  - name: copy msi to remote 
+    win_copy:
+      src: FOGService.msi_1.4.4
+      dest: C:\Users\Administrator\Downloads\FOGService.msi
+
+  - name: install FOG Service
+    win_package: 
+      name: FogService
+      path: C:\Users\Administrator\Downloads\FOGService.msi
+      state: present
+
+

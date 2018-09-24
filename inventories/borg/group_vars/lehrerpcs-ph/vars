@@ -1,0 +1,3 @@
+fach: "ph"
+fach_langbezeichnung: "Physik"
+smbpassword: "{{ vaulted_smbpassword_ph }}"

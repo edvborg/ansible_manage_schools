@@ -1,0 +1,5 @@
+
+cli:
+  host: UG-04-SW02
+  username: rudi
+  password: "{{ vaulted_switchpassword }}"

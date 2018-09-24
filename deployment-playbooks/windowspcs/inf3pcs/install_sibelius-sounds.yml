@@ -1,0 +1,24 @@
+---
+- hosts: O2-10-PCT1 O2-10-PCT2 inf3pcs
+
+  tasks:
+  - name: grab sibelius sounds zip file
+    win_get_url:
+      url: http://intranet/inf-material/99_Downloads/Win-extra-software/Sibelius8/sibelius_sounds.zip
+      dest: C:\sibelius_sounds.zip
+
+  - name: Unzip sibelius-sounds
+    win_unzip:
+      src: C:\sibelius_sounds.zip
+      dest: C:\Program Files (x86)\Avid\
+      # creates: C:\Program Files (x86)\Avid\
+
+  - name: grab regfile
+    win_get_url:
+      url: http://intranet/inf-material/99_Downloads/Win-extra-software/Sibelius8/sibelius-sounds-path.reg
+      dest: C:\sibelius-sounds-path.reg
+  
+  - name: merge reg entry for sounds directory path 
+    win_regmerge:
+      path:  C:\sibelius-sounds-path.reg
+

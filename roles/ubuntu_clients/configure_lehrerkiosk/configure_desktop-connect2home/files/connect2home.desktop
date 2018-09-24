@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=mit persönlichem Ordner verbinden
+Comment=der persönliche Ordner wird angezeigt
+Exec=/usr/local/bin/connect2home.sh
+Type=Application
+Icon=user-home-symbolic
+Categories=GTK;GNOME;Application;Utility;
+

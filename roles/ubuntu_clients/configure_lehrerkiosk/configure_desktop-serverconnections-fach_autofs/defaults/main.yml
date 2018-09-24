@@ -1,0 +1,6 @@
+---
+
+fach: "konf"
+fach_langbezeichnung: "borg"
+localuser: "{{ fach }}-user"
+localpassword: "sokrates"

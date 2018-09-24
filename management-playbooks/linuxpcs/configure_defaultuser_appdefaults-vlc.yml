@@ -1,0 +1,9 @@
+---
+- hosts: linuxpcs
+  
+  vars:
+    localuser: guest-prefs
+    
+  roles:
+  - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+

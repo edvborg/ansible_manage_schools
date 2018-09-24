@@ -1,0 +1,9 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: show firefox version
+    win_shell:  reg query "HKLM\SOFTWARE\Mozilla\Mozilla Firefox" /v CurrentVersion
+    register: out
+
+  - debug: var=out.stdout_lines[2]

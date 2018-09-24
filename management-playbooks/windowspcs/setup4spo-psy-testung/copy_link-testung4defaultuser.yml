@@ -1,0 +1,10 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: create default local user borguser
+    win_copy:
+      src: Testung_mit_Chrome_starten.lnk
+      dest: 'C:\ProgramData\Desktop\Testung_mit_Chrome_starten.lnk'
+      
+

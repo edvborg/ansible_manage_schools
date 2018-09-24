@@ -1,0 +1,14 @@
+---
+
+- hosts: O2-07-PC01
+
+  tasks:
+  - name: install PDF Software
+    win_chocolatey: name={{ item }}  state=present
+    with_items:
+    - foxitreader
+    
+
+
+
+

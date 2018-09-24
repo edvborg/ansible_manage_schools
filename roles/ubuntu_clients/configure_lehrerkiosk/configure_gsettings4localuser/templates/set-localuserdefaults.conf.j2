@@ -1,0 +1,10 @@
+start on desktop-start
+stop on desktop-end
+
+script
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+gsettings set com.canonical.Unity integrated-menus true
+gsettings set com.canonical.Unity always-show-menus true
+gsettings set com.canonical.indicator.session show-real-name-on-panel true
+end script
+

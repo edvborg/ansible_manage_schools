@@ -1,0 +1,12 @@
+---
+
+###############################
+
+- name: configure autologin
+  template: src=lightdm-gnome-fallback.j2 dest=/etc/lightdm/lightdm.conf backup=yes
+  when: ansible_distribution_version == "14.04"
+
+
+- name: configure autologin
+  template: src=lightdm-unity.j2 dest=/etc/lightdm/lightdm.conf backup=yes
+  when: ansible_distribution_version == "16.04"

@@ -1,0 +1,135 @@
+---
+
+## configure automount for smb shares
+
+- name: install cifs-utils
+  apt: name="cifs-utils" state=present
+
+- name: /etc/auto.master present
+  file: path=/etc/auto.master state=file mode=0644 owner=root
+  notify: restart autofs
+
+- name: entry for netzordner in /etc/auto.master present
+  lineinfile: 
+    dest: /etc/auto.master
+    owner: root
+    mode: 0644
+    regexp: "/netzordner"
+    line: "/netzordner	/etc/auto.netzordner    --ghost" 
+  notify: restart autofs
+##
+
+- name: folder for smb credentials present 
+  file: path=/etc/credentials.d state=directory mode=0700 owner=root
+
+- name: file with smb credentials  
+  blockinfile:
+    dest: /etc/credentials.d/smb.credentials.{{ fach }}
+    create: yes
+    block: |
+      username={{ fach }}-smbuser
+      password={{ smbpassword }}
+
+##
+
+- name: mountpoint present
+  file: path=/netzordner state=directory mode=0755 owner=root
+ 
+- name: line for smb share  
+  lineinfile: 
+    dest: /etc/auto.netzordner 
+    create: yes
+    owner: root
+    mode: 0644
+    regexp: "{{ fach }}-material"
+    line: "{{ fach }}-material  -fstype=cifs,rw,iocharset=utf8,uid={{ localuser }},gid={{ localuser }},credentials=/etc/credentials.d/smb.credentials.{{ fach }}  ://samba/{{ fach }}-material" 
+  notify: restart autofs
+  
+- name: line for smb share  
+  lineinfile: 
+    dest: /etc/auto.netzordner 
+    regexp: "{{ fach }}-video"
+    line: "{{ fach }}-video  -fstype=cifs,rw,iocharset=utf8,uid={{ fach }}-user,gid={{ fach }}-user,credentials=/etc/credentials.d/smb.credentials.{{ fach }}  ://samba/{{ fach }}-video" 
+  notify: restart autofs
+  
+- name: line for smb share  
+  lineinfile: 
+    dest: /etc/auto.netzordner 
+    regexp: "{{ fach }}-audio"
+    line: "{{ fach }}-audio  -fstype=cifs,rw,iocharset=utf8,uid={{ fach }}-user,gid={{ fach }}-user,credentials=/etc/credentials.d/smb.credentials.{{ fach }}  ://samba/{{ fach }}-audio" 
+  notify: restart autofs
+    
+
+##
+## create desktop-files for default-user 
+##
+
+- name: folder Schreibtisch present
+  file: path=/home2/{{ localuser }}/Schreibtisch state=directory mode=0700 owner={{ localuser }}
+
+- name: copy audio.desktop to remote host
+  template:
+    src: fach-audio-rw.desktop.1404.j2
+    dest: /home2/{{ localuser }}/Schreibtisch/{{ fach }}-audio.desktop
+    mode: 0755
+    owner: "{{ localuser }}" 
+  when: ansible_distribution_version == "14.04"
+
+- name: copy audio.desktop to remote host
+  template:
+    src: fach-audio-rw.desktop.1604.j2
+    dest: /home2/{{ localuser }}/Schreibtisch/{{ fach }}-audio.desktop
+    mode: 0755
+    owner: "{{ localuser }}" 
+  when: ansible_distribution_version == "16.04"
+  
+- name: copy video.desktop to remote host
+  template:
+    src: fach-video-rw.desktop.1404.j2
+    dest: "/home2/{{ localuser }}/Schreibtisch/{{ fach }}-video.desktop"
+    mode: 0755
+    owner: "{{ localuser }}" 
+  when: ansible_distribution_version == "14.04"
+
+- name: copy video.desktop to remote host
+  template:
+    src: fach-video-rw.desktop.1604.j2
+    dest: /home2/{{ localuser }}/Schreibtisch/{{ fach }}-video.desktop
+    mode: 0755
+    owner: "{{ localuser }}" 
+  when: ansible_distribution_version == "16.04"
+  
+- name: copy material.desktop to remote host
+  template:
+    src: fach-material-rw.desktop.1404.j2
+    dest: /home2/{{ localuser }}/Schreibtisch/{{ fach }}-material.desktop
+    mode: 0755
+    owner: "{{ localuser }}" 
+  when: ansible_distribution_version == "14.04"    
+
+- name: copy material.desktop to remote host
+  template:
+    src: fach-material-rw.desktop.1604.j2
+    dest: /home2/{{ localuser }}/Schreibtisch/{{ fach }}-material.desktop
+    mode: 0755
+    owner: "{{ localuser }}" 
+  when: ansible_distribution_version == "16.04"    
+
+
+### configure upstart for user
+
+- name: ensure .config folder
+  file: path=/home2/{{ localuser }}/.config state=directory mode=0700 owner={{ localuser }}
+
+
+- name: ensure .config/upstart folder
+  file: path=/home2/{{ localuser }}/.config/upstart state=directory  mode=0700 owner={{ localuser }}
+
+
+- name: copy script for icon positioning
+  template:
+    src: set-icon-positions-serverconnections.conf.j2
+    dest: /home2/{{ localuser }}/.config/upstart/set-icon-positions-serverconnections.conf
+    mode: 0644
+    owner: "{{ localuser }}"
+

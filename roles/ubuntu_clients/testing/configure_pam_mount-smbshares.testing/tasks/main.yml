@@ -1,0 +1,35 @@
+--- 
+
+- name: libpam_mount installieren
+  apt: name=libpam-mount state=present update_cache=yes
+  
+- name: configure pam_mount in /etc/pam.d/common-session
+  lineinfile:
+    dest: "/etc/pam.d/common-session"
+    state: present
+    line: 'session	optional	pam_mount.so	enable_pam_password'
+    insertbefore: "^session.*optional.*pam_systemd.so"
+    regexp: "pam_mount.so" 
+    owner: root
+    group: root
+      
+- name: configure pam_mount in /etc/pam.d/common-auth
+  lineinfile:
+    dest: "/etc/pam.d/common-auth"
+    state: present
+    line: 'auth	optional	pam_mount.so	enable_pam_password'
+    insertbefore: "end.*of.*pam-auth-update.*config"
+    regexp: "pam_mount.so" 
+    owner: root
+    group: root
+      
+  
+- name: configure shares with pam_mount
+  template:
+    src: pam_mount.conf.j2
+    dest: /etc/security/pam_mount.conf.xml
+    mode: 0600
+    owner: root
+    group: root
+    
+

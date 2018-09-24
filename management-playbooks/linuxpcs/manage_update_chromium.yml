@@ -1,0 +1,21 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: update chromium
+    apt: name={{ item }} state=latest
+    with_items:
+      - chromium-browser
+      - chromium-browser-l10n
+      - chromium-codecs-ffmpeg-extra
+
+
+  - name: show version 
+    command: chromium-browser --version
+    register: result
+
+  - name: print output chromium-version
+    debug: var=result.stdout_lines
+
+
+

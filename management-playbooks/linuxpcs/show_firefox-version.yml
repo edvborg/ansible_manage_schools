@@ -1,0 +1,13 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: show version 
+    command: firefox -v
+    register: result
+
+  - name: print output from firefox -v 
+    debug: var=result.stdout_lines
+
+
+

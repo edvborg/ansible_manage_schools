@@ -1,0 +1,17 @@
+---
+- hosts: inf1pcs inf2pcs O2-10-PCT2 O2-10-PC21
+
+  tasks:
+
+  - name: bluej deb Paket zum Client kopieren
+    copy:
+      src: BlueJ-linux-412.deb
+      dest: /root/BlueJ-linux-412.deb
+
+
+  - name: install BlueJ
+    apt:
+      deb: /root/BlueJ-linux-412.deb
+      state: present
+
+

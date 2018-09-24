@@ -1,0 +1,14 @@
+---
+- hosts: inf3pcs O2-10-PCT1 O2-10-PCT2
+
+  tasks:
+  - name: show printers in inf-3
+    win_shell: wmic printer where Local=TRUE get name
+    register: printer_list
+
+  - name: show list
+    debug: var=printer_list.stdout_lines
+
+ 
+
+

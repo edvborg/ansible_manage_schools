@@ -1,0 +1,32 @@
+---
+- hosts: lehrerpcs-konf
+  
+  vars:
+    localuser: "{{ fach }}-user"
+    
+  roles:
+  - ubuntu_clients/configure_lehrerkiosk/configure_create_localuser
+  - ubuntu_clients/configure_lehrerkiosk/configure_autologin4localuser
+  - ubuntu_clients/configure_lehrerkiosk/configure_gsettings4localuser
+  - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
+  # - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-fach_autofs
+  - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser
+  - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+  - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-rw_in_userspace
+  - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
+  - ubuntu_clients/install_software/opt_install_mediathekview
+  
+  tasks:
+  - name: Mediathek-Icon auf den Desktop kopieren   
+    copy:
+      remote_src: true 
+      src: /usr/share/applications/mediathekview.desktop 
+      dest: "/home2/{{ localuser }}/Schreibtisch"
+      owner: "{{ localuser }}"
+      mode: 0700
+       
+  post_tasks:
+  - name: restart lightdm
+    service:
+      name: lightdm
+      state: restarted

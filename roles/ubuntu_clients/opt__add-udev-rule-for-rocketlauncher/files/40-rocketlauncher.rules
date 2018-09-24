@@ -1,0 +1,3 @@
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ACTION=="add", ATTRS{idVendor}=="1941", ATTRS{idProduct}=="8021", GROUP="Domain Users", MODE="0664"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ACTION=="add", ATTRS{idVendor}=="0a81", ATTRS{idProduct}=="0701", GROUP="Domain Users", MODE="0664"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ACTION=="add", ATTRS{idVendor}=="1130", ATTRS{idProduct}=="0202", GROUP="Domain Users", MODE="0664"

@@ -1,0 +1,25 @@
+---
+- hosts: inf1pcs inf2pcs
+
+
+  tasks:
+  - name: add ppa repository for darktable
+    apt_repository:
+      repo: ppa:pmjdebruijn/darktable-release
+      state: present
+
+  - name: update apt cache if not done in last hour
+    apt: 
+      update_cache=yes 
+      # cache_valid_time=3600
+
+
+  - name: install multimedia software 2 
+    apt: name={{ item }} state=latest
+    with_items:
+      - krita
+      - rawtherapee
+      - darktable
+
+
+

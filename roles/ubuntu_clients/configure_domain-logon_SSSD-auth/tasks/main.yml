@@ -1,0 +1,41 @@
+--- 
+
+- name: copy certificate to client
+  copy: 
+    src: boss.borg-ibk.local.pem
+    dest: /etc/ssl/certs/boss.borg-ibk.local.pem
+    mode: 644
+    owner: root
+    group: root
+     
+
+- name: configure openldap client
+  copy: 
+    src: ldap.conf
+    dest: /etc/ldap/ldap.conf
+    mode: 644
+    owner: root
+    group: root
+     
+
+- name: install packages for LDAP Authentication
+  apt: name={{item}} state=present
+  with_items:
+    - sssd
+    - sssd-tools
+    - libsasl2-modules-ldap  
+    
+- name: create sssd.conf
+  template: 
+    src:  sssd.conf.j2  
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: reload sssd
+  service: name=sssd enabled=yes state=restarted
+
+- name: reload lightdm
+  service: name=lightdm enabled=yes state=restarted
+

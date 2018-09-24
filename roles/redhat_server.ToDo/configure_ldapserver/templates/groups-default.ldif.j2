@@ -1,0 +1,110 @@
+dn: cn=Domain Admins,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 512
+cn: Domain Admins
+memberUid: root
+description: Netbios Domain Administrators
+sambaSID: "{{ domain_sid }}"-512
+sambaGroupType: 2
+displayName: Domain Admins
+structuralObjectClass: posixGroup
+
+dn: cn=Domain Users,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 513
+cn: Domain Users
+description: Netbios Domain Users
+sambaSID: "{{ domain_sid }}"-513
+sambaGroupType: 2
+displayName: Domain Users
+structuralObjectClass: posixGroup
+
+dn: cn=Domain Guests,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 514
+cn: Domain Guests
+description: Netbios Domain Guests Users
+sambaSID: "{{ domain_sid }}"-514
+sambaGroupType: 2
+displayName: Domain Guests
+structuralObjectClass: posixGroup
+
+dn: cn=Domain Computers,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 515
+cn: Domain Computers
+description: Netbios Domain Computers accounts
+sambaSID: "{{ domain_sid }}"-515
+sambaGroupType: 2
+displayName: Domain Computers
+structuralObjectClass: posixGroup
+
+dn: cn=Administrators,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 544
+cn: Administrators
+description: Netbios Domain Members can fully administer the computer/sambaDom
+ ainName
+sambaSID: S-1-5-32-544
+sambaGroupType: 5
+displayName: Administrators
+structuralObjectClass: posixGroup
+
+dn: cn=Account Operators,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 548
+cn: Account Operators
+description: Netbios Domain Users to manipulate users accounts
+sambaSID: S-1-5-32-548
+sambaGroupType: 5
+displayName: Account Operators
+structuralObjectClass: posixGroup
+
+dn: cn=Print Operators,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 550
+cn: Print Operators
+description: Netbios Domain Print Operators
+sambaSID: S-1-5-32-550
+sambaGroupType: 5
+displayName: Print Operators
+structuralObjectClass: posixGroup
+
+dn: cn=Backup Operators,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 551
+cn: Backup Operators
+description: Netbios Domain Members can bypass file security to back up files
+sambaSID: S-1-5-32-551
+sambaGroupType: 5
+displayName: Backup Operators
+structuralObjectClass: posixGroup
+
+dn: cn=Replicators,ou=Groups,dc=borg-ibk,dc=local
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+gidNumber: 552
+cn: Replicators
+description: Netbios Domain Supports file replication in a sambaDomainName
+sambaSID: S-1-5-32-552
+sambaGroupType: 5
+displayName: Replicators
+structuralObjectClass: posixGroup
+

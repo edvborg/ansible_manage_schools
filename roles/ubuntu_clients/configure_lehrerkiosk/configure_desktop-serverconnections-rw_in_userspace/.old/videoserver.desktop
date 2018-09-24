@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=mit Videoserver verbinden
+Comment=mit Videoserver verbinden
+Exec=nautilus -n smb://BORG-IBK.LOCAL;borg-user@samba/video/
+Type=Application
+Icon=/usr/share/icons/unity-icon-theme/places/svg/group-videos.svg
+Categories=GTK;GNOME;Application;Utility;
+

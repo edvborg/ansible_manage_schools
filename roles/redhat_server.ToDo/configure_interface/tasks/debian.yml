@@ -1,0 +1,27 @@
+---
+- name: debian | Installing Pre-Req Packages
+  apt:
+    name: "lldpd"
+    state: "present"
+  become: true
+
+
+- name: debian | Configuring Defined Interfaces
+  template:
+    src: "etc/network/interfaces.j2"
+    dest: "/etc/network/interfaces"
+    owner: "root"
+    group: "root"
+    mode: "u=rw,g=r,o=r"
+  register: "config_interface"
+  become: true
+  when: >
+        (config_network_interfaces is defined and
+        config_network_interfaces)
+ 
+
+# reboot!       
+#
+
+
+

@@ -1,0 +1,6 @@
+---
+
+- name: reload lightdm
+  service: name=lightdm enabled=yes state=restarted
+
+

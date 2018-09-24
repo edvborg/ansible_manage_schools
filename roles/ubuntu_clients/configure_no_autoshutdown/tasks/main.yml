@@ -1,0 +1,13 @@
+---
+
+- name: script löschen
+  file:
+    path: /etc/cron.d/shutdown_pc
+    state: absent
+ 
+
+
+- name: restart cron
+  service:
+    name: cron
+    state: restarted

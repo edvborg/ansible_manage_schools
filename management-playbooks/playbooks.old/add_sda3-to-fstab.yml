@@ -1,0 +1,19 @@
+---
+- hosts: inf2pcs inf3pcs
+  
+  tasks:
+  - name: remove partition 3
+    parted:
+      device: /dev/sda
+      number: 3
+      #state: absent
+
+
+  - name: fstab |  entry for /virtualmachines 
+    lineinfile:
+      path: /etc/fstab
+      regexp: '/dev/sda3' 
+      line: ' /dev/sda3    /virtualmachines  
+      state: present
+      backup: yes
+

@@ -1,0 +1,38 @@
+---
+  
+- hosts: all
+  gather_facts: True
+
+  tasks:
+#  - name: get vendor name
+#    shell: cat /sys/devices/virtual/dmi/id/sys_vendor
+#    register: vendor_name
+
+#  - name: get product name
+#    shell: cat /sys/devices/virtual/dmi/id/product_name
+#    register: model_name
+
+#  - name: get product name alt
+#    shell: cat /sys/devices/virtual/dmi/id/product_version
+#    register: model_name_alt
+
+  - name: create line of report
+    set_fact:
+      report_on_host: ansible_system_vendor+"  "+ansible_product_name+"  Seriennummer "+ansible_product_serial
+
+  - name: show vendor
+    debug: 
+#      var: report_on_host
+      var: ansible_system_vendor+"  "+ansible_product_name+"  Seriennummer "+ansible_product_serial
+#    when: ansible_system_vendor | search('Hewlett')
+
+
+  - name: show vendor
+    debug: 
+#      var: report_on_host
+      var: ansible_system_vendor+"  "+ansible_product_version+"  Seriennummer "+ansible_product_serial 
+#    when: ansible_system_vendor | search('LENOVO') 
+
+#      var: vendor_name.stdout_lines[0]+'   Modell '+model_name_alt.stdout_lines[0]+'   Seriennummer '+model_name.stdout_lines[0] }}"
+
+

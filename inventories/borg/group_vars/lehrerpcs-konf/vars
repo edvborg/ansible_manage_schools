@@ -1,0 +1,3 @@
+fach: "konf"
+fach_langbezeichnung: "Konferenzzimmer"
+smbpassword: "{{ vaulted_smbpassword_konf }}"

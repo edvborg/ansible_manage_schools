@@ -1,0 +1,23 @@
+---
+
+### configure upstart for user
+
+- name: ensure .config folder
+  file: path=/home2/{{ localuser }}/.config state=directory mode=0700 owner={{ localuser }} group={{ localuser }} 
+
+
+- name: ensure .config/upstart folder
+  file: path=/home2/{{ localuser }}/.config/upstart state=directory  mode=0700 owner={{ localuser }} group={{ localuser }} 
+
+
+- name: copy script for setting gsetting-keys
+  template:
+    src: set-localuserdefaults.conf.j2
+    dest: /home2/{{ localuser }}/.config/upstart/set-localuserdefaults.conf
+    mode: 0644
+    owner: "{{ localuser }}"
+    group: "{{ localuser }}"
+
+
+
+

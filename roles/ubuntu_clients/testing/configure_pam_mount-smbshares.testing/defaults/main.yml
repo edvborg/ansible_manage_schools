@@ -1,0 +1,7 @@
+---
+
+# Defines list of share to mount with pam_mount
+pam_mount_share_list:
+  - "inf-lehrer"
+  - "f-video"
+

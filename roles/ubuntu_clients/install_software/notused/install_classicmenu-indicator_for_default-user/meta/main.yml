@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - { role: clients/ubuntu/software/install_desktop }
+

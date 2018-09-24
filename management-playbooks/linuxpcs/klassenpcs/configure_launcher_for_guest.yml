@@ -1,0 +1,5 @@
+---
+- hosts: linuxpcs
+  
+  roles:
+  - ubuntu_clients/configure_session_for_defaultuser/configure_launchers_for_guest

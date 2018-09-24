@@ -1,0 +1,4 @@
+# Die Gruppe, für die das Hardware-Inventar erstellt wird, wird als Parameter übergeben
+ansible-playbook --extra-vars 'group=klassenpcs' playbooks/get_hardwarereport_csv.yml
+ansible-playbook --extra-vars 'group=all' playbooks/get_hardwarereport_csv.yml
+

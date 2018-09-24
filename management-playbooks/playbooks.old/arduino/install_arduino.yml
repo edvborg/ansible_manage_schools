@@ -1,0 +1,12 @@
+---
+- hosts: inf2pcs reservepcs testpcs
+  
+  tasks:
+  - name: copy script to remote
+    copy: src=installArduino.x86.sh dest=/tmp/installArduino.x86.sh 
+
+  - name: execute script 
+    shell: bash /tmp/installArduino.x86.sh >> /var/log/installArduino.x86.log
+
+
+

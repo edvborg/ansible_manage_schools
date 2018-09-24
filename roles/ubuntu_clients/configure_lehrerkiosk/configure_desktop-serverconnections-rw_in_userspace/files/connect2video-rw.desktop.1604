@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Videosammlung bearbeiten
+Comment=Videos auf den Video-Server hochladen
+Exec=/usr/local/bin/connect2video-rw.sh
+Type=Application
+#Icon=gnome-fs-network
+Icon=/usr/share/icons/gnome/48x48/mimetypes/video.png
+Categories=GTK;GNOME;Application;Utility;
+

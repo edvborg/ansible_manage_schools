@@ -1,0 +1,28 @@
+---
+- hosts: O2-10-PCT3 inf3pcs
+
+  tasks:
+  - name: grab geogebra installation file
+    win_get_url:
+      url: http://download.geogebra.org/package/win-port6
+      dest: C:\Programme\GeoGebra-Windows-Portable.zip
+      
+     
+  - name: install geogebra
+    win_unzip:
+      src: C:\Programme\GeoGebra-Windows-Portable.zip
+      dest: C:\Programme\GeoGebra-Portable
+  
+  - name: add graphing calculator to start menu 
+    win_shortcut: 
+      src:  'C:\Program Files\GeoGebra-Portable\GeoGebraGraphing.exe'
+      dest: 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\GeoGebra-Grafikrechner.lnk' 
+      directory: 'C:\Programme\GeoGebra-Portable\'
+      icon: 'C:\Programme\GeoGebra-Portable\GeoGebraGraphing.exe,0'
+
+  - name: add geogebra classic to start menu 
+    win_shortcut: 
+      src:  'C:\Programme\GeoGebra-Portable\GeoGebra.exe'
+      dest: 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\GeoGebra-Classic.lnk' 
+      directory: 'C:\Programme\GeoGebra-Portable\'
+      icon: 'C:\Programme\GeoGebra-Portable\GeoGebra.exe,0'

@@ -1,0 +1,35 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: Installation von Software mit chocolatey
+    win_chocolatey: name={{ item }} state=present
+    with_items: "{{ packages_choco_win10 }}"
+    
+
+  - name: install software (test)
+    win_chocolatey: name={{ item }}  state=present
+    with_items:
+    - python2
+    - googleearth    
+    - googleearthpro
+    - notepadplusplus 
+    - tigervnc                  ## alternativ: - tightvnc; ultravnc 
+    - eclipse
+    #- jre8
+    - jdk8
+    #- pycharm-community 
+
+    
+###################################################
+
+#    
+#	
+#
+# McAfee Virenscan
+#    - evince
+
+
+
+
+

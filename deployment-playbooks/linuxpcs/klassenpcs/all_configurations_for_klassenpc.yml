@@ -1,0 +1,51 @@
+---
+- hosts: klassenpcs
+  
+  vars:
+    localuser: guest-prefs
+    iconposition_x: 1100
+    firefox_save_logins: None
+    
+  roles:
+    - ubuntu_clients/install_software/opt_install_classicmenu-indicator4allusers
+    - ubuntu_clients/opt__configure-firefox-policies
+    - ubuntu_clients/configure_session_for_defaultuser/set_autologin-guest
+    - ubuntu_clients/configure_session_for_defaultuser/configure_launchers_for_guest
+    - ubuntu_clients/configure_session_for_defaultuser/configure_webuntis_for_guest
+    - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+    - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
+    - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
+    - ubuntu_clients/configure_sessionrestart
+    - ubuntu_clients/configure_autoshutdown
+    
+  tasks:
+    - name: guest | create user association file for mime type
+      lineinfile: 
+        dest: /home2/guest-prefs/.config/mimeapps.list
+        state: present
+        create: yes
+        line: '[Added Associations]'
+        owner: guest-prefs 
+        mode: 0600  
+      
+    - name: guest | configure vlc as standard app for iso files
+      lineinfile: 
+        dest: /home2/guest-prefs/.config/mimeapps.list
+        state: present
+        line: 'application/x-cd-image=vlc.desktop;'
+        insertafter: Added.*Associations
+        owner: guest-prefs 
+        mode: 0600
+        
+  
+  
+  post_tasks:
+    - name:  restart lightdm 
+      shell: /bin/systemctl restart lightdm
+      when:  ansible_distribution_version == "16.04" 
+
+    - name:  restart lightdm 
+      shell: /usr/sbin/service lightdm restart
+      when:  ansible_distribution_version == "14.04" 
+
+

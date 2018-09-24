@@ -1,0 +1,13 @@
+--- 
+
+- name: copy lightdm configuration to remote host
+  copy: 
+    src: lightdm.conf.domainlogin 
+    dest: /etc/lightdm/lightdm.conf 
+    owner: root 
+    mode: 0644 
+    backup: yes
+
+- name: reload lightdm
+  service: name=lightdm enabled=yes state=restarted
+

@@ -1,0 +1,12 @@
+--- 
+
+### copy udev rule
+
+- name: copy clone script to host
+  copy:
+    src: 40-rocketlauncher.rules
+    dest: /etc/udev/rules.d/40-rocketlauncher.rules
+    mode: 0755  
+
+
+

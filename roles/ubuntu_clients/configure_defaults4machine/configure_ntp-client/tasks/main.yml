@@ -1,0 +1,40 @@
+--- 
+
+### Installation von ntp sicherstellen
+- name: update apt-Cache
+  apt: update_cache=yes
+
+- name: Installation von ntp
+  apt: name={{ item }} state=present
+  with_items:
+   - ntp
+  when: ansible_distribution_version == "16.04"
+
+
+### Sicherstellen, dass ntpdate nicht installiert ist; Konflikt mit ntp
+
+- name: Entfernen von ntpdate
+  apt: name={{ item }} state=absent
+  with_items:
+   - ntpdate
+  when: ansible_distribution_version == "16.04"
+     
+ 
+### configure ntp 
+
+- name: configure ntp 
+  lineinfile:
+    dest: /etc/ntp.conf
+    state: present
+    backup: yes
+    regexp: '^\s*server.*'
+    line: "server 192.168.200.254" 
+    insertbefore: '^#server\s*127.*'
+  notify: reload ntp
+
+
+### enable ntp service
+- name: enable ntp service
+  service: name=ntp enabled=yes 
+  notify: reload ntp
+

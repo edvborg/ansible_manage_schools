@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+  
+  tasks: 
+  - name: copy python file to inkscape plugin folder
+    get_url: 
+      url: https://raw.githubusercontent.com/hellerbarde/inkscape-boxmaker/master/boxmaker.py  
+      dest: /usr/share/inkscape/extensions/boxmaker.py
+      owner: root
+      mode: 0755
+            
+  - name: copy inkscape extension file to inkscape plugin folder
+    get_url: 
+      url: https://raw.githubusercontent.com/hellerbarde/inkscape-boxmaker/master/boxmaker.inx
+      dest: /usr/share/inkscape/extensions/boxmaker.inx
+      owner: root
+      mode: 0755

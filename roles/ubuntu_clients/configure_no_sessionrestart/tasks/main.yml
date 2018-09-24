@@ -1,0 +1,12 @@
+---
+
+- name: script löschen
+  file:
+    path: /etc/cron.d/sessionrestart
+    state: absent
+ 
+
+- name: restart cron
+  service:
+    name: cron
+    state: restarted

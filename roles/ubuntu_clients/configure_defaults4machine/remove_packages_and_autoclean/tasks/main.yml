@@ -1,0 +1,15 @@
+--- 
+  
+### remove some packages
+
+- name: remove some packages
+  apt: name={{ item }} state=absent 
+  with_items:
+   - bluez-alsa 
+   - bluez-utils 		#
+   - network-manager-pptp 		#
+   - network-manager-pptp-gnome		#
+
+- name: autoremove packages
+  apt: update_cache=yes autoremove=yes
+

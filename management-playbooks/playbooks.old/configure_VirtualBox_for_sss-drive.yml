@@ -1,0 +1,42 @@
+---
+- hosts: O2-10-PC01 O2-10-PC02 localhost
+
+  vars:
+    vbuser: rudi
+    vbuser_desktop: /home2/rudi/Schreibtisch/
+    config_path: "/media/{{ vbuser }}/PLEXTOR/.Virtualbox"
+    
+    
+  pre_tasks:  
+  - name: install VirtualBox
+    apt: 
+      name: "{{ item }}"
+      state: latest
+    with_items:
+    - virtualbox
+    - virtualbox-dkms
+    - virtualbox-qt
+      
+
+  tasks:
+  - name: copy desktop-file to users desktop
+    command: cp /usr/share/applications/virtualbox.desktop {{ vbuser_desktop }} 
+
+  - name: set execute
+    command: chmod +x "{{ vbuser_desktop }}virtualbox.desktop" 
+ 
+  - name: configure path for VirtualBox.xml
+    lineinfile:
+      dest: "{{ vbuser_desktop }}virtualbox.desktop" 
+      regexp: "Exec="
+      line: "Exec=env VBOX_USER_HOME=/media/rudi/PLEXTOR/.Virtualbox VirtualBox %U" 
+      
+  - name: configure name for desktopfile
+    lineinfile:
+      dest: "{{ vbuser_desktop }}virtualbox.desktop" 
+      regexp: "Name="
+      line: "Name=VirtualBox auf externer SSD" 
+      
+
+
+  

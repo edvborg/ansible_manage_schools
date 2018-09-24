@@ -1,0 +1,7 @@
+---
+
+- hosts: linuxpcs
+
+  tasks:
+  - name: pc herunterfahren
+    command: poweroff

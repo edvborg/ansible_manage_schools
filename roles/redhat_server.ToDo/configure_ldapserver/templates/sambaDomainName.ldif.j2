@@ -1,0 +1,10 @@
+dn: sambaDomainName="{{ domain_name }}" , {{ ldap_base_dn }} 
+objectClass: top
+objectClass: sambaDomain
+objectClass: sambaUnixIdPool
+sambaDomainName: "{{ domain_name }}"
+sambaSID: ""{{ domain_sid }}"
+structuralObjectClass: sambaDomain
+gidNumber: 1000	
+uidNumber: 1000
+

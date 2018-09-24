@@ -1,0 +1,12 @@
+--- 
+
+### set default Launcher
+    
+- name: set default Launcher apps
+  template:
+    src: 60_site_setting_launcher.j2
+    dest: /etc/dconf/db/site.d/60_site_setting_launcher
+  notify: update dconf
+
+
+

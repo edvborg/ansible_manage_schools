@@ -1,0 +1,55 @@
+---
+- hosts: O2-30-PC01 O2-31-PC01 O2-32-PC01 192.168.140.49
+
+  tasks:
+
+  - name: create some Desktop Icons
+    command: cp /usr/share/applications/{{ item }}.desktop /home2/{{ localuser }}/Schreibtisch/
+    with_items:
+      - libreoffice-impress 
+      - libreoffice-writer
+      - firefox
+      - vlc
+    when: ansible_distribution_version == "14.04"
+
+  - name: set owner and permissions
+    file: 
+      path: "/home2/{{ localuser }}/Schreibtisch/{{ item }}.desktop"
+      owner: "{{ fach }}-user"
+      mode: 0700
+    with_items:
+      - libreoffice-impress 
+      - libreoffice-writer
+      - firefox
+      - vlc
+    when: ansible_distribution_version == "14.04"
+
+  - name: no application icons on desktop for unity
+    file: 
+      path: "/home2/{{ localuser }}/Schreibtisch/{{ item }}.desktop"
+      state: absent
+    with_items:
+      - libreoffice-impress 
+      - libreoffice-writer
+      - firefox
+      - vlc
+    when: ansible_distribution_version == "16.04"    
+
+
+  post_tasks:
+  - name: restart autofs 
+    service: name=autofs state=restarted
+
+
+  - name: ensure no monitors.xml
+    file: 
+      path: "/home2/{{ localuser }}/.config/monitors.xml"
+      state: absent 
+
+
+  - name: restart lightdm
+    service: name=lightdm state=restarted
+
+
+
+

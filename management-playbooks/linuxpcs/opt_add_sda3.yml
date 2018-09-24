@@ -1,0 +1,44 @@
+---
+- hosts: inf2pcs inf3pcs O2-10-PCT2
+  
+  tasks:
+  - name: add partition 3
+    parted:
+      device: /dev/sda
+      number: 3
+      state: info
+      
+      
+  - name: create primary partition #3
+    shell: | 
+      fdisk /dev/sda &>/dev/null << EOFDELPART
+      n
+      p
+      3
+      
+      
+      w
+      EOFDELPART
+      partprobe
+    
+
+  - name: create mount point for partition 3
+    file:
+      path: /virtualmachines
+      state: directory
+      mode: 0777
+
+  - name: format partition
+    shell: mkfs.ext4 /dev/sda3
+
+  - name: fstab |  entry for /dev/sda3 - /virtualmachines 
+    lineinfile:
+      path: /etc/fstab
+      regexp: '/dev/sda3' 
+      line: '/dev/sda3    /virtualmachines    ext4     errors=remount-ro       0       1'
+      state: present
+      backup: yes
+
+  - name: reload fstab
+    shell: mount -a
+    

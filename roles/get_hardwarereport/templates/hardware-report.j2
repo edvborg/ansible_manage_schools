@@ -1,0 +1,17 @@
+{% for i in play_hosts | sort %}
+
+Hostname:     {{ hostvars[i]['ansible_hostname'] }}
+Hersteller:   {{ hostvars[i]['ansible_system_vendor'] }}       
+Bezeichnung:  {% if hostvars[i]['ansible_system_vendor'] == "LENOVO" %}
+{{ hostvars[i]['ansible_product_version'] }}
+{% else %}
+{{ hostvars[i]['ansible_product_name'] }}
+{% endif %}
+Seriennummer:  {{ "%12s"|format(hostvars[i]['ansible_product_serial']) }}
+Netzwerk:        IP-Adresse: {{ hostvars[i]['ansible_default_ipv4']['address'] }}   MAC-Adresse:  {{ hostvars[i]['ansible_default_ipv4']['macaddress'] }}  
+Arbeitspeicher:     {{ hostvars[i]['ansible_memtotal_mb'] }} MB      Festplatte:      {{ hostvars[i]['ansible_devices']['sda']['size'] }} 
+Videocontroller: {{ videoreport.stdout_lines[0] }}
+Netzwerkinterface: {{ nicreport.stdout_lines[0] }}
+-----------------------------------------------------------
+{% endfor %}
+

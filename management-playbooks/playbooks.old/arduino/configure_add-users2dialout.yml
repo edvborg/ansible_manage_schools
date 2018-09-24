@@ -1,0 +1,16 @@
+---
+- hosts: inf2pcs reservepcs testpcs
+  
+  tasks:
+  - name: execute script 
+    command: usermod -a -G dialout {{ item }}
+    with_items:
+     - a.stoetter
+     - b.engel
+     - v.henoekl
+     - g.waibl
+     - t.ikpe
+     - l.isierhienrhien
+     - siegele
+
+

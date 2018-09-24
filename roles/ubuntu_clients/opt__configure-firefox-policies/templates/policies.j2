@@ -1,0 +1,30 @@
+{
+  "policies": {
+    "Bookmarks": [
+      {
+        "Placement": "toolbar",
+        "Title": "BORG",
+        "URL": "https://www.borg-ibk.tsn.at"
+      },
+      {
+        "Placement": "toolbar",
+        "Title": "Intranet",
+        "URL": "http://intranet"
+      },
+      {
+        "Placement": "toolbar",
+        "Title": "Webuntis",
+        "URL": "https://mese.webuntis.com/WebUntis/?school=borg-ibk#/basic/main"
+      }
+    ],
+    "DisplayBookmarksToolbar": true,
+    "DisplayMenuBar": true,
+    "NoDefaultBookmarks": true,
+    {% if firefox_save_logins == True %} 
+    "OfferToSaveLogins": true
+    {% else %}
+    "OfferToSaveLogins": false
+    {% endif %}
+  }
+}
+

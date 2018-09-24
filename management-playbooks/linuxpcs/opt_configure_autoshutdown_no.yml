@@ -1,0 +1,19 @@
+---
+- hosts: linuxpcs
+  
+  tasks:
+  - name: script shutdown_pc löschen
+    file:
+      path: /etc/cron.d/shutdown_pc
+      state: absent
+ 
+  - name: script ausschalten löschen
+    file:
+      path: /etc/cron.d/ausschalten
+      state: absent
+
+  post_tasks:
+  - name: restart cron
+    service:
+      name: cron
+      state: restarted

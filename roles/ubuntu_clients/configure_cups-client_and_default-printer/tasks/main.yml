@@ -1,0 +1,76 @@
+--- 
+
+- name: configure cups | change in cupsd.conf 1
+  lineinfile:
+    dest: /etc/cups/cupsd.conf
+    state: present
+    backup: yes
+    regexp: "Browsing\ "
+    line: "Browsing Off"
+  notify:
+  - restart cups
+     
+
+- name: configure cups | change in cupsd.conf 2
+  lineinfile:
+    dest: /etc/cups/cupsd.conf
+    state: present
+    backup: yes
+    regexp: "BrowseLocalProtocols\ "
+    line: "BrowseLocalProtocols none"
+  notify:
+  - restart cups
+
+- name: configure cups | change in cups-browsed.conf 1
+  lineinfile:
+    dest: /etc/cups/cups-browsed.conf
+    state: present
+    backup: yes
+    regexp: "BrowseRemoteProtocols\ "
+    line: "BrowseRemoteProtocols cups"
+  notify:
+  - restart cups-browsed
+
+- name: configure cups | change in cups-browsed.conf 2
+  lineinfile:
+    dest: /etc/cups/cups-browsed.conf
+    state: present
+    backup: yes
+    regexp: "BrowseLocalProtocols\ "
+    line: "BrowseLocalProtocols none"
+  notify:
+  - restart cups-browsed
+
+
+- name: configure cups | change in cups-browsed.conf 3
+  lineinfile:
+    dest: /etc/cups/cups-browsed.conf
+    state: present
+    backup: yes
+    regexp: "BrowseAllow\ "
+    line: "BrowseAllow all"
+  notify:
+  - restart cups-browsed
+
+
+- name: configure cups | change in cups-browsed.conf 4
+  lineinfile:
+    dest: /etc/cups/cups-browsed.conf
+    state: present
+    backup: yes
+    regexp: "BrowsePoll\ "
+    line: "BrowsePoll cups.borg-ibk.local"
+  notify:
+  - restart cups-browsed
+
+
+- name: line for default printer
+  lineinfile: 
+    dest: /etc/cups/lpoptions
+    regexp: "Default"
+    line: "Default {{ default_printer }} PageSize=A4" 
+    state: present
+    create: yes
+  notify: restart cups
+
+

@@ -1,0 +1,32 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: show current version
+    command: /usr/bin/java -version
+    register: result
+
+  - name: print output from java version
+    debug: var=result.stdout_lines  
+  
+  - name: add key  for repo
+    shell: apt-key adv --keyserver keys.gnupg.net --recv-keys 0xE18CE6625CB26B26
+
+  - name: add repository for sun java 
+    apt_repository:
+      repo: deb http://www.duinsoft.nl/pkg debs all 
+      state: present
+   
+  - name: install sun java
+    apt: name={{ item }} state=present update_cache=yes
+    with_items:
+    - update-sun-jre
+    - unixodbc
+
+  - name: show version after update
+    command: /usr/bin/java -version
+    register: result
+
+  - name: print output from java version
+    debug: var=result.stdout_lines
+

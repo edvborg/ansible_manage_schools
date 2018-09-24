@@ -1,0 +1,38 @@
+---
+- hosts: klassenpcs
+
+  tasks:
+  - name: Find fireforx profile for default user
+    find:
+      paths: /home2/guest-prefs/.mozilla/firefox
+      patterns: '*.default'
+      file_type: directory
+    register: profilelist_result
+    
+
+  - name: configure startup.homepage in user.js in firefox profile
+    lineinfile:
+      dest: "{{ item.path }}/user.js"
+      state: present
+      line: 'user_pref("browser.startup.homepage", "http://www.borg-ibk.tsn.at/");'
+      regexp: "browser.startup.homepage" 
+      create: yes
+      owner: guest-prefs
+      group: guest-prefs
+    with_items: "{{ profilelist_result.files }}"    
+       
+  - name: configure  in user.js in firefox profile
+    lineinfile:
+      dest: "{{ item.path }}/user.js"
+      state: present
+      line: 'pref("signon.rememberSignons", false);'
+      regexp: "signon.rememberSignons" 
+      create: yes
+      owner: guest-prefs
+      group: guest-prefs
+    with_items: "{{ profilelist_result.files }}"    
+       
+       
+    
+       
+       

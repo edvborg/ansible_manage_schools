@@ -1,0 +1,6 @@
+---
+- hosts: inf3pcs
+
+  tasks:
+  - name: shutdown inf-3 immediately
+    win_shell: shutdown /p

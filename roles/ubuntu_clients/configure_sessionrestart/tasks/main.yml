@@ -1,0 +1,20 @@
+---
+
+- name: Installationsscript zum Client kopieren 16.04
+  copy:
+    src: sessionrestart.1604
+    dest: /etc/cron.d/sessionrestart
+    mode: 0644
+  when: ansible_distribution_version == "16.04"
+
+- name: Installationsscript zum Client kopieren 14.04
+  copy:
+    src: sessionrestart.1404
+    dest: /etc/cron.d/sessionrestart
+    mode: 0644
+  when: ansible_distribution_version == "14.04"
+
+- name: restart cron
+  service:
+    name: cron
+    state: restarted

@@ -1,0 +1,106 @@
+--- 
+
+- name: create primary partition #3
+  shell: | 
+    fdisk /dev/sda &>/dev/null << EOFDELPART
+    n
+    p
+    3
+    
+    
+    w
+    EOFDELPART
+    partprobe
+    
+- name: copy script make_partition to client
+  copy: 
+    src: make_partition3.sh
+    dest: /tmp/make_partition3.sh
+    mode: 0755
+    owner: root
+    group: root
+
+- name: execute script
+  shell: /tmp/make_partition3.sh
+
+- name: create mount point for partition 3
+  file:
+    path: /virtualmachines
+    state: directory
+    mode: 0777
+
+- name: umount /dev/sda3 (when mounted)
+  shell: umount /dev/sda3
+  ignore_errors: yes
+
+- name: format partition when filesystem does not exist
+  filesystem: fstype=ext4 dev=/dev/sda3 force=no
+
+- name: fstab |  entry for /dev/sda3 - /virtualmachines 
+  lineinfile:
+    path: /etc/fstab
+    regexp: '/dev/sda3' 
+    line: '/dev/sda3    /virtualmachines    ext4     errors=remount-ro       0       1'
+    state: present
+    backup: yes
+
+- name: reload fstab
+  shell: mount -a
+    
+
+- name: create dir for winontop
+  file: path={{virtualmachines_path }} state=directory mode=0775 group=sudo
+
+- name: copy script to client | 1
+  copy: 
+    src: startVM.sh
+    dest: /virtualmachines/winontop/startVM.sh
+    mode: 0755
+    owner: root
+    group: root
+     
+- name: copy script to client | 2
+  copy: 
+    src: start-and-configureVM.sh
+    dest: /virtualmachines/winontop/start-and-configureVM.sh
+    mode: 0750
+    owner: root
+    group: sudo
+    
+- name: copy Icon to client
+  copy: 
+    src: win10.png
+    dest: /virtualmachines/winontop/win10.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy desktopfile to client
+  template: 
+    src: win10.desktop.j2
+    dest: /virtualmachines/winontop/win10.desktop
+    mode: 0755
+    owner: root
+    group: root
+
+- name: copy desktopfile to applications dir
+  template: 
+    src: win10.desktop.j2
+    dest: /usr/share/applications/win10.desktop
+    mode: 0644
+    owner: root
+    group: root
+  
+    
+#- name: rsync VDI file
+#  synchronize:  src="/netzordner/{{ virtualbox_machines_dir }}/win10.vdi" dest="/virtualmachines/winontop/win10.vdi" partial=yes archive=yes
+#  delegate_to: "{{ inventory_hostname }}"
+#  become: yes
+#  become_user: admin
+
+- name: rsync VDI file
+  shell: "rsync -au /netzordner/{{ virtualbox_machines_dir }}/win10.vdi /virtualmachines/winontop/win10.vdi"
+  become: yes
+  become_user: admin
+
+

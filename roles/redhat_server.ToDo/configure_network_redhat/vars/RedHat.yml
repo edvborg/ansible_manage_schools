@@ -1,0 +1,7 @@
+---
+network_pkgs:
+  - iputils
+
+net_path: "/etc/sysconfig/network-scripts"
+
+

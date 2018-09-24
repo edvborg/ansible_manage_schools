@@ -1,0 +1,20 @@
+---
+  
+### Firefox: No Password Manager  
+
+- name: firefox configuration file
+  blockinfile:
+    dest: /usr/lib/firefox/defaults/pref/localsettings.js
+    create: yes
+    block: |
+      pref("general.config.obscure_value",0); 
+      pref("general.config.filename","mozilla.cfg") ;
+      
+- name: set rememberSignon false
+  lineinfile:
+    dest: /usr/lib/firefox/mozilla.cfg
+    create: yes
+    line: 'pref("signon.rememberSignons", false);'
+    state: present
+    regexp: 'signon.rememberSignons'
+    

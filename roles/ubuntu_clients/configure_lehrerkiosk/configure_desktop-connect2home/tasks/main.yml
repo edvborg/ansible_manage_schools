@@ -1,0 +1,51 @@
+---
+
+- name: copy connect2home.sh to remote host
+  copy:
+    src: connect2home.sh.1404
+    dest: /usr/local/bin/connect2home.sh
+    mode: 0755
+    owner: root  
+  when: ansible_distribution_version == "14.04"
+
+
+- name: copy connect2home.sh to remote host 1604
+  copy:
+    src: connect2home.sh.1604
+    dest: /usr/local/bin/connect2home.sh
+    mode: 0755
+    owner: root  
+  when: ansible_distribution_version == "16.04"
+
+
+- name: folder Schreibtisch present
+  file: path="/home2/{{ localuser }}/Schreibtisch" state=directory mode=0700 owner="{{ localuser }}"
+
+
+- name: copy connect2home.desktop to remote host
+  copy:
+    src: connect2home.desktop
+    dest: "/home2/{{ localuser }}/Schreibtisch/connect2home.desktop"
+    mode: 0755
+    owner: "{{ localuser }}"
+
+
+### configure upstart for user
+
+- name: ensure .config folder
+  file: path="/home2/{{ localuser }}/.config" state=directory
+
+
+- name: ensure .config/upstart folder
+  file: path="/home2/{{ localuser }}/.config/upstart" state=directory
+
+
+- name: copy script for icon positioning
+  copy:
+    src: set-icon-positions-connect2home.conf
+    dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2home.conf"
+    mode: 0644
+    owner: "{{ localuser }}"
+
+
+  

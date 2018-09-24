@@ -1,0 +1,3 @@
+Hostname;Hersteller;Bezeichnung;Seriennummer;Netzwerk-IP;Netzwerk-MAC;Festplatte;Arbeitspeicher;Videocontroller;Netzwerkinterface
+{% for i in play_hosts | sort %}{{ hostvars[i]['ansible_hostname'] }};{{ hostvars[i]['ansible_system_vendor'] }};{% if hostvars[i]['ansible_system_vendor'] == "LENOVO" %}{{ hostvars[i]['ansible_product_version'] }}{% else %}{{ hostvars[i]['ansible_product_name'] }}{% endif %};{{ hostvars[i]['ansible_product_serial'] }};{{ hostvars[i]['ansible_default_ipv4']['address'] }};{{ hostvars[i]['ansible_default_ipv4']['macaddress'] }};{{ hostvars[i]['ansible_devices']['sda']['size'] }};{{ hostvars[i]['ansible_memtotal_mb'] }};{{ videoreport.stdout_lines[0] }} ;{{ nicreport.stdout_lines[0] }}
+{% endfor %}

@@ -1,0 +1,25 @@
+---
+- hosts: O2-10-PCT1 
+  
+  tasks:
+  - name: remove /etc/udev/rules.d/70-persistent-net.rules
+    file: 
+      name: /etc/udev/rules.d/70-persistent-net.rules 
+      state: absent
+
+  - name: fstab | replace UUIDs for / 
+    replace:
+      path: /etc/fstab
+      regexp: 'UUID=[a-z0-9-]*[ \t]*(/[ \t]+[a-z0-9- \t]*)'
+      replace: '/dev/sda1\t\1'
+      backup: yes
+
+  - name: fstab | replace UUIDs for swap 
+    replace:
+      path: /etc/fstab
+      regexp: 'UUID=[a-z0-9-]*[ \t]*(none[ \t]+swap[ \t]+[a-z0-9- \t]*)'
+      replace: '/dev/sda2\t\1'
+      backup: yes
+
+
+

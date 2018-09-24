@@ -1,0 +1,35 @@
+<monitors version="1">
+  <configuration>
+      <clone>yes</clone>
+      <output name="DVI1">
+          <vendor>MAX</vendor>
+          <product>0x06c3</product>
+          <serial>0x00fa48d0</serial>
+          <width>1024</width>
+          <height>768</height>
+          <rate>60</rate>
+          <x>0</x>
+          <y>0</y>
+          <rotation>normal</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>yes</primary>
+      </output>
+      <output name="VGA1">
+          <vendor>???</vendor>
+          <product>0x0000</product>
+          <serial>0x00000000</serial>
+          <width>1024</width>
+          <height>768</height>
+          <rate>60</rate>
+          <x>1280</x>
+          <y>0</y>
+          <rotation>normal</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>no</primary>
+      </output>
+      <output name="VIRTUAL1">
+      </output>
+  </configuration>
+</monitors>

@@ -1,0 +1,7 @@
+---
+- hosts: lehrerpcs
+
+  tasks:
+  - name: Alle PCs in den Klassenräumen neu starten
+    command: reboot
+

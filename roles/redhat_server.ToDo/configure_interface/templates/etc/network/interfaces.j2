@@ -1,0 +1,33 @@
+# {{ ansible_managed }}
+# Any changes made here will be lost
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+{%       if configuration_method == "static" %}
+auto {{ ansible_interfaces[1] }}
+iface {{ ansible_interfaces[1] }} inet static
+{%         if ip_address is defined and ip_address != None %}
+  address {{ ip_address }}
+{%         endif %}
+{%         if ip_netmask is defined and ip_netmask != None %}
+  netmask {{ ip_netmask }}
+{%         endif %}
+{%         if ip_gateway is defined and ip_gateway != None %}
+  gateway {{ ip_gateway }}
+{%         endif %}
+{%       endif %}
+
+{%       if configuration_method == "dhcp" %}
+auto {{ ansible_interfaces[1] }}
+iface {{ ansible_interfaces[1] }} inet dhcp
+{%       endif %}
+
+{% if ip_dns_nameservers is defined %}
+dns-nameservers {{ ip_dns_nameservers|join (' ') }}
+{% endif %}
+{% if dns_search is defined %}
+dns-search {{ dns_search }}
+{% endif %}

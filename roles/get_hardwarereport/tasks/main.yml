@@ -1,0 +1,29 @@
+---
+
+###############################
+
+- name: create folder for reports
+  file:
+    path: /etc/ansible/{{ reportdir }}
+    state: directory 
+    mode: 0755
+  delegate_to: localhost
+     
+- name: get Video controller information
+  shell: lspci | egrep 'VGA'
+  register: videoreport 
+
+- name: get Video controller information
+  shell: lspci | egrep 'Ethernet'
+  register: nicreport 
+  
+- name: create report
+  template: src=hardware-report.j2 dest=/etc/ansible/{{ reportdir }}/report_{{groupname}}.txt backup=yes
+  delegate_to: localhost
+  when: reporttype=='txt'
+
+- name: create report
+  template: src=hardware-report_csv.j2 dest=/etc/ansible/{{ reportdir }}/report_{{groupname}}.csv backup=yes
+  delegate_to: localhost
+  when: reporttype=='csv'
+

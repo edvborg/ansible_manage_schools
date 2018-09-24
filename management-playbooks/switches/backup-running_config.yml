@@ -1,0 +1,22 @@
+---
+- hosts: switches
+  connection: local
+
+  vars:
+    cli:
+      host: "{{ inventory_hostname }}"
+      username: "{{ switch_ssh_username }}"
+      password: borgibk
+
+  tasks:
+  - name: run show version
+    ios_command:
+      provider: "{{ cli }}"
+      commands: 'show version'
+    register: result
+
+      
+  - name: print output
+    debug: 
+      var: result.stdout_lines  
+

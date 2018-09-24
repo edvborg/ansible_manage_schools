@@ -1,0 +1,39 @@
+---
+  
+- hosts: all
+  gather_facts: True
+
+  tasks:
+  - name: register hostname
+    shell: hostname
+    register: hostname_output  
+
+  - name:
+    debug: 
+      msg: ' "My hostname is " {{hostname_output.stdout_lines[0]}}'
+ 
+  - name: show devices
+    debug: 
+      msg: "Hello" 
+    when: " hostname_output.stdout_lines[0] in groups['klassenpcs'] "
+
+# funktioniert:
+#      var: "{{ item }}"
+#    with_items: groups['klassenpcs']
+
+# funktioniert:
+#       var: ansible_devices.sda['partitions'].keys()
+
+# funktioniert:       
+#      var: "{{ item }}"
+#    with_items: "{{ ansible_devices.keys() }}"
+
+ 
+
+#      var: "{{ ansible_devices.keys() | regex_findall('\b[a-z]*\b') }}"
+
+  - name: show first partitions
+    debug: 
+      #var: ansible_mounts[0]['device'] 
+      var: ansible_devices.keys()
+

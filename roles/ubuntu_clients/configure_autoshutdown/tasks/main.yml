@@ -1,0 +1,15 @@
+---
+
+- name: Installationsscript zum Client kopieren
+  copy:
+    src: ausschalten.sh
+    dest: /usr/local/sbin/ausschalten.sh
+    mode: 0750
+
+
+- name: configure cron for autoshutdown
+  lineinfile:
+    dest: /etc/cron.d/shutdown_pc
+    create: yes
+    regexp: "ausschalten.sh"
+    line: "{{ shutdown_time }} * * * root /usr/local/sbin/ausschalten.sh >> /var/log/shutdown.log 2>&1" 

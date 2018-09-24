@@ -1,0 +1,151 @@
+--- 
+
+### prepare for scripts which will setup cloning the display
+#
+   
+- name: ensure folder /etc/lightdm/lightdm.conf.d
+  file: path=/etc/lightdm/lightdm.conf.d state=directory mode=0755 owner=root
+
+- name: create script for setting hooks | line 1
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/50-scripts.conf
+    create: yes
+    mode: 0755
+    line: "[SeatDefaults]"		
+    insertbefore: BOF
+    regexp: 'SeatDefaults'	      
+  notify:
+  - restart lightdm
+
+- name: create script for setting hooks | line 2
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/50-scripts.conf
+    create: yes
+    mode: 0755
+    line: 'greeter-setup-script="/usr/local/bin/greeterSetupScript.sh"'
+    insertafter: 'SeatDefaults'
+    regexp: 'greeter-setup-script'	      
+  notify:
+  - restart lightdm
+
+- name: create script for setting hooks | line 3
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/50-scripts.conf
+    create: yes
+    mode: 0755
+    line: 'session-setup-script="/usr/local/bin/sessionSetupScript.sh"'
+    insertafter: 'greeter-setup-script'
+    regexp: 'session-setup-script'	      
+  notify:
+  - restart lightdm
+
+- name: create script for setting hooks | line 4
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf.d/50-scripts.conf
+    create: yes
+    mode: 0755
+    line: '#session-cleanup-script="/usr/local/bin/sessionCleanupScript.sh"'
+    insertafter: 'session-setup-script'
+    regexp: 'session-cleanup-script'	      
+  notify:
+  - restart lightdm
+
+###
+
+- name: create greeterSetupScript | line 1
+  lineinfile:
+    dest: /usr/local/bin/greeterSetupScript.sh
+    create: yes
+    mode: 0755
+    line: "#!/bin/bash"		
+    insertbefore: BOF
+    regexp: 'bash'	      
+  notify:
+  - restart lightdm
+
+- name: create greeterSetupScript | line 2
+  lineinfile:
+    dest: /usr/local/bin/greeterSetupScript.sh
+    create: yes
+    mode: 0755
+    line: "clone &"
+    insertafter: 'bash'
+    regexp: 'clone'	      
+  notify:
+  - restart lightdm
+
+###
+
+- name: create sessionSetupScript | line 1
+  lineinfile:
+    dest: /usr/local/bin/sessionSetupScript.sh
+    create: yes
+    mode: 0755
+    line: "#!/bin/bash"		
+    insertbefore: BOF
+    regexp: 'bash'	      
+  notify:
+  - restart lightdm
+
+- name: create sessionSetupScript | line 2
+  lineinfile:
+    dest: /usr/local/bin/sessionSetupScript.sh
+    create: yes
+    mode: 0755
+    line: "clone &"
+    insertafter: 'bash'
+    regexp: 'clone'	      
+  notify:
+  - restart lightdm
+
+###
+
+- name: create sessionCleanupScript | line 1
+  lineinfile:
+    dest: /usr/local/bin/sessionCleanupScript.sh
+    create: yes
+    mode: 0755
+    line: "#!/bin/bash"		
+    insertbefore: BOF
+    regexp: 'bash'	      
+  notify:
+  - restart lightdm
+
+- name: create sessionCleanupScript | line 2
+  lineinfile:
+    dest: /usr/local/bin/sessionCleanupScript.sh
+    create: yes
+    mode: 0755
+    line: "clone &"
+    insertafter: 'bash'
+    regexp: 'clone'	      
+  notify:
+  - restart lightdm
+
+
+### copy clone script
+
+- name: copy clone script to host
+  copy:
+    src: clone
+    dest: /usr/local/bin/clone
+    mode: 0755  
+  notify:
+  - restart lightdm
+
+### copy default settings
+
+- name: copy default clone settings to host
+  template:
+    src: clone-settings.j2
+    dest: /etc/default/clone-settings
+    mode: 0644  
+  notify:
+  - restart lightdm
+    
+
+  
+  
+
+
+

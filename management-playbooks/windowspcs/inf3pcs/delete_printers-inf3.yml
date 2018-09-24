@@ -1,0 +1,10 @@
+---
+- hosts: inf3pcs
+
+  tasks:
+  - name: delete printers in inf-3
+    win_shell: wmic printer where Local=TRUE delete
+
+ 
+
+

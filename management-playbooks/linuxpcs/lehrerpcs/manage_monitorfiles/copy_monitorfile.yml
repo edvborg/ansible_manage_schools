@@ -1,0 +1,18 @@
+---
+- hosts: klassenpcs 192.168.100.63
+
+  tasks:
+  - name: create dir for this klassenpc
+    file:
+      path: /etc/guest-session/skel/.config
+      mode: 0700
+      state: directory
+      owner: guest-prefs
+    
+  - name: copy monitors.xml from ansible to guest account 
+    copy:
+      src: monitorfiles/{{ inventory_hostname }}/monitors.xml
+      dest: /etc/guest-session/skel/.config/monitors.xml
+      owner: guest-prefs
+      mode: 0664
+

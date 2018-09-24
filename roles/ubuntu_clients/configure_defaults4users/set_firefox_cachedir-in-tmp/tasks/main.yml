@@ -1,0 +1,31 @@
+---
+
+### Firefox: move cachedir to tmp
+
+- name: firefox configuration file
+  blockinfile:
+    dest: /usr/lib/firefox/defaults/pref/localsettings.js
+    create: yes
+    block: |
+      pref("general.config.obscure_value",0); 
+      pref("general.config.filename","mozilla.cfg") ;
+      
+- name: set cachedir | 1
+  lineinfile:
+    dest: /usr/lib/firefox/mozilla.cfg
+    create: yes
+    line: '//'
+    insertbefore: BOF
+    state: present
+    
+- name: set cachedir | 2
+  lineinfile:
+    dest: /usr/lib/firefox/mozilla.cfg
+    create: yes
+    line: 'pref("browser.cache.disk.parent_directory","/tmp/"+getenv("USER")+"/Firefox_cache") ;'
+    state: present
+    insertafter: '//'
+    
+
+
+

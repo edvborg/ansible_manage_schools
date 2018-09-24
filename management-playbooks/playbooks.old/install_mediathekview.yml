@@ -1,0 +1,6 @@
+---
+- hosts: konferenzzimmerpcs reservepcs 
+  
+  roles:
+  - clients/ubuntu/software/install_MediathekView
+

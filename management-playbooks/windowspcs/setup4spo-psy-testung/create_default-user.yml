@@ -1,0 +1,12 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: create default local user borguser
+    win_user:
+      name: borguser
+      password: borg-ibk
+      state: present
+
+      
+

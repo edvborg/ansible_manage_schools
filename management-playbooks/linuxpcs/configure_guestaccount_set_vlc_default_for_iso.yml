@@ -1,0 +1,23 @@
+---
+- hosts: klassenpcs
+  
+  tasks:
+    - name: default user | create user association file for mime type
+      lineinfile: 
+        dest: /home2/guest-prefs/.config/mimeapps.list
+        state: present
+        create: yes
+        line: '[Added Associations]'
+        owner: guest-prefs 
+        mode: 0600  
+      
+    - name: default user | configure vlc as standard app for iso files
+      lineinfile: 
+        dest: /home2/guest-prefs/.config/mimeapps.list
+        state: present
+        line: 'application/x-cd-image=vlc.desktop;'
+        insertafter: Added.*Associations
+        owner: guest-prefs 
+        mode: 0600
+        
+  

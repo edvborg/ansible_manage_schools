@@ -1,0 +1,85 @@
+---
+# file: group_vars/all
+ansible_connection: ssh 
+ansible_user: root 
+
+
+###############################################################################################################
+##########################   SERVER  ##########################################################################
+###############################################################################################################
+
+##########################################################
+### Domain 
+#   domain_name: "borg-ibk.local"
+#
+tld: "local"
+sld: "borg-ibk"
+domain_name: "{{ sld + '.' + tld }}"
+
+dns_nameservers:
+  - 192.168.200.200
+
+dns_search: "{{ domain_name }}"
+domain_sid: "S-1-5-21-2336030208-1547323707-3435355501"  
+
+##########################################################
+### LDAP-Server
+ldapserver_address: 192.168.200.200
+ldapserver_netmask: 255.255.255.0
+ldapserver_gateway: 192.168.200.254
+ldapserver2_address: 192.168.200.201
+ldapserver2_netmask: 255.255.255.0
+ldapserver2_gateway: 192.168.200.254
+
+
+ldap_base_dn: "{{ 'dc=' +  sld +',dc=' + tld }}" 
+ldap_users_base_dn: "ou=people,{{ ldap_base_dn }}"
+ldap_schueler_base_dn: "ou=schueler,{{ ldap_users_base_dn }}"
+ldap_lehrer_base_dn: "ou=lehrer,{{ ldap_users_base_dn }}"
+ldap_groups_base_dn: "ou=groups,{{ ldap_base_dn }}"
+ldap_uri: "ldap://{{ ldapserver_address }}"
+
+
+##########################################################
+### TFTP-Server
+
+tftpserver_address: 192.168.200.240
+tftpserver_netmask: 255.255.255.0
+tftpserver_gateway: 192.168.200.254
+tftpserver_dns_nameservers:
+  - 192.168.200.200
+
+##########################################################
+### Radius-Server
+
+radiusserver_address: 192.168.200.203
+radiusserver_netmask: 255.255.255.0
+radiusserver_gateway: 192.168.200.254
+radiusserver_dns_nameservers:
+  - 192.168.200.200
+
+radiusserver2_address: 192.168.200.204
+radiusserver2_netmask: 255.255.255.0
+radiusserver2_gateway: 192.168.200.254
+radiusserver2_dns_nameservers:
+  - 192.168.200.200
+
+
+##########################################################
+### Wiki-Server
+
+wikiserver2_address: 192.168.200.217
+wikiserver2_netmask: 255.255.255.0
+wikiserver2_gateway: 192.168.200.254
+wikiserver2_dns_nameservers:
+  - 192.168.200.200
+
+
+###############################################################################################################
+##########################   LINUX CLIENTS ####################################################################
+###############################################################################################################
+
+
+http_filerepo_url: http://www.borg-ibk.tsn.at/Downloads
+switch_ssh_username: rudi
+

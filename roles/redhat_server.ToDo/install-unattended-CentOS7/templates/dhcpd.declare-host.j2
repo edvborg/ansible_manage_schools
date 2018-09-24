@@ -1,0 +1,13 @@
+group {
+
+##  unattended installation
+
+host {{ hostname_client }} {
+  hardware ethernet {{ macaddress_client }};
+  next-server {{ tftpserver_address }};
+  filename "/CentOSx64/7/pxelinux.0"; 
+  option host-name "{{ hostname_client }}" ;
+
+}
+}
+

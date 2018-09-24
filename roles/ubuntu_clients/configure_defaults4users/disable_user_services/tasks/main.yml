@@ -1,0 +1,35 @@
+--- 
+
+### disable user services zeitgeist, update-notifier, gnome-software-service and deja-dup
+#
+
+- stat: path=/etc/xdg/autostart/zeitgeist-datahub.desktop
+  register: st
+
+- name: disable zeitgeist
+  command: "mv /etc/xdg/autostart/zeitgeist-datahub.desktop /etc/xdg/autostart/zeitgeist-datahub.desktop.inactive"
+  when: st.stat.islnk is defined
+
+
+- stat: path=/etc/xdg/autostart/deja-dup-monitor.desktop
+  register: st
+  
+- name: disable dejadup
+  command: "mv /etc/xdg/autostart/deja-dup-monitor.desktop  /etc/xdg/autostart/deja-dup-monitor.desktop.inactive"
+  when: st.stat.islnk is defined
+
+
+- stat: path=/etc/xdg/autostart/gnome-software-service.desktop
+  register: st
+  
+- name: disable gnome-software-service
+  command: "mv /etc/xdg/autostart/gnome-software-service.desktop  /etc/xdg/autostart/gnome-software-service.desktop.inactive"
+  when: st.stat.islnk is defined
+
+
+- stat: path=/etc/xdg/autostart/update-notifier.desktop
+  register: st
+  
+- name: disable update-notifier
+  command: "mv /etc/xdg/autostart/update-notifier.desktop  /etc/xdg/autostart/update-notifier.desktop.inactive"
+  when: st.stat.islnk is defined

@@ -1,0 +1,7 @@
+---
+- hosts: inf3pcs
+
+  tasks:
+  - name: Alle PCs im Informatiksaal 3 herunterfahren
+    command: poweroff
+

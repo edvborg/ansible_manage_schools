@@ -1,0 +1,7 @@
+---
+- hosts: inf2pcs
+
+  tasks:
+  - name: Alle PCs im Informatiksaal 2 herunterfahren
+    command: poweroff
+

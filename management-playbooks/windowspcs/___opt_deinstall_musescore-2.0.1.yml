@@ -1,0 +1,22 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: create Downloads directory
+    win_file:
+      path: C:\Users\Administrator\Downloads
+      state: directory 
+
+  - name: copy msi to remote 
+    win_copy:
+      src: MuseScore-2.0.1.msi
+      dest: c:\Users\Administrator\Downloads\MuseScore-2.0.1.msi
+
+  - name: deinstall musescore 2.0.1
+    win_package: 
+      name: MuseScore
+      path: c:\Users\Administrator\Downloads\MuseScore-2.0.1.msi
+      product_id: {703926DE-F24B-11E4-AA68-472FB664A5DC}
+      state: absent
+
+

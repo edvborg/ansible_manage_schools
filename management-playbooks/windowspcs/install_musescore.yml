@@ -1,0 +1,18 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: install musescore
+    win_chocolatey: 
+      name: musescore
+      state: present
+      ignore_checksums: True
+
+
+  - name: add musescore to start menu 
+    win_shortcut: 
+      src:  'C:\Program Files (x86)\MuseScore 2\bin\MuseScore.exe'
+      dest: 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Musescore 2.lnk' 
+      icon: 'C:\Program Files (x86)\MuseScore 2\bin\MuseScore.exe,0'
+
+

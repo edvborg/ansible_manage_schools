@@ -1,0 +1,39 @@
+###
+###
+###
+
+[windowspcs:children]
+winpcs-konf
+winpcs-test
+winpcs-lehrer
+winpcs-bib
+winpcs-laptops
+
+
+
+[winpcs-konf]
+O1-29-PC01
+O1-29-PC02
+
+[winpcs-test]
+#O2-10-PCT1
+O2-10-PCV5
+O2-10-PCV7
+O2-10-VMT3
+O2-10-VMT4
+Win7-64-Master
+O2-10-PCT3
+
+[winpcs-lehrer]
+O1-33-PC01 # Sprechzimmer
+O2-06-PC01 # Kustodiat BU
+O2-07-PC01 # Saal BU
+O2-24-PC01 # Musikgym Koordinator
+
+[winpcs-bib]
+O1-01-PC01   ## Bibliothekar
+O1-01-PC02
+
+[winpcs-laptops]
+#O2-10-LP11   ## 
+O2-10-LP06

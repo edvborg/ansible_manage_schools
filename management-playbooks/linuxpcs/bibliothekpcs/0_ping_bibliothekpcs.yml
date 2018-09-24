@@ -1,0 +1,8 @@
+---
+- hosts: bibliothekpcs
+  gather_facts: False
+  
+  tasks:
+  - name: Alle Linux-PCs in der Bibliothek anpingen
+    ping:
+

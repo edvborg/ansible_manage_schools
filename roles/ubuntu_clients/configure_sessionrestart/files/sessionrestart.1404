@@ -1,0 +1,9 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+50  8 * * * root /usr/sbin/service lightdm restart
+45  9 * * * root /usr/sbin/service lightdm restart
+40  10 * * * root /usr/sbin/service lightdm restart
+45  11 * * * root /usr/sbin/service lightdm restart
+40  12 * * * root /usr/sbin/service lightdm restart
+35  13 * * * root /usr/sbin/service lightdm restart

@@ -1,0 +1,42 @@
+---
+
+- name: install libqt5scripttools5
+  apt: 
+    name: libqt5scripttools5
+    state: present
+    
+- name: create remote install dir 
+  file: path=/root/PT  state=directory
+
+
+- name: get tar archive from http_repo
+  get_url: url="{{ http_filerepo_url }}/PacketTracer71_64bit_linux.tar.gz"  dest=/root/PT/
+
+
+- name: untar archive
+  unarchive:
+    remote_src: yes     
+    src: /root/PT/PacketTracer71_64bit_linux.tar.gz
+    dest: /root/PT
+
+
+- name: copy installscript to remote host
+  copy: 
+    src: install.modified
+    dest: /root/PT/install.modified
+    owner: root
+    mode: 0700
+
+- name: run install script
+  shell:
+    cmd: ./install.modified
+    chdir: /root/PT/ 
+  
+- name: modify startup script
+  lineinfile:
+    dest: /opt/pt/packettracer
+    state: absent
+    backup: yes
+    regexp: "export.*LD_LIBRARY_PATH"
+  
+

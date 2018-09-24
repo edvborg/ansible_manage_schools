@@ -1,0 +1,94 @@
+---
+
+###############################
+
+- name: ensure lightdm.conf
+  copy: src=lightdm.conf dest=/etc/lightdm/lightdm.conf force=no
+
+- name: configure autologin | allow-guest
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    state: present
+    line: "allow-guest=true"
+    regexp: 'allow-guest'
+    insertafter: '^user-session'
+  notify: reload lightdm
+
+- name: configure autologin | autologin-guest 1
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    state: present
+    line: "autologin-guest=true"
+    regexp: 'autologin-guest'
+    insertafter: '^user-session'
+  notify: reload lightdm
+
+- name: configure autologin | autologin-guest 2 
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    state: present
+    line: "autologin-user-timeout=0"
+    regexp: 'autologin-user-timeout'
+    insertafter: '^user-session'
+  notify: reload lightdm
+
+- name: configure autologin | autologin-guest 3 
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    state: present
+    line: "autologin-session=lightdm-autologin"
+    regexp: 'autologin-session'
+    insertafter: '^user-session'
+  notify: reload lightdm
+
+- name: configure autologin | autologin-guest 4 
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    state: absent
+    regexp: 'autologin-user='
+  notify: reload lightdm
+
+- name: configure autologin | autologin-guest 5
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    line: "greeter-hide-users=true"
+    regexp: 'greeter-hide-users'
+  notify: reload lightdm
+
+- name: configure autologin | autologin-guest 6 
+  lineinfile:
+    dest: /etc/lightdm/lightdm.conf
+    state: absent
+    regexp: 'greeter-show-manual-login='
+  notify: reload lightdm
+
+- name: Installation von gnome-fallback sicherstellen
+  apt: 
+    name: gnome-session-flashback 
+    state: present
+  when: ansible_distribution_version == "14.04"
+
+- name: configure session
+  lineinfile: 
+    dest: /etc/lightdm/lightdm.conf
+    state: present
+    backup: yes
+    regexp: 'user-session='
+    line: "user-session=gnome-fallback"
+  notify: reload lightdm
+  when: ansible_distribution_version == "14.04"
+
+
+- name: configure session
+  lineinfile: 
+    dest: /etc/lightdm/lightdm.conf
+    state: present
+    backup: yes
+    regexp: 'user-session='
+    line: "user-session=ubuntu"
+  notify: reload lightdm
+  when: ansible_distribution_version == "16.04"
+
+
+
+

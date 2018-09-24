@@ -1,0 +1,20 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: grab packettracer installation file
+    win_get_url:
+      url: http://wiki.borg-ibk.local/files/Packet%20Tracer%207.2%20for%20Windows%2064%20bit.zip
+      dest: C:\PacketTracer.zip
+      
+     
+  - name: unzip packettracer zipfile
+    win_unzip:
+      src: C:\PacketTracer.zip
+      dest: C:\ToDo\PacketTracer
+  
+  - name: show info
+    debug: msg="Muss per Hand installiert werden!!" 
+      
+
+  

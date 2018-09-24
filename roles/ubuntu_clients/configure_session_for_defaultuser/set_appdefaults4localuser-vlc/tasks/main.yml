@@ -1,0 +1,31 @@
+---
+
+- name: print username for which config is done 
+  debug:
+    var: "{{ localuser }}"
+    
+- name: ensure config folder 
+  file: path="/home2/{{ localuser }}/.config" state=directory owner={{ localuser }} mode=0700
+
+### configure vlc privacy 
+
+- name: ensure vlc config folder 
+  file: path=/home2/{{ localuser }}/.config/vlc state=directory owner={{ localuser }} mode=0700
+
+- name: copy vlcrc to vlc config folder
+  copy: src=vlcrc dest=/home2/{{ localuser }}/.config/vlc/vlcrc
+
+- name: configure
+  lineinfile:
+    dest: /home2/{{ localuser }}/.config/vlc/vlcrc
+    state: present
+    line: "metadata-network-access=0"
+    regexp: 'metadata-network-access'
+
+### mime Associations Video -> VLC
+
+- name: copy mime configuration file to remote machine
+  copy: src=mimeapps.list dest=/home2/{{ localuser }}/.config/mimeapps.list owner={{ localuser }} mode=0600
+  
+  
+    

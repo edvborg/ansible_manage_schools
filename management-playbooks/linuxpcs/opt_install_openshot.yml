@@ -1,0 +1,10 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: install open shot video editor
+    apt:
+      name: openshot
+      state: present
+  
+

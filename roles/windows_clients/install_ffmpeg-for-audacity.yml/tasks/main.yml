@@ -1,0 +1,25 @@
+---
+    
+- name: get ffmpeg zip file to localhost 
+  get_url: 
+    url: "{{ http_filerepo_url }}/ffmpeg-win-2.2.2.zip"
+    dest: /tmp/ffmpeg-win-2.2.2.zip
+  delegate_to: localhost
+
+    
+- name: copy ffmpeg zip file to remote host
+  win_copy:
+    src: /tmp/ffmpeg-win-2.2.2.zip
+    dest: C:\ffmpeg-win-2.2.2.zip
+
+
+- name: Unzip ffmpeg zip
+  win_unzip:
+    src: C:\ffmpeg-win-2.2.2.zip
+    dest: C:\Program Files (x86)\ffmpeg-2.2.2\
+
+- name: copy cfg-file to remote host
+  win_copy:
+    src:   audacity.cfg
+    dest: 'C:\Users\Default\AppData\Roaming\audacity\'
+    

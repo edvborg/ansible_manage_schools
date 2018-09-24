@@ -1,0 +1,11 @@
+{
+    "include_nodisplay": false,
+    "menu_icons": true,
+    "menus": [
+        "gnome-applications.menu"
+    ],
+    "my_icon": "/opt/classicmenu-indicator/classicmenu-indicator.png",
+    "use_all_apps_menu": true,
+    "use_extra_menus": false,
+    "use_tooltips": false
+}

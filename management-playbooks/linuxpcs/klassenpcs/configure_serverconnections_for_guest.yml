@@ -1,0 +1,10 @@
+---
+- hosts: klassenpcs
+  
+  vars:
+    iconposition_x: 1100
+    localuser: guest-prefs
+    
+  roles:
+  - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
+

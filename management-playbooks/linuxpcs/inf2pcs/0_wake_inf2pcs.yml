@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  gather_facts: False
+
+  vars: 
+    group: "{{ groups['inf2pcs'] }}"
+  
+  tasks:
+  - name: Alle Informatik-PCs im Saal 2 aufwecken
+    local_action: command /usr/local/bin/wake_with_foginfo.sh "{{ item }}"
+    with_items: "{{ group }}"
+

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=Logisim
+Comment=Simulation von logischen Schaltungen
+Icon=/opt/logisim/logisim.png
+Exec=/usr/bin/java -jar /opt/logisim/logisim.jar
+Terminal=false
+StartupNotify=true
+Categories=Education;Application;

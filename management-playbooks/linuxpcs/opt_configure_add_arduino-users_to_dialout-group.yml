@@ -1,0 +1,30 @@
+---
+- hosts: linuxpcs
+  
+  vars:
+    userlist:
+    - r.ladinig
+    - j.haigner
+    - i.borozan
+    - j.huemer
+    - r.kamar
+    - j.draxl
+    - h.kal
+    - m.resch
+    - e.prader
+    - m.froehlich
+    - e.gueler
+      
+  tasks:
+  - name: add users to dialout group
+    user:
+      name: "{{ item }}"
+      groups: dialout
+    with_items: "{{ userlist }}"
+    
+  - name: check dialout group
+    shell: getent group dialout
+    register: output
+    
+  - name: show output from getent group dialout
+    debug: var=output.stdout_lines[0]  

@@ -1,0 +1,10 @@
+---
+- hosts: inf3pcs
+
+  tasks:
+  - name: cleanup link
+    win_file:
+      path: 'C:\ProgramData\Desktop\Testung_mit_Chrome_starten.lnk'
+      state: absent
+      
+

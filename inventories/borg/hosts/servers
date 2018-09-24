@@ -1,0 +1,22 @@
+###################
+################### SERVER
+###################
+
+[installservers]
+laus
+
+[dhcpservers]
+boss
+
+[radiusservers]
+radius
+radius2 
+radius3
+
+[webservers]
+intranet
+www
+
+[wikiservers]
+wiki
+

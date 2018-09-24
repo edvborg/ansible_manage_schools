@@ -1,0 +1,26 @@
+---
+
+- name: download xephem package 64 bit
+  get_url: 
+    url: http://e2rd.piekielko.pl/debian/binary-amd64/xephem_3.7.7-2_amd64.deb 
+    dest: /tmp/xephem_3.7.7-2_amd64.deb mode=0740
+  when ansible_architecture == "x86_64" 
+
+- name: install xephem 64 bit
+  apt:
+    deb: /tmp/xephem_3.7.7-2_amd64.deb
+    state: installed
+  when ansible_architecture == "x86_64"
+
+- name: download xephem package 32 bit
+  get_url: 
+    url:  http://e2rd.piekielko.pl/debian/binary-i386/xephem_3.7.7-2_i386.deb
+    dest: /tmp/xephem_3.7.7-2_i386.deb mode=0740
+  when ansible_architecture == "i386" 
+
+- name: install xephem 64 bit
+  apt:
+    deb: /tmp/xephem_3.7.7-2_i386.deb
+    state: installed
+  when ansible_architecture == "i386"
+

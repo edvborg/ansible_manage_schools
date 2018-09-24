@@ -1,0 +1,35 @@
+<monitors version="1">
+  <configuration>
+      <clone>yes</clone>
+      <output name="HDMI-0">
+      </output>
+      <output name="DVI-0">
+          <vendor>ACR</vendor>
+          <product>0x0783</product>
+          <serial>0x84802f03</serial>
+          <width>1280</width>
+          <height>1024</height>
+          <rate>60</rate>
+          <x>0</x>
+          <y>0</y>
+          <rotation>normal</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>yes</primary>
+      </output>
+      <output name="VGA-0">
+          <vendor>BNQ</vendor>
+          <product>0x9301</product>
+          <serial>0x0000011f</serial>
+          <width>1280</width>
+          <height>1024</height>
+          <rate>60</rate>
+          <x>1280</x>
+          <y>0</y>
+          <rotation>normal</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>no</primary>
+      </output>
+  </configuration>
+</monitors>

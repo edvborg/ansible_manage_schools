@@ -1,0 +1,107 @@
+---
+
+- name: ensure apt-transport-https
+  apt: name=apt-transport-https state=latest
+
+####################################### DVDCSS #########################
+
+- name: make debconf noninteractive
+  shell: echo  debconf debconf/frontend select noninteractive | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 1
+  shell: echo  libdvd-pkg libdvd-pkg/build boolean true | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 2
+  shell: echo  libdvd-pkg libdvd-pkg/first-install note  | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 3
+  shell: echo  libdvd-pkg libdvd-pkg/post-invoke_hook-remove boolean false | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 4
+  shell: echo  libdvd-pkg libdvd-pkg/post-invoke_hook-install boolean true | debconf-set-selections
+   
+- name: preseed debconf for libdvd-pkg 5
+  shell: echo  libdvd-pkg libdvd-pkg/upgrade note | debconf-set-selections
+    
+- name: install libdvd-pkg
+  apt: name=libdvd-pkg
+    
+- name: reconfigure libdvd-pkg
+  shell: dpkg-reconfigure -fnoninteractive libdvd-pkg
+
+################################### restricted software ####################
+
+######### mscorefonts
+
+- name: preseed ttf-mscorefonts 
+  shell: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+
+- name: install ttf-mscorefonts
+  apt: name=ttf-mscorefonts-installer
+
+- name: reconfigure ttf-mscorefonts-installer
+  shell: dpkg-reconfigure -fnoninteractive ttf-mscorefonts-installer
+
+######### 
+
+- name: preseed postfix
+  shell: echo  echo postfix postfix/main_mailer_type select "No configuration" | debconf-set-selections
+
+######### 
+
+- name: install ubuntu-restricted-extras
+  apt: name=ubuntu-restricted-extras
+  when: ansible_distribution_version == "16.04"
+
+##################################### Opera ########################################
+
+   
+- name: add key  for repo
+  apt_key:  
+    url: http://deb.opera.com/archive.key
+    state: present
+
+- name: add repository for opera
+  apt_repository:
+    repo: deb https://deb.opera.com/opera-stable stable non-free
+    filename: deb_opera_com_opera
+    state: present
+
+- name: install opera
+  apt: name=opera-stable update_cache=yes
+
+
+#################################### Sun Java ###########################################
+  
+- name: add key  for repo java
+  shell: apt-key adv --keyserver keys.gnupg.net --recv-keys 0xE18CE6625CB26B26
+
+- name: add repository for sun java 
+  apt_repository:
+    repo: deb http://www.duinsoft.nl/pkg debs all 
+    state: present
+   
+- name: install sun java
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+  - update-sun-jre
+  - unixodbc
+
+######################### ardour rosegarden with jack configuration #####################
+
+- name: preseed debconf for jackd
+  shell: echo jackd2 jackd/tweak_rt_limits boolean	false | debconf-set-selections
+
+- name: install ardour, rosegarden
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+  - ardour
+  - rosegarden
+
+- name: reconfigure jackd
+  shell: dpkg-reconfigure -fnoninteractive jackd2
+
+
+
+
+

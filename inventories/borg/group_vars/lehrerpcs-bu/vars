@@ -1,0 +1,4 @@
+fach: "bu"
+fach_langbezeichnung: "Biologie und Umweltkunde"
+smbpassword: "{{ vaulted_smbpassword_bu }}"
+

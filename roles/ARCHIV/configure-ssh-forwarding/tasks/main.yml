@@ -1,0 +1,11 @@
+---
+
+- name: Configure SSH Forwarding
+  lineinfile:
+    dest: /root/.ssh/config
+    egexp: "^ForwardAgent"
+    line: "ForwardAgent yes"
+    insertbefore: BOF
+    state: present
+    create: yes
+    mode: 0600

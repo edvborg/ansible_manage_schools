@@ -1,0 +1,3 @@
+fach: "inf"
+fach_langbezeichnung: "Informatik"
+smbpassword: "{{ vaulted_smbpassword_inf }}"

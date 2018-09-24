@@ -1,0 +1,141 @@
+---
+
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
+
+
+##
+## alle notwendigen Pakete installieren
+##
+
+
+## configuration | number of file decriptors
+
+- name: configure number of file decriptors and ipv4 settings
+  blockinfile:
+    dest: /etc/sysctl.conf
+    block: |
+      net.ipv4.tcp_keepalive_time = 300
+      net.ipv4.ip_local_port_range = 1024 65000
+      fs.file-max = 64000
+    insertafter: EOF
+    state: present
+    mode: 0644
+
+## configuration | number of open files
+
+- name: configure number of open files
+  blockinfile:
+    dest: /etc/security/limits.conf
+    block: |
+      *               soft     nofile          8192
+      *               hard     nofile          8192
+    insertafter: EOF
+    state: present
+    mode: 0644
+
+### Control Server Tuning
+#[root@ldap2 ~]# dsktune
+#389 Directory Server system tuning analysis version 23-FEBRUARY-2012.
+#
+#
+#NOTICE : System is x86_64-unknown-linux3.10.0-327.18.2.el7.x86_64 (1 processor).
+#
+#NOTICE : The net.ipv4.tcp_keepalive_time is set to 7200000 milliseconds
+#(120 minutes).  This may cause temporary server congestion from lost
+#client connections.
+
+
+## dreate user and group for running dir server
+#
+
+- name: create group for dir server
+  group: 
+    name: "{{ dir_server_group }}"
+    system: yes
+    state: present
+    
+- name: create user for dir server
+  user: 
+    name: "{{ dir_server_user }}"
+    system: yes
+    state: present  
+    group: "{{ dir_server_group }}"
+
+
+## installation of packages
+#
+
+- name: epel repo hinzufügen
+  yum:
+    name: epel-release
+ 
+
+- name: GUI installieren (für LDAP_Konsole)
+  command: yum -y group install "Server mit GUI"
+  register: yumstatus
+  failed_when: yumstatus.rc != 0
+
+
+- name: Install the required  packages for ldapserver
+  yum: name={{ item }} state=installed
+  with_items: "{{ ldapserver_pkgs }}"
+  when: ansible_os_family == 'RedHat'
+
+##
+## DNS muss vor der Installation korrekt funktionieren!
+##
+
+#- name: register hostname in DNS
+  
+##
+##
+##
+
+- name: create config file  
+  template: 
+    src: ldapconfig.j2
+    dest: /root/ldapconfig.inf
+    backup: yes
+    force: yes
+    
+#- name: silent configuration with configuration file
+#  command: setup-ds-admin.pl -s -f /root/ldapconfig.inf
+  
+  
+### Firewall konfigurieren
+# 
+
+- name: Firewall für LDAP Anfragen öffnen
+  command: firewall-cmd --zone=public --permanent --add-service=ldap 
+  
+- name: Firewall für LDAPS Anfragen öffnen
+  command: firewall-cmd --zone=public --permanent --add-service=ldaps   
+
+- name: Firewall neu laden
+  command: firewall-cmd --reload
+
+
+### configure packages for graphical administration
+
+- name: install xfce
+  command: yum groupinstall Xfce
+  
+- name: install x2go
+  yum:
+    name: x2goserver
+    state: installed  
+
+
+###
+#
+# test with:
+# ldapsearch -x -b "dc=unixmen,dc=local"
+#
+# systemctl enable dirsrv.target
+# systemctl enable dirsrv-admin
+#
+# systemctl start dirsrv.target
+# systemctl stop dirsrv.target
+# etc.
+  

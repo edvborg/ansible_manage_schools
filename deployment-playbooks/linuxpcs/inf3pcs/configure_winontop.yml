@@ -1,0 +1,8 @@
+---
+- hosts: inf3pcs inf2pcs O2-10-PCT2
+  
+  roles:
+    - ubuntu_clients/configure_winontop
+    - ubuntu_clients/configure_defaults4users/set_launcher_defaults_inf3
+    
+    

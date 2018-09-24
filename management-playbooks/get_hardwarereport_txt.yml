@@ -1,0 +1,13 @@
+---
+  
+- hosts: "{{ group }}"
+  gather_facts: True
+  
+
+  vars:
+    groupname: "{{ group }}"
+    reporttype: txt
+    reportdir: borg_hardwarereports
+    
+  roles:
+  - get_hardwarereport

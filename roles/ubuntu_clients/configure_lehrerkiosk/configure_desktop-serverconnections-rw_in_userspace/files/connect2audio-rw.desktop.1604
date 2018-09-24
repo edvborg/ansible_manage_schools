@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Audiosammlung bearbeiten
+Comment=Audiodateien auf den Audio-Server hochladen
+Exec=/usr/local/bin/connect2audio-rw.sh
+Type=Application
+#Icon=gnome-fs-network
+Icon=/usr/share/icons/gnome/48x48/mimetypes/audio-x-generic.png
+Categories=GTK;GNOME;Application;Utility;
+

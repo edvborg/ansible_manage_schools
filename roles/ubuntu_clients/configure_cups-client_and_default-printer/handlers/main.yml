@@ -1,0 +1,10 @@
+--- 
+
+- name: restart cups
+  service: name=cups state=restarted
+
+
+- name: restart cups-browsed
+  command: systemctl restart cups-browsed
+
+

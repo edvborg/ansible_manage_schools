@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Materialsammlung bearbeiten
+Comment=Materialien auf den Server hochladen
+Exec=/usr/local/bin/connect2material-rw.sh
+Type=Application
+Icon=/usr/share/icons/gnome/48x48/mimetypes/spreadsheet.png
+Categories=GTK;GNOME;Application;Utility;
+

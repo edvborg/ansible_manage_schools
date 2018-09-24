@@ -1,0 +1,62 @@
+--- 
+
+########################## Benutzer konfigurieren ##################################
+
+### create directory for local accounts
+
+- name: create home2  
+  file: path=/home2 state=directory mode=0755 owner=root
+
+
+### Benutzer konfigurieren -> lokales Administratorkonto einrichten
+- name: Benutzerkonto admin einrichten
+  user: 
+    name: admin
+    comment: admin 
+    groups: sudo 
+    home: /home2/admin
+    password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
+
+
+### Benutzer konfigurieren -> Konto für Gastkonfiguration einrichten
+- name: Benutzerkonto guest-prefs einrichten
+  user: 
+    name: guest-prefs
+    uid: 1011
+    comment: Gastkonfiguration 
+    home: /home2/guest-prefs
+    password: $6$GMCIzpJPZ$c9lcNa8MMPto8m.X61fCcIX2hg4E.nAsqqDR3/NesLCRtqlEOHBQUlp/bsTXsS.5WGI44wBvSfOXKvAvvoN0m0
+
+
+### Benutzer konfigurieren -> guest-session und guest-prefs verlinken
+
+- name: create directory guest-session
+  file: path=/etc/guest-session state=directory mode=0755 owner=root
+
+
+- name: create link from /home2/guest-prefs to guest-session  
+  file: src=/home2/guest-prefs dest=/etc/guest-session/skel state=link
+
+
+### copy small scripts for changing autologin/noautologin
+
+- name: copy lightdmconfiguration files to remote host
+  copy: src=lightdm.conf.autologin dest=/etc/lightdm/lightdm.conf.autologin owner=root mode=0644
+
+- name: copy lightdmconfiguration files to remote host
+  copy: src=lightdm.conf.noautologin dest=/etc/lightdm/lightdm.conf.noautologin owner=root mode=0644
+
+- name: copy lightdmconfiguration files to remote host
+  copy: src=change-to-autologin.sh dest=/root/change-to-autologin.sh owner=root mode=0700
+
+- name: copy lightdmconfiguration files to remote host
+  copy: src=change-to-noautologin.sh dest=/root/change-to-noautologin.sh owner=root mode=0700
+
+
+
+
+
+
+
+
+  

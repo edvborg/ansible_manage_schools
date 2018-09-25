@@ -1,17 +1,23 @@
 ---
-- hosts: klassenpcs
+- hosts: O2-02-PC01,O2-03-PC01
 
   pre_tasks:
-  - name: create dir for this klassenpc
+  - name: create dir for monitorfiles on ansible host
+    file:
+      path: monitorfiles/
+      mode: 0755
+      state: directory
+  
+  - name: create dir for this pc
     file:
       path: monitorfiles/{{ inventory_hostname }}
       mode: 0755
       state: directory
-  
+      
   tasks:  
-  - name: get monitors.xml of guest account and save to ansible
+  - name: get monitors.xml of default user account and save to ansible
     fetch:
-      src: /etc/guest-session/skel/.config/monitors.xml
+      src: "/home2/{{ fach }}-user/.config/monitors.xml"
       dest: monitorfiles/{{ inventory_hostname }}/
       flat: yes
 

@@ -1,18 +1,18 @@
 ---
-- hosts: klassenpcs 192.168.100.63
+- hosts: O2-02-PC01,O2-03-PC01
 
   tasks:
-  - name: create dir for this klassenpc
+  - name: ensure config dir for default user
     file:
-      path: /etc/guest-session/skel/.config
+      path: "/home2/{{ fach }}-user/.config/"
       mode: 0700
       state: directory
-      owner: guest-prefs
+      owner: "{{ fach }}-user"
     
   - name: copy monitors.xml from ansible to guest account 
     copy:
       src: monitorfiles/{{ inventory_hostname }}/monitors.xml
-      dest: /etc/guest-session/skel/.config/monitors.xml
-      owner: guest-prefs
+      dest: "/home2/{{ fach }}-user/.config/monitors.xml"
+      owner: "{{ fach }}-user"
       mode: 0664
 

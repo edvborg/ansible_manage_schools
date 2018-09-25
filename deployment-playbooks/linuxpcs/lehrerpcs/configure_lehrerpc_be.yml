@@ -10,7 +10,15 @@
   - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser
   - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
   
-  
+  tasks:
+  - name: copy links to private dirs to remote desktop
+    copy:  
+      src: private_Lehrerordner-be
+      dest: "/home2/{{ fach }}-user/Schreibtisch/"
+      owner: "{{ fach }}-user"
+      mode: preserve
+
+
   post_tasks:
   - name: restart lightdm
     service:

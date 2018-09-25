@@ -1,5 +1,5 @@
 ---
-- hosts: lehrerpcs-me O2-10-PCT2
+- hosts: lehrerpcs-me
 
   roles:
   - ubuntu_clients/configure_lehrerkiosk/configure_create_localuser

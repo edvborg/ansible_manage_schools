@@ -1,0 +1,28 @@
+---
+- hosts: O2-10-PCT2
+
+  vars: 
+    username: admin
+
+  pre_tasks:
+  - name: create dir for remote profile
+    file:
+      path: "firefox-profile/defaultprofile"
+      mode: 0755
+      state: directory
+    delegate_to: localhost
+
+
+  - name: create archive of profile on remote machine
+    archive:
+      path: /home2/{{ username }}/.mozilla/firefox
+      dest: /tmp/firefox-profile.tgz
+  
+  tasks:  
+  - name: get profile from guest-prefs account and save to ansible
+    fetch:
+      src: /tmp/firefox-profile.tgz
+      dest: "firefox-profile/defaultprofile/firefox-profile.tgz"
+      flat: yes
+
+

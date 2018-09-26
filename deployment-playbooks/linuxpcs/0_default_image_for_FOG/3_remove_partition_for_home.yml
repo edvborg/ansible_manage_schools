@@ -1,0 +1,32 @@
+---
+- hosts: O2-10-PCT1 
+  
+  vars:
+    hd_device: /dev/sda
+    ##   /dev/nvme0n1
+  
+  pre_tasks:
+  - name: parted installieren
+    apt:
+      name: parted 
+      state: latest
+  
+  - name: umount /home 
+    mount:
+      path: /home
+      state: unmounted
+  
+  - name: remove partition 3
+    parted:
+      device: {{ hd_device }}
+      number: 3
+      state: absent
+
+  - name: fstab | delete entry for /home 
+    lineinfile:
+      path: /etc/fstab
+      regexp: 'UUID=[a-z0-9-]*[ \t]*(/home[ \t]+[a-z0-9- \t]*)'
+      state: absent
+      backup: yes
+
+

@@ -1,5 +1,0 @@
----
-- hosts: linuxpcs
-
-- import_playbook: 2.1_install_software_default-client.yml
-- import_playbook: 2.2_configure_default-client.yml

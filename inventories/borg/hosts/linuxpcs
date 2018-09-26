@@ -100,7 +100,7 @@ inf-3-[01:15]
 inf-3-le
 O2-10-PC02
 
-### Bibliothek 
+# Bibliothek 
 
 [bibliothekpcs]
 O1-01-PC[11:18]
@@ -145,7 +145,7 @@ O2-31-PC01
 O2-32-PC0
 
 
-### Konferenzzimmer
+# Konferenzzimmer
 
 [lehrerpcs-konf]
 O1-29-PC03

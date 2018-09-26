@@ -1,0 +1,30 @@
+---
+- hosts: klassenpcs  
+    
+  tasks:
+  - name: create dir for firefox profile
+    file:
+      path: /home2/guest-prefs/.mozilla
+      mode: 0700
+      state: directory
+      owner: guest-prefs
+    
+  - name: delete old firefox profile
+    file:
+      path: /home2/guest-prefs/.mozilla/firefox
+      state: absent
+      
+
+  - name: unarchive firefox profile to remote guest directory
+    unarchive:
+      src: firefox-profile/defaultprofile/firefox-profile.tgz 
+      dest: /home2/guest-prefs/.mozilla/
+      owner: guest-prefs
+      
+  - name: set ownership
+    file:
+      path: /home2/guest-prefs/.mozilla
+      owner: guest-prefs
+      group: guest-prefs
+      recurse: yes
+      

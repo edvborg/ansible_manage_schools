@@ -1,0 +1,30 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  
+  - name: grab osot zip file
+    win_get_url:
+      url: http://wiki.borg-ibk.local/files/VMwareOSOptimizationTool.zip
+      dest: C:\VMwareOSOptimizationTool.zip
+  
+
+  - name: Unzip osot zip file
+    win_unzip:
+      src: C:\VMwareOSOptimizationTool.zip
+      dest: C:\ToDo\VMwareOSOptimizationTool
+      delete_archive: yes
+      
+
+  - name: show info
+    debug: msg="Muss per Hand konfiguriert werden!!" 
+      
+
+
+
+ 
+
+
+
+
+

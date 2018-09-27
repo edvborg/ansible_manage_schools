@@ -12,7 +12,8 @@
     win_unzip:
       src: C:\PacketTracer.zip
       dest: C:\ToDo\PacketTracer
-  
+      delete_archive: yes
+            
   - name: show info
     debug: msg="Muss per Hand installiert werden!!" 
       

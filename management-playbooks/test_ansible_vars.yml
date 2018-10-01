@@ -34,6 +34,6 @@
 
   - name: show first partitions
     debug: 
-      #var: ansible_mounts[0]['device'] 
-      var: ansible_devices.keys()
+      var: ansible_mounts[0]['device'] 
+      #var: ansible_devices.keys()
 

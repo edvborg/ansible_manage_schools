@@ -152,8 +152,8 @@ VBoxManage --nologo modifyvm $MACHINE_NAME --natnet1 192.168.254.0/24
 VBoxManage --nologo modifyvm $MACHINE_NAME --audio pulse --audiocontroller hda
 VBoxManage --nologo modifyvm $MACHINE_NAME --audiocontroller hda
 # switch audio in/out on (needed since somwhere 5.2.??)
-VBoxManage --nologo modifyvm $MACHINE_NAME --audioin on
-VBoxManage --nologo modifyvm $MACHINE_NAME --audioout on
+#VBoxManage --nologo modifyvm $MACHINE_NAME --audioin on
+#VBoxManage --nologo modifyvm $MACHINE_NAME --audioout on
 # --boot<1-4> none|floppy|dvd|disk|net
 VBoxManage --nologo modifyvm $MACHINE_NAME --boot1 disk
 # Create storage adapters

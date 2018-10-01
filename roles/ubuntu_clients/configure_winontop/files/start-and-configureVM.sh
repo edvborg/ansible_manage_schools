@@ -160,9 +160,9 @@ VBoxManage --nologo modifyvm $MACHINE_NAME --boot1 disk
 # Create storage adapters
 echo "Create harddisk controller for virtual machine"
 # IDE
-VBoxManage --nologo storagectl $MACHINE_NAME --name IDE-Controller-$MACHINE_NAME --add ide --controller PIIX4 --hostiocache on
+# VBoxManage --nologo storagectl $MACHINE_NAME --name IDE-Controller-$MACHINE_NAME --add ide --controller PIIX4 --hostiocache on
 # SATA
-VBoxManage --nologo storagectl $MACHINE_NAME --name SATA-Controller-$MACHINE_NAME --add sata --controller IntelAHCI --portcount 1 --hostiocache off
+VBoxManage --nologo storagectl $MACHINE_NAME --name SATA-Controller-$MACHINE_NAME --add sata --controller IntelAHCI --portcount 2 --hostiocache off
 
 #echo "Link Machine VDI from Storage Directory to Work Directory"
 #ln -s $MACHINE_STORAGE_DIR/$MACHINE.vdi $MACHINE_WORK_DIR/$MACHINE/$MACHINE.vdi
@@ -171,6 +171,7 @@ echo "Attach Harddisk to Virtual Machine"
 #VBoxManage --nologo storageattach $MACHINE_NAME --storagectl SATA-Controller-$MACHINE_NAME --port 0 --device 0 --type hdd --medium $MACHINE_WORK_DIR/$MACHINE_NAME/$MACHINE_FILE --mtype immutable
 #VBoxManage --nologo storageattach $MACHINE_NAME --storagectl SATA-Controller-$MACHINE_NAME --port 0 --device 0 --type hdd --medium $MACHINE_PATH_AND_FILE --mtype immutable
 VBoxManage --nologo storageattach $MACHINE_NAME --storagectl SATA-Controller-$MACHINE_NAME --port 0 --device 0 --type hdd --medium $MACHINE_PATH_AND_FILE
+VBoxManage --nologo storageattach $MACHINE_NAME --storagectl SATA-Controller-$MACHINE_NAME --port 1 --device 0 --type dvddrive --medium "emptydrive"
 
 echo "Set Display Settings/Supress Notifications"
 VBoxManage setextradata global GUI/SuppressMessages confirmGoingFullscreen,confirmInputCapture,remindAboutAutoCapture,remindAboutWrongColorDepth,remindAboutMouseIntegration

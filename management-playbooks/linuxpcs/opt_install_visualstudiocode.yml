@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: download deb package
+    get_url: 
+      # url: https://code.visualstudio.com/docs/?dv=linux64_deb
+      url: http://wiki.borg-ibk.local/files/visualstudiocode_amd64.deb
+      dest: /root/visualstudiocode_amd64.deb
+ 
+  - name: install Visual Studio Code
+    apt:
+      deb: /root/visualstudiocode_amd64.deb
+      state: present
+
+ 
+

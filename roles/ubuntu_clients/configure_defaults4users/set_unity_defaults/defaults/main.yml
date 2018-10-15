@@ -2,45 +2,48 @@
 ##  
 ## dconf settings   
 ##
-num_of_workspaces: 1
+##
+## already defined in group_vars/linuxpcs
+##
+# num_of_workspaces: 1
 #
-desktopbackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"   
+##desktopbackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"   
 #
 #    desktopbackground: "file:///usr/share/backgrounds/clock_by_Bernhard_Hanakam.jpg"
 #    desktopbackground: "file:///usr/share/backgrounds/Flora_by_Marek_Koteluk.jpg"
 #    desktopbackground: "file:///usr/share/backgrounds/Cielo_estrellado_by_Eduardo_Diez_Viñuela.jpg"
 #    desktopbackground: "file:///usr/share/backgrounds/ubuntustudio/1604_ghostcolor.png"
 #
-volumes_visible: True				## eingebundene Datenträger am Desktop anzeigen
+# volumes_visible: True				## eingebundene Datenträger am Desktop anzeigen
 #
-sort_dirs_first: True
+# sort_dirs_first: True
 #
 # hardcoded: nautilus list view
 #
-screen_lock_enabled: False           	## screensaver enabled
+# screen_lock_enabled: False           	## screensaver enabled
 #
-screensaver_timeout: 600				## greift nicht wegen oben
+# screensaver_timeout: 600				## greift nicht wegen oben
 # 
-screen_timeout: 3000                 	## Abschalten Monitor
+# screen_timeout: 3000                 	## Abschalten Monitor
 #
-sleep_timeout: 3600
+# sleep_timeout: 3600
 #
-darken_display: False                 	## Monitor abdunkeln
+# darken_display: False                 	## Monitor abdunkeln
 #
-lock_on_suspend: False					## Passwort nach Bereitschaft
+# lock_on_suspend: False					## Passwort nach Bereitschaft
 #
-integrated_menus_enabled: True			## Menü im Fenster anzeigen
+# integrated_menus_enabled: True			## Menü im Fenster anzeigen
 #
-always_show_menus: True					## Menü nich ausblenden
+# always_show_menus: True					## Menü nich ausblenden
 #
-webapps_enabled: False					## Suche im Web (Amazon, Canonical) deaktivieren
+# webapps_enabled: False					## Suche im Web (Amazon, Canonical) deaktivieren
 #
-launcher_icon_size: 40					
+# launcher_icon_size: 40					
 #
-show_name_in_panel: True				## funktioniert nicht !!
+# show_name_in_panel: True				## funktioniert nicht !!
 #
-show_home_trash_network_icons: False    ## home, trash, network am Desktop nicht anzeigen
+# show_home_trash_network_icons: False    ## home, trash, network am Desktop nicht anzeigen
 #
-power_button_shutdown: True				## Herunterfahren ohne Nachfrage
+# power_button_shutdown: True				## Herunterfahren ohne Nachfrage
 
 

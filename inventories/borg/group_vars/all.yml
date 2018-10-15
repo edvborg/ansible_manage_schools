@@ -50,6 +50,17 @@ tftpserver_dns_nameservers:
   - 192.168.200.200
 
 ##########################################################
+### Backups-Server
+
+backupserver_address: 192.168.200.225
+backupserver_netmask: 255.255.255.0
+backupserver_gateway: 192.168.200.254
+backupserver_dns_nameservers:
+  - 192.168.200.200
+
+
+
+##########################################################
 ### Radius-Server
 
 radiusserver_address: 192.168.200.203
@@ -64,15 +75,6 @@ radiusserver2_gateway: 192.168.200.254
 radiusserver2_dns_nameservers:
   - 192.168.200.200
 
-
-##########################################################
-### Wiki-Server
-
-wikiserver2_address: 192.168.200.217
-wikiserver2_netmask: 255.255.255.0
-wikiserver2_gateway: 192.168.200.254
-wikiserver2_dns_nameservers:
-  - 192.168.200.200
 
 
 ###############################################################################################################

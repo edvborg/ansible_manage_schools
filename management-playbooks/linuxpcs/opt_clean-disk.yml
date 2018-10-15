@@ -1,0 +1,28 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: freien Platz bestimmen | vorher
+    shell: df  /
+    register: result_vorher
+
+ 
+  
+  - name: apt-cache aufräumen
+    shell: apt-get clean
+
+  - name: freien Platz bestimmen 
+    shell: df  /
+    register: result
+
+  - name: freien Platz ausgeben | vorher
+    debug: 
+      msg: 
+      - "freier Platz vorher:"
+      - "{{ result_vorher.stdout_lines[0] }}"
+      - "{{ result_vorher.stdout_lines[1] }}" 
+      - "freier Platz nachher:"
+      - "{{ result.stdout_lines[1] }}"  
+      
+ 
+

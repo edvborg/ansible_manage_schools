@@ -23,12 +23,6 @@
 #power_button_shutdown: True
 
 
-    
-### set dconf defaults | create dirs
-
-### set number of workspaces
-### Var: num_of_workspaces: 1
-
 - name: remove old config
   file:
     path: /etc/dconf/db/site.d/15_site_setting_num-workspaces

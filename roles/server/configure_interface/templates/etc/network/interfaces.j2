@@ -7,8 +7,8 @@ iface lo inet loopback
 
 # The primary network interface
 {%       if configuration_method == "static" %}
-auto {{ ansible_interfaces[1] }}
-iface {{ ansible_interfaces[1] }} inet static
+auto {{ interface_name }}
+iface {{ interface_name }} inet static
 {%         if ip_address is defined and ip_address != None %}
   address {{ ip_address }}
 {%         endif %}
@@ -21,13 +21,13 @@ iface {{ ansible_interfaces[1] }} inet static
 {%       endif %}
 
 {%       if configuration_method == "dhcp" %}
-auto {{ ansible_interfaces[1] }}
-iface {{ ansible_interfaces[1] }} inet dhcp
+auto {{ interface_name }}
+iface {{ interface_name }} inet dhcp
 {%       endif %}
 
 {% if ip_dns_nameservers is defined %}
 dns-nameservers {{ ip_dns_nameservers|join (' ') }}
 {% endif %}
-{% if dns_search is defined %}
-dns-search {{ dns_search }}
+{% if domain_name is defined %}
+dns-search {{ domain_name }}
 {% endif %}

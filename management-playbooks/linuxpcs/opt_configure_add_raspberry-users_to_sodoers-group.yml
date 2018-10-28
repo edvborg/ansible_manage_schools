@@ -1,0 +1,31 @@
+---
+- hosts: linuxpcs
+  
+  vars:
+    userlist:
+    - r.ladinig
+    - m.froehlich
+    - p.gogala
+    - t.haslwanter
+    - h.gratl
+    - j.knoflach
+    - j.koestlbacher
+    - l.kudlich
+    - t.oberhuber
+    - m.ploner
+    - d.rettenbacher
+    - pale
+      
+  tasks:
+  - name: add users to sudo group
+    user:
+      name: "{{ item }}"
+      groups: sudo
+    with_items: "{{ userlist }}"
+    
+  - name: check sudo group
+    shell: getent group sudo
+    register: output
+    
+  - name: show output from getent group sudo
+    debug: var=output.stdout_lines[0]  

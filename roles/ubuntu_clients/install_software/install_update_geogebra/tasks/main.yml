@@ -17,6 +17,7 @@
     state: present
     
 - name: add repository for geogebra
+  ## repo file: /etc/apt/sources.list.d/www_geogebra_net_linux.list
   apt_repository:
     repo: deb http://www.geogebra.net/linux/ stable main 
     filename: geogebra

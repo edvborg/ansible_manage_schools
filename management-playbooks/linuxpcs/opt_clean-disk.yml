@@ -6,7 +6,13 @@
     shell: df  /
     register: result_vorher
 
- 
+  - name: uninstall some debs
+    apt: name={{ item }} state=absent
+    with_items:
+    - texlive-base 
+
+  - name: remove debs with autoremove
+    shell: apt-get autoremove 
   
   - name: apt-cache aufräumen
     shell: apt-get clean

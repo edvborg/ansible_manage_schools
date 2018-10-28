@@ -1,0 +1,51 @@
+---
+- hosts: linuxpcs
+
+  tasks:  
+  - name: download fritzing archive
+    get_url: 
+      url: http://wiki.borg-ibk.local/files/fritzing.tar.bz2
+      dest: /root/fritzing.tar.bz2
+    
+      
+  - name: unarchive fritzing archive
+    unarchive:
+      src: /root/fritzing.tar.bz2
+      dest: /opt/
+      remote_src: yes
+
+  - name: find name of fritzing directory
+    find:
+      paths: /opt/
+      patterns: 'fritzing*'
+      file_type: directory
+    register: profilelist
+    
+  - name: find fritzing desktop file 
+    find:
+      paths: "{{ profilelist.files[0].path }}"
+      patterns: 'fritzing.desktop'
+      file_type: file
+      recurse: yes
+    register: desktopfile_list 
+    
+  - name: test 1
+    debug: var=profilelist.files[0].path
+  
+  - name: test 2
+    debug: var=desktopfile_list.files[0].path
+     
+  - name: copy desktop file to applications directory
+    copy:
+      src: "{{ desktopfile_list.files[0].path }}"
+      dest: /usr/share/applications     
+      remote_src: yes
+      
+  - name: correct exec path in desktop file     
+    lineinfile: line="Exec={{ profilelist.files[0].path }}/Fritzing" dest=/usr/share/applications/fritzing.desktop state=present regexp='Exec='
+ 
+  - name: correct exec path in desktop file     
+    lineinfile: line="Icon={{ profilelist.files[0].path }}/icons/fritzing_icon.png" dest=/usr/share/applications/fritzing.desktop state=present regexp='Icon='
+
+
+

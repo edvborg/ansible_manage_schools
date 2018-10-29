@@ -14,24 +14,6 @@
 
   roles:
   - ubuntu_clients/install_software/install_packages-ubuntu-repo
-#  - ubuntu_clients/install_software/install_packages-others	
-  - ubuntu_clients/install_software/install_update_geogebra  
-   ##
-#  - ubuntu_clients/configure_auto_hostname
-#  - ubuntu_clients/configure_defaults4machine/configure_default-user_and_guest-user
-#  - ubuntu_clients/configure_defaults4machine/configure_network_and_dns
-#  - ubuntu_clients/configure_defaults4machine/configure_ntp-client
-#  - ubuntu_clients/configure_defaults4machine/configure_smb-client
-#  - ubuntu_clients/configure_defaults4machine/disable_some_services
-#  - ubuntu_clients/configure_defaults4machine/remove_amazon_from_menu
-#  - ubuntu_clients/configure_defaults4machine/remove_packages_and_autoclean
-#  - ubuntu_clients/configure_defaults4users/set_unity_defaults
-#  - ubuntu_clients/configure_defaults4users/disable_user_services
-#  - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
-#  - ubuntu_clients/configure_defaults4users/set_firefox_startup-homepage
-#  - ubuntu_clients/configure_defaults4users/set_firefox_cachedir-in-tmp
-#  - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
-    # when: ansible_distribution_version == "16.04"
   
   tasks:
   - name: set distupgrade never

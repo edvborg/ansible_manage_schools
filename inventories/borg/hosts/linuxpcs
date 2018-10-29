@@ -126,7 +126,7 @@ O2-04-PC01
 
 [lehrerpcs-bu]
 O2-05-PC01
-inf-2-02
+
 
 
 [lehrerpcs-inf]
@@ -142,7 +142,7 @@ O2-22-PC01
 [lehrerpcs-ph]
 O2-30-PC01
 O2-31-PC01
-O2-32-PC0
+O2-32-PC01
 
 
 # Konferenzzimmer
@@ -178,6 +178,7 @@ O2-10-LP11   ##
 
 [testpcs]
 localhost
+O2-10-PCT3
 O2-10-PCT8
 
 

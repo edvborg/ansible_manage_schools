@@ -1,6 +1,9 @@
 ---
 - hosts: linuxpcs
   
+  vars:
+    shutdown_time: "10 18"
+
   roles:
   - ubuntu_clients/configure_autoshutdown
   

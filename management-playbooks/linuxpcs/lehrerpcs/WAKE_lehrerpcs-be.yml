@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  gather_facts: False
+
+  vars: 
+    group: "{{ groups['lehrerpcs-be'] }}"
+  
+  tasks:
+  - name: Alle Linux-PCs aufwecken
+    local_action: command /usr/local/bin/wake_with_foginfo.sh "{{ item }}"
+    with_items: "{{ group }}"
+

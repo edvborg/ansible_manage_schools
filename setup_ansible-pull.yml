@@ -1,20 +1,13 @@
 ---
 - hosts: localhost 
 
+  vars:
+    ansible_connection: local
+
   pre_tasks:
   - name: add localhost to hosts list
     add_host: name=localhost groups=linuxpcs
-         
-  tasks:     
-  - name: add cronjob for machine installation and configuration
-    lineinfile:
-      path: /etc/cron.d/ansible-pull-autoinstall
-      create: yes
-      regexp: "@reboot"
-      line: "@reboot root PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; sleep 30 && /usr/bin/ansible-pull -e 'roles_path=/var/lib/ansible/roles ansible_connection=local' -e @/var/lib/ansible/inventories/borg/group_vars/linuxpcs/vars.yml -U https://github.com/edvborg/ansible_manage_schools.git -d /var/lib/ansible/ pull-mode_install_klassenpc.yml >> /var/log/ansible.log 2>&1"
-    notify: reboot_machine
-        
-  handlers:     
-  - name: reboot_machine
-    shell: reboot
+
+
+- import_playbook: management-playbooks/linuxpcs/setup_ansible-pull.yml
 

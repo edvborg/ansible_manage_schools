@@ -1,9 +1,7 @@
 <monitors version="1">
   <configuration>
       <clone>yes</clone>
-      <output name="DP1">
-      </output>
-      <output name="HDMI1">
+      <output name="HDMI-0">
           <vendor>NEC</vendor>
           <product>0x79e5</product>
           <serial>0x00009cab</serial>
@@ -17,7 +15,9 @@
           <reflect_y>no</reflect_y>
           <primary>yes</primary>
       </output>
-      <output name="VGA1">
+      <output name="DVI-0">
+      </output>
+      <output name="VGA-0">
           <vendor>SAM</vendor>
           <product>0x09c4</product>
           <serial>0x30363636</serial>
@@ -31,16 +31,14 @@
           <reflect_y>no</reflect_y>
           <primary>no</primary>
       </output>
-      <output name="VIRTUAL1">
-      </output>
   </configuration>
   <configuration>
       <clone>no</clone>
-      <output name="DP1">
+      <output name="HDMI-0">
       </output>
-      <output name="HDMI1">
+      <output name="DVI-0">
       </output>
-      <output name="VGA1">
+      <output name="VGA-0">
           <vendor>SAM</vendor>
           <product>0x09c4</product>
           <serial>0x30363636</serial>
@@ -53,8 +51,6 @@
           <reflect_x>no</reflect_x>
           <reflect_y>no</reflect_y>
           <primary>yes</primary>
-      </output>
-      <output name="VIRTUAL1">
       </output>
   </configuration>
 </monitors>

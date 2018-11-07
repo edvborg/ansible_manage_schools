@@ -1,0 +1,25 @@
+--- 
+
+- hosts: linuxpcs
+
+  tasks:
+    
+  - name: create tmp dir in virtualmachines path
+    file: path=/virtualmachines/winontop/tmp state=directory mode=1777   
+    
+  - name: copy startVM script to client 
+    copy: 
+      src: /etc/ansible/roles/ubuntu_clients/configure_winontop/files/startVM.sh
+      dest: /virtualmachines/winontop/startVM.sh
+      mode: 0755
+      owner: root
+      group: root
+     
+    
+
+#  - name: rsync VDI file
+#    shell: "rsync -au /netzordner/{{ virtualbox_machines_dir }}/win10.vdi /virtualmachines/winontop/win10.vdi"
+#    become: yes
+#    become_user: admin
+
+

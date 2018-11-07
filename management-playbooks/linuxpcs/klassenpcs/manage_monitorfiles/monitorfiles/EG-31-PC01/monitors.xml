@@ -9,7 +9,7 @@
           <height>800</height>
           <rate>60</rate>
           <x>0</x>
-          <y>280</y>
+          <y>0</y>
           <rotation>normal</rotation>
           <reflect_x>no</reflect_x>
           <reflect_y>no</reflect_y>
@@ -19,10 +19,10 @@
           <vendor>SAM</vendor>
           <product>0x09c4</product>
           <serial>0x30363636</serial>
-          <width>1920</width>
-          <height>1080</height>
+          <width>1280</width>
+          <height>800</height>
           <rate>60</rate>
-          <x>1280</x>
+          <x>0</x>
           <y>0</y>
           <rotation>normal</rotation>
           <reflect_x>no</reflect_x>

@@ -2,8 +2,6 @@
   <configuration>
       <clone>yes</clone>
       <output name="HDMI-0">
-      </output>
-      <output name="DVI-0">
           <vendor>NEC</vendor>
           <product>0x79e5</product>
           <serial>0x00009ea5</serial>

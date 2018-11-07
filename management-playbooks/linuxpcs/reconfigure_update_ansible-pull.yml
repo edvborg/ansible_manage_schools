@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+
+         
+  tasks:     
+  - name: add cronjob for ansible update and calling ansible-pull
+    lineinfile:
+      path: /etc/cron.d/ansible-pull
+      create: yes
+      regexp: "@reboot"
+      line: '@reboot root PATH=/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; sleep 20 && /usr/bin/ansible-pull -U https://github.com/edvborg/ansible_manage_schools.git -d /var/lib/ansible/ update_ansible-pull.yml >> /var/log/ansible.log 2>&1 ;  /usr/bin/ansible-pull -U https://github.com/edvborg/ansible_manage_schools.git -d /var/lib/ansible/ setup_ansible-pull.yml >> /var/log/ansible.log 2>&1 '
+    notify: reboot_machine
+        
+  handlers:     
+  - name: reboot_machine
+    shell: reboot
+

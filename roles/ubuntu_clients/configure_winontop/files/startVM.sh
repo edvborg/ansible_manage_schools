@@ -44,7 +44,8 @@ MACHINE_FILE=$(basename $MACHINE_PATH_AND_FILE)
 
 MACHINE_NAME=${MACHINE_FILE%.vdi}
 
-MACHINE_WORK_DIR=/tmp/${USER}_vms
+# MACHINE_WORK_DIR=/tmp/${USER}_vms
+MACHINE_WORK_DIR=${MACHINE_PATH}/tmp/${USER}_vms
 
 echo "Looking for $MACHINE_FILE in $MACHINE_PATH to create machine $MACHINE_NAME"
 echo "Working directory for current running VM:  $MACHINE_WORK_DIR"
@@ -63,6 +64,8 @@ then
 	rm -R $MACHINE_WORK_DIR
 fi
 mkdir -p $MACHINE_WORK_DIR
+
+echo "Working directory for current running VM:  $MACHINE_WORK_DIR"
 
 # Directories for shares
 INF_LEHRER_DIR="/netzordner/inf-lehrer"
@@ -118,8 +121,9 @@ echo "Ram Size for VM: " $VM_RAM
 # Create virtual machine ################################################################
 #
 echo "Create virtual machine"
-VBoxManage --nologo createvm --name $MACHINE_NAME --register --basefolder $MACHINE_WORK_DIR
+VBoxManage --nologo createvm --name $MACHINE_NAME --register --basefolder $MACHINE_WORK_DIR 
 # OS
+#VBoxManage --nologo modifyvm $MACHINE_NAME --snapshotfolder $MACHINE_WORK_DIR/Snapshots
 VBoxManage --nologo modifyvm $MACHINE_NAME --ostype Windows10_64
 # CPU + GPU
 VBoxManage --nologo modifyvm $MACHINE_NAME --cpus 4

@@ -1,6 +1,6 @@
 ---
 
-- name: create logism directory
+- name: create logisim directory
   file:
     path: /opt/logisim
     state: directory
@@ -10,12 +10,12 @@
 - name: download logisim jar 
   get_url: 
     url: http://sourceforge.net/projects/circuit/files/latest/download
-    dest: /opt/logisim.jar
+    dest: /opt/logisim/logisim.jar
 
 - name: download logisim icon 
   get_url: 
     url: https://a.fsdn.com/allura/p/circuit/icon?1367254782?&w=90
-    dest: /opt/logisim.png
+    dest: /opt/logisim/logisim.png
     
  
 - name: Desktop file zum Client kopieren

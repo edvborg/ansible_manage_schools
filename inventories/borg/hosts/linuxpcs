@@ -98,7 +98,7 @@ inf-2-le
 [inf3pcs]
 inf-3-[01:15]
 inf-3-le
-
+O2-10-PCT4
 
 # Bibliothek 
 
@@ -178,6 +178,7 @@ O2-10-LP11   ##
 
 [testpcs]
 O2-10-PCT3
+O2-10-PCT4
 O2-10-PCT8
 
 

@@ -29,29 +29,28 @@
   when: ( ansible_distribution_version == "16.04")
 
 - name: Installation von Grafik-Software 18.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_graphics_1804 }}"
+  apt: name="{{ packages_list_graphics_1804 }}" state=present
   when: ( ansible_distribution_version == "18.04") 
 
 ################################
 
 - name: Installation von Netzwerk-Software 16.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_internet_1604 }}"
+  apt: name="{{ packages_list_internet_1604 }}" state=present
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
 
 - name: Installation von Netzwerk-Software
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_internet_1804 }}"
+  apt: name="{{ packages_list_internet_1804 }}" state=present
   when: ( ansible_distribution_version == "18.04") 
 
 ################################
 
 - name: Entfernen von pepperflash 18.04  16.04
-  apt: name={{ item }} state=absent purge=yes
-  with_items:
-    pepperflashplugin-nonfree
-    browser-plugin-freshplayer-pepperflash purge=yes
+  apt: 
+    name:
+    - pepperflashplugin-nonfree
+    - browser-plugin-freshplayer-pepperflash
+    state: absent 
+    purge: yes  
   when: (ansible_distribution_version == "16.04") or  ( ansible_distribution_version == "18.04")
 
 ################################
@@ -65,62 +64,52 @@
 ################################
 
 - name: Installation von Multimedia-Software 16.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_multimedia_1604 }}"
+  apt: name="{{ packages_list_multimedia_1604 }}" state=present
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
 
 - name: Installation von Multimedia-Software 18.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_multimedia_1804 }}"
+  apt: name="{{ packages_list_multimedia_1804 }}" state=present
   when: ( ansible_distribution_version == "18.04") 
   
 ################################
 
 - name: Installation von Office-Software 16.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_office_1604 }}"
+  apt: name="{{ packages_list_office_1604 }}" state=present
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
   
 - name: Installation von Office-Software 18.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_office_1804 }}"
+  apt: name="{{ packages_list_office_1804 }}" state=present
   when: ( ansible_distribution_version == "18.04") 
 
 ################################
 
 - name: Installation von Wissenschaft-Software 16.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_science_1604 }}"
+  apt: name="{{ packages_list_science_1604 }}" state=present
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
   
   
 - name: Installation von Wissenschaft-Software 18.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_science_1804 }}"
+  apt: name="{{ packages_list_science_1804 }}" state=present
   when: ansible_distribution_version == "18.04"
   
 ################################
 
 - name: Installation von Software für Softwareentwicklung 16.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_softwaredevelopment_1604 }}"
+  apt: name="{{ packages_list_softwaredevelopment_1604 }}" state=present
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
   
 - name: Installation von Software für Softwareentwicklung 18.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_softwaredevelopment_1804 }}"
+  apt: name="{{ packages_list_softwaredevelopment_1804 }}" state=present
   when: ansible_distribution_version == "18.04"
   
 ################################
 
 - name: Installation von weiterer Zubehör Software  16.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_tools_1604 }}"
+  apt: name="{{ packages_list_tools_1604 }}" state=present
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
     
 - name: Installation von weiterer Zubehör Software  18.04
-  apt: name={{ item }} state=present
-  with_items: "{{ packages_list_tools_1804 }}"
+  apt: name="{{ packages_list_tools_1804 }}" state=present
   when: ansible_distribution_version == "18.04"
   
 ################################  

@@ -1,5 +1,0 @@
----
-- hosts: konferenzzimmerpcs
-  
-  roles:
-   - clients/ubuntu/configure_konferenzzimmerpc-serverconnections

@@ -1,27 +1,69 @@
 --- 
 
-- name: create primary partition #3
-  shell: | 
-    fdisk /dev/sda &>/dev/null << EOFDELPART
-    n
-    p
-    3
+## find device name of hard disk
+
+- name: define name of hard disk | 1
+  set_fact: 
+    hd_device: "/dev/nvme0n1"
+    part3_device: "/dev/nvme0n1p3"
+  when: ansible_mounts[0]['device'].find('nvm')>-1 
     
+- name: define namo of hard disk | 2
+  set_fact: 
+    hd_device: "/dev/sda"
+    part3_device: "/dev/sda3"
+  when: ansible_mounts[0]['device'].find('sda')>-1 
+  
+##  exists partition 3 ?  
+  
+- name: show partitions of primary disk
+  shell: 'partprobe -d -s {{ hd_device }}'
+  register: output_partprobe
+  
+- name: test for partition 3  
+  set_fact:
+    exists_part3: false
+  when: output_partprobe.stdout_lines[0].find('3')<0
+  
+- name: test for partition 3  
+  set_fact:
+    exists_part3: true
+  when: output_partprobe.stdout_lines[0].find('3')>-1
+  
+#- debug: var=output_partprobe.stdout_lines[0].find('3') 
+#- debug: var=exists_part3
+      
+## ensure /home from fstab removed     
+      
+- name: grep fstab for home dir
+  shell: grep -q '/dev/*/home' /etc/fstab
+  ignore_errors: true
+  register: grep_home_returncode
     
-    w
-    EOFDELPART
-    partprobe
-    
+#- debug: var=grep_home_returncode.rc
+  
+- name: umount /home 
+  mount:
+    path: /home
+    state: unmounted
+  when: grep_home_returncode.rc==0
+
+## create partition 3 when nonexistant
+ 
 - name: copy script make_partition to client
-  copy: 
-    src: make_partition3.sh
+  template: 
+    src: make_partition3.sh.j2
     dest: /tmp/make_partition3.sh
     mode: 0755
     owner: root
     group: root
-
+  when: exists_part3==false  
+  
 - name: execute script
   shell: /tmp/make_partition3.sh
+  when: exists_part3==false  
+
+## mountpoint
 
 - name: create mount point for partition 3
   file:
@@ -29,18 +71,18 @@
     state: directory
     mode: 0777
 
-- name: umount /dev/sda3 (when mounted)
-  shell: umount /dev/sda3
+- name: umount partition 3 (when mounted)
+  shell: umount {{ part3_device }}
   ignore_errors: yes
 
 - name: format partition when filesystem does not exist
-  filesystem: fstype=ext4 dev=/dev/sda3 force=no
+  filesystem: fstype=ext4 dev={{ part3_device }} force=no
 
-- name: fstab |  entry for /dev/sda3 - /virtualmachines 
+- name: fstab |  entry for part3 - /virtualmachines 
   lineinfile:
     path: /etc/fstab
-    regexp: '/dev/sda3' 
-    line: '/dev/sda3    /virtualmachines    ext4     errors=remount-ro       0       1'
+    regexp: '{{ part3_device }}' 
+    line: '{{ part3_device }}  /virtualmachines    ext4     errors=remount-ro       0       1'
     state: present
     backup: yes
 
@@ -49,7 +91,7 @@
     
 
 - name: create dir for winontop
-  file: path={{virtualmachines_path }} state=directory mode=0775 group=sudo
+  file: path={{ virtualmachines_path }} state=directory mode=0775 group=sudo
 
 - name: copy script to client | 1
   copy: 
@@ -93,13 +135,13 @@
   
     
 #- name: rsync VDI file
-#  synchronize:  src="/netzordner/{{ virtualbox_machines_dir }}/win10.vdi" dest="/virtualmachines/winontop/win10.vdi" partial=yes archive=yes
+#   synchronize:  src="/netzordner/{{ virtualbox_machines_dir }}/win10.vdi" dest="/virtualmachines/winontop/win10.vdi" partial=yes archive=yes
 #  delegate_to: "{{ inventory_hostname }}"
 #  become: yes
 #  become_user: admin
 
 - name: rsync VDI file
-  shell: "rsync -au /netzordner/{{ virtualbox_machines_dir }}/win10.vdi /virtualmachines/winontop/win10.vdi"
+  shell: 'rsync -au /netzordner/{{ virtualbox_machines_dir }}/win10.vdi /virtualmachines/winontop/win10.vdi'
   become: yes
   become_user: admin
 

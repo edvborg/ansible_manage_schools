@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-fdisk /dev/sda &>/dev/null << EOFDELPART
+fdisk {{ hd_device }} &>/dev/null << EOFDELPART
 n
 p
 3

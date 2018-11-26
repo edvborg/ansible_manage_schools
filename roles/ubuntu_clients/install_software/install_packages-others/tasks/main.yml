@@ -63,8 +63,8 @@
 
 - name: add repository for opera
   apt_repository:
-    repo: deb https://deb.opera.com/opera-stable stable non-free
-    filename: deb_opera_com_opera
+    repo: deb https://deb.opera.com/opera-stable/ stable non-free # Opera Browser (final releases) 
+    filename: opera-stable
     state: present
 
 - name: install opera
@@ -82,10 +82,12 @@
     state: present
    
 - name: install sun java
-  apt: name={{ item }} state=present update_cache=yes
-  with_items:
-  - update-sun-jre
-  - unixodbc
+  apt: 
+    name: 
+    - update-sun-jre
+    - unixodbc
+    state: present 
+    update_cache: yes
 
 ######################### ardour rosegarden with jack configuration #####################
 

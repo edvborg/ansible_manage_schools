@@ -1,6 +1,0 @@
----
-- hosts: inf2pcs
-
-  roles:
-  - clients/ubuntu/check_apt-db
-

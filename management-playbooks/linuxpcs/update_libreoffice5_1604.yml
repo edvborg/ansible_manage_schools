@@ -1,0 +1,27 @@
+---
+- hosts: linuxpcs
+
+         
+  tasks:   
+  - name: add key  for libreoffice backports repo
+    shell: apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 36E81C9267FD1383FCC4490983FBA1751378B444
+
+
+  - name: add ppa repository for libreoffice
+    apt_repository:
+      repo: deb http://ppa.launchpad.net/libreoffice/libreoffice-5-4/ubuntu xenial main
+      filename: libreoffice-ubuntu-libreoffice-5-4-xenial
+      state: present
+    when: ansible_distribution_version == "16.04"  
+
+  - name: update apt cache
+    apt: update_cache=yes cache_valid_time=3600
+
+  - name: update libreoffice to latest version
+    apt: 
+      name:
+      - libreoffice-writer
+      - libreoffice-calc
+      - libreoffice-base
+      state: latest
+

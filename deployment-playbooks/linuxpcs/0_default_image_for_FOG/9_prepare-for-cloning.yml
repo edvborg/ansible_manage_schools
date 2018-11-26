@@ -1,5 +1,5 @@
 ---
-- hosts: O2-10-PCT1 
+- hosts: O2-10-PCT4 
   
   tasks:
   - name: remove /etc/udev/rules.d/70-persistent-net.rules

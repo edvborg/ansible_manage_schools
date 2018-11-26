@@ -1,6 +1,0 @@
----
-- hosts: reservepcs testpcs
-
-  roles:
-  - clients/ubuntu/software/install_MediathekView
-

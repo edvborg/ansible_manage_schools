@@ -1,9 +1,8 @@
 ---
-- hosts: O2-10-PCT1 
+- hosts: O2-10-PCT2,O2-10-PCT4 
   
-  vars:
-    hd_device: /dev/sda
-    ##   /dev/nvme0n1
+  gather_facts: yes
+  
   
   pre_tasks:
   - name: parted installieren
@@ -11,16 +10,57 @@
       name: parted 
       state: latest
   
+  tasks:
+  - name: define namo of hard disk | 1
+    set_fact: 
+      hd_device: "/dev/nvme0n1"
+    when: ansible_mounts[0]['device'].find('nvm')>-1 
+    
+  - name: define namo of hard disk | 2
+    set_fact: 
+      hd_device: "/dev/sda"
+    when: ansible_mounts[0]['device'].find('sda')>-1 
+  
+  - name: print
+    debug: var=hd_device  
+    
+  - name: show partitions of primary disk
+    shell: fdisk -l "{{hd_device }}"
+    register: output_fdisk
+    
+  - name: print fdisk output      
+    debug: var=output_fdisk.stdout_lines
+      
+  - name: grep fstab for home dir
+    shell: grep -q home /etc/fstab
+    ignore_errors: true
+    register: grep_home_returncode
+    
+  - debug: var=grep_home_returncode.rc
+  
   - name: umount /home 
     mount:
       path: /home
       state: unmounted
-  
+    when: grep_home_returncode.rc==0
+ 
+  - name: grep fstab for virtualmachines dir
+    shell: grep -q virtualmachines /etc/fstab
+    ignore_errors: true
+    register: grep_vm_returncode 
+ 
+  - debug: msg="vorhanden"
+    when: grep_vm_returncode.rc==0
+
+  - debug: msg="nicht vorhanden"
+    when: grep_vm_returncode.rc!=0
+    
   - name: remove partition 3
     parted:
-      device: {{ hd_device }}
+      device: "{{ hd_device }}"
       number: 3
       state: absent
+    when: (grep_home_returncode.rc==0) and (grep_vm_returncode.rc!=0)   
 
   - name: fstab | delete entry for /home 
     lineinfile:

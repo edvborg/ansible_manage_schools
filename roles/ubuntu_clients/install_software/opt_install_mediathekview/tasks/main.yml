@@ -1,0 +1,35 @@
+---
+
+- name: install dependencies
+  apt: 
+    name: "{{ mediathekview_dependencies }}"
+    state: present
+  
+- name: download Mediathekview
+  get_url: 
+    url: https://download.mediathekview.de/stabil/MediathekView-latest.tar.gz
+    dest: /opt/MediathekView-latest.tar.gz
+
+- name: unarchive Mediathekview archive
+  unarchive:
+    src: /opt/MediathekView-latest.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: find name of MediathekView directory
+  find:
+    paths: /opt/
+    patterns: 'Mediathek[vV]iew-[0-9][0-9].*[0-9]'
+    file_type: directory
+  register: dir_list
+
+- name: test
+  debug: var=dir_list.files[0].path
+  
+- name: copy desktop file to remote
+  template:
+    src: mediathekview.desktop.j2
+    dest: /usr/share/applications/mediathekview.desktop
+    mode: 0644
+
+

@@ -1,0 +1,18 @@
+---
+- hosts: basicserver,cups,cups2,192.168.200.223
+  
+  vars:
+    host_name: cups2
+    network_interface: "{{ ansible_default_ipv4.interface }}"
+    ip_address: "{{ cups2_address }}"
+    ip_netmask: "{{ cups2_netmask }}"
+    ip_gateway: "{{ cups2_gateway }}" 
+    ip_dns_nameservers: "{{ dns_nameservers }}"
+    dns_search: "{{ dns_search }}"
+  
+ 
+ 
+
+  roles:
+  - server/configure_LDAP-Client_SSSD   
+

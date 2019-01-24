@@ -188,11 +188,11 @@
     dest: /etc/dconf/db/site.d/41_site_setting_always-show-menu
   notify: update dconf
 
-- name: set/unset always show menus variant lowercase
-  template:
-    src: 41.b_site_setting_always-show-menu.j2
-    dest: /etc/dconf/db/site.d/41.b_site_setting_always-show-menu
-  notify: update dconf
+#- name: set/unset always show menus variant lowercase
+#  template:
+#    src: 41.b_site_setting_always-show-menu.j2
+#    dest: /etc/dconf/db/site.d/41.b_site_setting_always-show-menu
+#  notify: update dconf
 
 
 ### Var: 

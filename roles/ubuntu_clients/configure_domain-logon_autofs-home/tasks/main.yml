@@ -1,10 +1,13 @@
 --- 
 
 - name: install autofs package
-  apt: name={{item}} state=present
-  with_items:
+  apt: 
+    name: 
     - nfs-common 
     - autofs5
+    state: present
+  notify: reload autofs  
+
 
 - name: create entry for auto.home
   lineinfile:
@@ -13,6 +16,7 @@
     backup: yes
     regexp: "/home"
     line: "/home	/etc/auto.home    --ghost"
+  notify: reload autofs  
 
 
 - name: copy auto.home.fs1 to remote host
@@ -21,8 +25,5 @@
     dest: /etc/auto.home
     mode: 0644
     owner: root  
-
-- name: reload autofs
-  service: name=autofs enabled=yes state=restarted
-
+  notify: reload autofs  
 

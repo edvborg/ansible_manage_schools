@@ -1,5 +1,9 @@
 --- 
 
+## install virtualbox extension pack
+- name: install virtualbox-ext-pack
+  apt: name=virtualbox-ext-pack state=latest
+
 ## find device name of hard disk
 
 - name: define name of hard disk | 1
@@ -20,6 +24,8 @@
   shell: 'partprobe -d -s {{ hd_device }}'
   register: output_partprobe
   
+- debug: var=output_partprobe
+ 
 - name: test for partition 3  
   set_fact:
     exists_part3: false
@@ -31,7 +37,7 @@
   when: output_partprobe.stdout_lines[0].find('3')>-1
   
 #- debug: var=output_partprobe.stdout_lines[0].find('3') 
-#- debug: var=exists_part3
+- debug: var=exists_part3
       
 ## ensure /home from fstab removed     
       
@@ -50,6 +56,8 @@
 
 ## create partition 3 when nonexistant
  
+- debug: var=exists_part3
+ 
 - name: copy script make_partition to client
   template: 
     src: make_partition3.sh.j2
@@ -57,11 +65,11 @@
     mode: 0755
     owner: root
     group: root
-  when: exists_part3==false  
+  when: not exists_part3  
   
 - name: execute script
   shell: /tmp/make_partition3.sh
-  when: exists_part3==false  
+  when: not exists_part3  
 
 ## mountpoint
 
@@ -71,12 +79,35 @@
     state: directory
     mode: 0777
 
+## ensure part3 file system ext4
+
 - name: umount partition 3 (when mounted)
   shell: umount {{ part3_device }}
   ignore_errors: yes
 
+- name: find filesystem on partition 3
+  shell: blkid {{ part3_device }} 
+  register: output_blkid
+
+- name: test for partition 3  filesystem 1
+  set_fact:
+    is_ext4: false
+  when: output_blkid.stdout_lines[0].find('ext4')<0
+  
+- name: test for partition 3  filesystem 2
+  set_fact:
+    is_ext4: true
+  when: output_blkid.stdout_lines[0].find('ext4')>-1
+
+- debug: var=is_ext4   
+
+## formating only if no ext4 filesystem
+
 - name: format partition when filesystem does not exist
-  filesystem: fstype=ext4 dev={{ part3_device }} force=no
+  filesystem: fstype=ext4 dev={{ part3_device }} force=yes
+  when: not is_ext4
+
+## create entry in fstab
 
 - name: fstab |  entry for part3 - /virtualmachines 
   lineinfile:
@@ -93,10 +124,13 @@
 - name: create dir for winontop
   file: path={{ virtualmachines_path }} state=directory mode=0775 group=sudo
 
+- name: create tmp dir in virtualmachines path
+  file: path="{{ virtualmachines_path }}/tmp" state=directory mode=1777   
+
 - name: copy script to client | 1
   copy: 
     src: startVM.sh
-    dest: /virtualmachines/winontop/startVM.sh
+    dest: "{{ virtualmachines_path }}/startVM.sh"
     mode: 0755
     owner: root
     group: root
@@ -104,7 +138,7 @@
 - name: copy script to client | 2
   copy: 
     src: start-and-configureVM.sh
-    dest: /virtualmachines/winontop/start-and-configureVM.sh
+    dest: "{{ virtualmachines_path }}/start-and-configureVM.sh"
     mode: 0750
     owner: root
     group: sudo
@@ -112,7 +146,7 @@
 - name: copy Icon to client
   copy: 
     src: win10.png
-    dest: /virtualmachines/winontop/win10.png
+    dest: "{{ virtualmachines_path }}/win10.png"
     mode: 0644
     owner: root
     group: root
@@ -120,7 +154,7 @@
 - name: copy desktopfile to client
   template: 
     src: win10.desktop.j2
-    dest: /virtualmachines/winontop/win10.desktop
+    dest: "{{ virtualmachines_path }}/win10.desktop"
     mode: 0755
     owner: root
     group: root

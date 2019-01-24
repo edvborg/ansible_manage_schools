@@ -1,5 +1,5 @@
 ---
-- hosts: linuxpcs
+- hosts: klassenpcs
   
   roles:
   - ubuntu_clients/configure_sessionrestart

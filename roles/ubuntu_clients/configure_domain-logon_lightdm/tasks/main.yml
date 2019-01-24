@@ -7,7 +7,5 @@
     owner: root 
     mode: 0644 
     backup: yes
-
-- name: reload lightdm
-  service: name=lightdm enabled=yes state=restarted
+  notify: reload lightdm 
 

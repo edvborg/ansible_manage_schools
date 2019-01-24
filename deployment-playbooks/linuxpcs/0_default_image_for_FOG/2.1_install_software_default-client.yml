@@ -5,6 +5,7 @@
   - ubuntu_clients/install_software/install_packages-ubuntu-repo
   - ubuntu_clients/install_software/install_packages-others	
   - ubuntu_clients/install_software/install_update_geogebra
+  - ubuntu_clients/install_software/install_sun_java
 
 
 #  tasks: 

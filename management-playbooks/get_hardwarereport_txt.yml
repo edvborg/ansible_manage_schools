@@ -7,7 +7,7 @@
   vars:
     groupname: "{{ group }}"
     reporttype: txt
-    reportdir: borg_hardwarereports
+    reportdir: reports
     
   roles:
   - get_hardwarereport

@@ -1,0 +1,39 @@
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = LDAP
+
+[nss]
+
+[pam]
+
+[domain/LDAP]
+id_provider = ldap
+auth_provider = ldap
+ldap_schema = rfc2307
+ldap_uri = ldap://boss.borg-ibk.local
+
+### ldap_default_bind_dn = uid=auth,ou=Users,dc=domain,dc=tld
+### ldap_default_authtok = something_very_secret
+
+ldap_default_authtok_type = password
+ldap_search_base = {{ ldap_base_dn }}
+ldap_user_search_base  = {{ ldap_users_base_dn }}
+ldap_group_search_base = {{ ldap_groups_base_dn }}
+ldap_user_object_class = inetOrgPerson
+ldap_user_gecos = cn
+
+
+### ldap_tls_reqcert = hard
+ldap_tls_cacert = /etc/ssl/certs/boss.borg-ibk.local.pem
+### ldap_tls_cacert = /etc/ssl/certs/ca-certificates.crt
+### ldap_id_use_start_tls = true
+###  uncomment below if the SME is a “iPasserelle”
+### ldap_user_shell = desktopLoginShell
+###  comment below if the SME is a “iPasserelle”
+#override_shell = /bin/bash
+
+cache_credentials = true
+enumerate = true
+
+

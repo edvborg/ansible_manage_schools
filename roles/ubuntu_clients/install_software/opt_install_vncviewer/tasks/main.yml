@@ -12,7 +12,7 @@
 - name: install vncviewer
   apt: 
     deb: /root/vncviewerx64.deb
-    state: installed
+    state: present
     
     
     

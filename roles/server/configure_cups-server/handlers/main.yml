@@ -1,0 +1,4 @@
+---
+
+- name: enable and restart service cups
+  service: name=cups enabled=yes state=restarted

@@ -18,12 +18,12 @@
   register: nicreport 
   
 - name: create report
-  template: src=hardware-report.j2 dest=/etc/ansible/{{ reportdir }}/report_{{groupname}}.txt backup=yes
+  template: src=hardware-report.j2 dest=/etc/ansible/{{ reportdir }}/hardware_{{groupname}}.txt backup=yes
   delegate_to: localhost
   when: reporttype=='txt'
 
 - name: create report
-  template: src=hardware-report_csv.j2 dest=/etc/ansible/{{ reportdir }}/report_{{groupname}}.csv backup=yes
+  template: src=hardware-report_csv.j2 dest=/etc/ansible/{{ reportdir }}/hardware_{{groupname}}.csv backup=yes
   delegate_to: localhost
   when: reporttype=='csv'
 

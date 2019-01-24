@@ -3,6 +3,17 @@
 
 
 
-- import_playbook: configurations_for_inf3pcs.yml 
-- import_playbook: configure_winontop.yml 
+- name: reconfigure fstab | sda or nvmen1
+  import_playbook: ../common/0_reconfigure_fstab.yml hostlist=inf3pcs
+    
+
+- name: do configurations for inf-3
+  import_playbook: 1_configurations_for_inf3pcs.yml 
+
+- name: import winontop
+  import_playbook: ../common/5_configure_winontop.yml hostlist=inf3pcs
+
+
+- name: reboot and wait for host
+  import_playbook: ../common/9_reboot_and_wait.yml hostlist=inf3pcs
 

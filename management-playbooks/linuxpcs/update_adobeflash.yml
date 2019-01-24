@@ -1,0 +1,18 @@
+---
+- hosts: linuxpcs
+
+
+  tasks:
+  - name: update apt cache if not done in last hour
+    apt: 
+      update_cache=yes 
+      cache_valid_time=3600
+
+  - name: install adobe-flashplugin 
+    apt: 
+      name: adobe-flashplugin
+      state: latest
+    when: (ansible_distribution_version == "16.04") or  ( ansible_distribution_version == "18.04")
+      
+
+

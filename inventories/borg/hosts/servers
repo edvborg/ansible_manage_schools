@@ -4,21 +4,50 @@
 
 192.168.140.38
 
-[installservers]
-laus
-
 [dhcpservers]
 boss
+
+[nameservers]
+boss
+
+[ldapservers]
+boss
+
+[sambaservers]
+samba
+
+[installservers]
+laus
 
 [radiusservers]
 radius
 radius2 
 radius3
 
-[webservers]
+[intranetservers]
 intranet
-www
+intra
+
+[cupsservers]
+cups
+cups2
+192.168.200.223
+
+[proxyservers]
+proxy
+
+###### Internet Servers
 
 [wikiservers]
 wiki
+
+[webservers]
+www
+
+[testservers]
+basicserver
+testserver
+192.168.200.190
+192.168.200.191
+192.168.200.192
 

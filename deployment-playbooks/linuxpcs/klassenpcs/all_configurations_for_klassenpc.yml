@@ -16,7 +16,9 @@
     - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
     - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
     - ubuntu_clients/configure_sessionrestart
-    - ubuntu_clients/configure_autoshutdown
+
+    - role: ubuntu_clients/configure_autoshutdown
+      shutdown_time: "10 18"
     
   tasks:
     - name: guest | create user association file for mime type

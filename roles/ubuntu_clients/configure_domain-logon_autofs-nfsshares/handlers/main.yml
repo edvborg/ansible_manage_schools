@@ -1,0 +1,5 @@
+---
+   
+- name: reload autofs
+  service: name=autofs enabled=yes state=restarted
+  # command: service autofs restart

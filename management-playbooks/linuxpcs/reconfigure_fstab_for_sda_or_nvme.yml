@@ -1,0 +1,54 @@
+---
+- hosts: linuxpcs
+  
+  pre_tasks:
+  - name: define name of hard disk | 1
+    set_fact: 
+      hd_device: "/dev/nvme0n1"
+      part1_device: "/dev/nvme0n1p1"
+      part2_device: "/dev/nvme0n1p2"
+      part3_device: "/dev/nvme0n1p3"
+    when: ansible_mounts[0]['device'].find('nvm')>-1 
+    
+  - name: define namo of hard disk | 2
+    set_fact: 
+      hd_device: "/dev/sda"
+      part1_device: "/dev/sda1"
+      part2_device: "/dev/sda2"  
+      part3_device: "/dev/sda3"
+    when: ansible_mounts[0]['device'].find('sda')>-1 
+  
+  
+  tasks:
+  - debug: var=part1_device
+  
+  - name: fstab | replace device name for / 
+    replace:
+      path: /etc/fstab
+      regexp: '/dev/sda1[ \t]*(/[ \t]+[a-z0-9- \t]*)'
+      replace: '{{ part1_device }}\t\1'
+      backup: yes
+
+  - name: fstab | replace UUIDs for swap 
+    replace:
+      path: /etc/fstab
+      regexp: '/dev/sda2[ \t]*(none[ \t]+swap[ \t]+[a-z0-9- \t]*)'
+      replace: '{{ part2_device }}\t\1'
+      backup: yes
+
+  - name: fstab | replace device name for / 
+    replace:
+      path: /etc/fstab
+      regexp: '/dev/nvme0n1p1[ \t]*(/[ \t]+[a-z0-9- \t]*)'
+      replace: '{{ part1_device }}\t\1'
+      backup: yes
+
+  - name: fstab | replace UUIDs for swap 
+    replace:
+      path: /etc/fstab
+      regexp: '/dev/nvme0n1p2[ \t]*(none[ \t]+swap[ \t]+[a-z0-9- \t]*)'
+      replace: '{{ part2_device }}\t\1'
+      backup: yes
+
+  - name: remount according to fstab
+    shell: mount -a

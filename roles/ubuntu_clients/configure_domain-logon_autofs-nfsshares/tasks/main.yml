@@ -2,22 +2,23 @@
 
 - name: autofs installieren
   apt: name=autofs state=present update_cache=yes
+  notify: reload autofs   
+  
   
 - name: Eintrag in auto.master erstellen
   lineinfile: line="/netzordner	/etc/auto.netzordner    --ghost" dest=/etc/auto.master state=present insertafter=EOF regexp='(netzordner)'
-  
+  notify: reload autofs   
+
 - name: copy auto.netzordner.fs1 to remote host
   copy:
     src: auto.netzordner.fs1
     dest: /etc/auto.netzordner
     mode: 0644
-    owner: root    
+    owner: root   
+  notify: reload autofs   
 
 - name: Einhängepunkt erzeugen
   file: path=/netzordner  state=directory owner=root mode=0755
+  notify: reload autofs   
    
-   
-- name: autofs neu starten
-  command: service autofs restart
-
 

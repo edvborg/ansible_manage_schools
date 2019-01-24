@@ -1,9 +1,7 @@
 ---
 - hosts: lehrerpcs
   
-  vars:
-    shutdown_time: "10 20"
-
   roles:
-  - ubuntu_clients/configure_autoshutdown
+  - role: ubuntu_clients/configure_autoshutdown
+    shutdown_time: "12 20"
   

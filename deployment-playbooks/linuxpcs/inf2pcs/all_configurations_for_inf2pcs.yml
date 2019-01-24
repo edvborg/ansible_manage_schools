@@ -1,26 +1,19 @@
 ---
-- hosts: inf2pcs
-  
-  roles:
-    - ubuntu_clients/install_software/opt_install_classicmenu-indicator4allusers
-    - ubuntu_clients/configure_domain-logon_autofs-home
-    - ubuntu_clients/configure_domain-logon_autofs-nfsshares
-    - ubuntu_clients/configure_domain-logon_lightdm
-    - ubuntu_clients/configure_domain-logon_SSSD-auth
-    - ubuntu_clients/configure_cups-client_and_default-printer
-    - ubuntu_clients/configure_autoshutdown
+- hosts: inf2pcs 
+
+
+
+- name: reconfigure fstab | sda or nvmen1
+  import_playbook: ../common/0_reconfigure_fstab.yml hostlist=inf2pcs
     
-  post_tasks:
-  - name: reboot the host
-    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
-    async: 1
-    poll: 0
-    ignore_errors: true
-      
-  - name: wait for host after reboot
-    local_action: 
-      module: wait_for 
-        host="{{inventory_hostname}}" 
-        delay=15 
-        state=started 
-        timeout=60
+
+- name: do configurations for inf-3
+  import_playbook: 1_configurations_for_inf2pcs.yml 
+
+#- name: import winontop
+#  import_playbook: ../common/5_configure_winontop.yml hostlist=inf2pcs
+
+
+- name: reboot and wait for host
+  import_playbook: ../common/9_reboot_and_wait.yml hostlist=inf2pcs
+

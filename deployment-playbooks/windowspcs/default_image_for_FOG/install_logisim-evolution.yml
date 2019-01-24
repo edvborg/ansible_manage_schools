@@ -22,7 +22,7 @@
       path: C:\Programme\logisim-evolution\start_logisim.cmd
       line: 'java -jar C:\Programme\logisim-evolution\logisim-evolution.jar'
       create: yes
-      regex: logisim-evolution.jar
+      regexp: logisim-evolution.jar
 
 
   - name: add logisim-evolution to start menu 

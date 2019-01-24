@@ -1,6 +1,6 @@
 ---
 
-- name: Installationsscript zum Client kopieren
+- name: shutdown script zum Client kopieren
   copy:
     src: ausschalten.sh
     dest: /usr/local/sbin/ausschalten.sh

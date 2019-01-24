@@ -7,8 +7,8 @@
     mode: 644
     owner: root
     group: root
+  notify: reload services sssd and lightdm
      
-
 - name: configure openldap client
   copy: 
     src: ldap.conf
@@ -16,14 +16,16 @@
     mode: 644
     owner: root
     group: root
+  notify: reload services sssd and lightdm
      
-
 - name: install packages for LDAP Authentication
-  apt: name={{item}} state=present
-  with_items:
+  apt: 
+    name:
     - sssd
     - sssd-tools
     - libsasl2-modules-ldap  
+    state: present
+  notify: reload services sssd and lightdm
     
 - name: create sssd.conf
   template: 
@@ -32,10 +34,6 @@
     owner: root
     group: root
     mode: 0600
-
-- name: reload sssd
-  service: name=sssd enabled=yes state=restarted
-
-- name: reload lightdm
-  service: name=lightdm enabled=yes state=restarted
-
+  notify: reload services sssd and lightdm
+  
+  

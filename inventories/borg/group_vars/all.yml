@@ -41,13 +41,30 @@ ldap_uri: "ldap://{{ ldapserver_address }}"
 
 
 ##########################################################
-### TFTP-Server
+### Samba-Server
+samba_address: 192.168.200.205
+samba_netmask: 255.255.255.0
+samba_gateway: 192.168.200.254
+samba2_address: 192.168.200.206
+samba2_netmask: 255.255.255.0
+samba2_gateway: 192.168.200.254
 
-tftpserver_address: 192.168.200.240
+##########################################################
+### CUPS-Server
+cups_address: 192.168.200.220
+cups_netmask: 255.255.255.0
+cups_gateway: 192.168.200.254
+cups2_address: 192.168.200.223
+cups2_netmask: 255.255.255.0
+cups2_gateway: 192.168.200.254
+
+##########################################################
+### TFTP-Server == FOG
+
+tftpserver_address: 192.168.200.230
 tftpserver_netmask: 255.255.255.0
 tftpserver_gateway: 192.168.200.254
-tftpserver_dns_nameservers:
-  - 192.168.200.200
+
 
 ##########################################################
 ### Backups-Server
@@ -55,8 +72,7 @@ tftpserver_dns_nameservers:
 backupserver_address: 192.168.200.225
 backupserver_netmask: 255.255.255.0
 backupserver_gateway: 192.168.200.254
-backupserver_dns_nameservers:
-  - 192.168.200.200
+
 
 
 
@@ -66,16 +82,10 @@ backupserver_dns_nameservers:
 radiusserver_address: 192.168.200.203
 radiusserver_netmask: 255.255.255.0
 radiusserver_gateway: 192.168.200.254
-radiusserver_dns_nameservers:
-  - 192.168.200.200
 
 radiusserver2_address: 192.168.200.204
 radiusserver2_netmask: 255.255.255.0
 radiusserver2_gateway: 192.168.200.254
-radiusserver2_dns_nameservers:
-  - 192.168.200.200
-
-
 
 ###############################################################################################################
 ########################## FOR CLIENTS ####################################################################

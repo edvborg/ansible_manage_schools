@@ -2,5 +2,6 @@ inf-lehrer	-rw	fs1:/volumes/tank/freigaben/material/inf-lehrer
 inf-schueler	-rw	fs1:/volumes/tank/freigaben/material/inf-schueler
 inf-cnap	-rw	fs1:/volumes/tank/freigaben/material/inf-cnap
 inf-material	-rw	fs1:/volumes/tank/freigaben/material/inf-material
+inf-video	-rw	fs1:/volumes/tank/freigaben/video/inf-video
 virtualbox-machines	-rw	fs1:/volumes/tank/freigaben/virtualbox-machines
 

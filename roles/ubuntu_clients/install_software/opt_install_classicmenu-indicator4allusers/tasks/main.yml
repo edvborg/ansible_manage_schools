@@ -4,7 +4,7 @@
 
 
 - name: install classicmenu-indicator
-  apt: name=classicmenu-indicator state=installed
+  apt: name=classicmenu-indicator state=present
   when: ( ansible_distribution_version == "16.04" )
 
 - name: copy custom_icon to /usr/share/icons

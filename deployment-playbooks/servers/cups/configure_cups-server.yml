@@ -1,0 +1,7 @@
+---
+- hosts: basicserver,cups,cups2,192.168.200.223
+  
+ 
+  roles:
+  - server/configure_cups-server  
+

@@ -143,7 +143,7 @@ packages_list_office_1604:
   - goldendict 				#
   - gnumeric 				#
   - scribus 				#
-  - kile 				#
+#  - kile 				#
   - kde-l10n-engb 			#
   - language-pack-kde-en 		#
   - language-pack-kde-de 		#
@@ -338,7 +338,7 @@ packages_list_office_1804:
   - goldendict 				#
   - gnumeric 				#
   - scribus 				#
-  - kile 				#
+#  - kile 				#
   - kde-l10n-engb 			#
   - language-pack-kde-en 		#
   - language-pack-kde-de 		#

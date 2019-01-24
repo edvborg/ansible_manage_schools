@@ -1,0 +1,29 @@
+---
+
+- name: add key  for repo java
+#  apt_key:
+#    keyserver: keys.gnupg.net
+#    id: 0xE18CE6625CB26B26
+#  tags:
+#    - testing
+  apt_key:
+    url: http://keys.gnupg.net/pks/lookup?op=get&search=0xe18ce6625cb26b26
+    state: present     
+
+
+
+#  shell: apt-key adv --keyserver keys.gnupg.net --recv-keys 0xE18CE6625CB26B26
+
+- name: add repository for sun java 
+  apt_repository:
+    repo: deb http://www.duinsoft.nl/pkg debs all 
+    state: present
+   
+- name: install sun java
+  apt: 
+    name: 
+    - update-sun-jre
+    - unixodbc
+    state: present 
+    update_cache: yes
+

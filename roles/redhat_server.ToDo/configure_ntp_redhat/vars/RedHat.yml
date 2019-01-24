@@ -1,7 +1,0 @@
----
-
-ntp_conf_path: "/etc/sysconfig/network-scripts"
-
-ntp_servers:
-  - 192.168.200.254
-

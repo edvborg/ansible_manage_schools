@@ -98,7 +98,7 @@ inf-2-le
 [inf3pcs]
 inf-3-[01:15]
 inf-3-le
-O2-10-PCT4
+
 
 # Bibliothek 
 
@@ -160,6 +160,7 @@ O1-29-PC04
 O2-10-LP04   ## T400 Kustodiat
 O2-10-LP08   ## T450 Rudi
 O2-10-LP11   ## 
+192.168.90.83
 
 ###
 ### Reservegeräte für Klassenpcs
@@ -179,6 +180,7 @@ O2-10-LP11   ##
 [testpcs]
 O2-10-PCT3
 O2-10-PCT4
+O2-10-PCT5
 O2-10-PCT8
 
 

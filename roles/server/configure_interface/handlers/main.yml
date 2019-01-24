@@ -1,2 +1,18 @@
 ---
-# handlers file for ansible-config-interfaces
+
+- name: restart machine
+  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+  async: 1
+  poll: 0
+  ignore_errors: True
+
+      
+- name: wait for host after network restart
+  local_action: 
+    module: wait_for 
+      host='{{ ip_address }}'
+      delay=15 
+      state=started 
+      timeout=60
+
+

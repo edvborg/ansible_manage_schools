@@ -1,5 +1,7 @@
 ---
-- hosts: bibliothekpcs
+
+- name: deploy bibliothekpcs
+  hosts: bibliothekpcs
   
   roles:
     - ubuntu_clients/install_software/opt_install_classicmenu-indicator4allusers
@@ -7,8 +9,13 @@
     - ubuntu_clients/configure_domain-logon_autofs-nfsshares
     - ubuntu_clients/configure_domain-logon_lightdm
     - ubuntu_clients/configure_domain-logon_SSSD-auth
-    - ubuntu_clients/configure_cups-client_and_default-printer
-    - ubuntu_clients/configure_autoshutdown
+    
+    - role: ubuntu_clients/configure_cups-client_and_default-printer
+      default_printer: BIBLI-PR01
+
+    - role: ubuntu_clients/configure_autoshutdown 
+      shutdown_time: "20 18"
+    
     
   post_tasks:
   - name: reboot the host

@@ -1,24 +1,22 @@
-BOOTPROTO={{ item['method']|lower }}
-DEVICE={{ item['name'] }}
-{% if item['method']|lower == 'static' %}
+NAME="{{ network_interface }}"
+BOOTPROTO=none
+DEVICE="{{ network_interface }}"
 {% if dns_nameservers is defined %}
 {%   for ns in dns_nameservers %}
 DNS{{ loop.index }}={{ ns }}
 {%   endfor %}
 {% endif %}
-{%   if item['gateway'] is defined %}
-GATEWAY={{ item['gateway'] }}
+{%   if ip_gateway is defined %}
+GATEWAY={{ ip_gateway }}
 {%   endif %}
-{%   if item['address'] is defined %}
-IPADDR={{ item['address'] }}
+{%   if ip_address is defined %}
+IPADDR={{ ip_address }}
 {%   endif %}
-{%   if item['netmask'] is defined %}
-NETMASK={{ item['netmask'] }}
+{%   if ip_netmask is defined %}
+NETMASK={{ ip_netmask }}
 {%   endif %}
-{% endif %}
+ONBOOT=yes
+DOMAIN={{ dns_search }}
+NM_CONTROLLED=no
+IPV6INIT=no
 
-
-NAME={{ item['name'] }}
-NETBOOT={{ item['netboot']|default('yes') }}
-ONBOOT={{ item['onboot']|default('yes') }}
-PEERDNS=yes

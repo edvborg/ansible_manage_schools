@@ -1,12 +1,19 @@
 ---
 
-- name: Installationsscript zum Client kopieren 16.04
+- name: Installationsscript zum Client kopieren 16.04 | not 7D
   copy:
     src: sessionrestart.1604
     dest: /etc/cron.d/sessionrestart
     mode: 0644
-  when: ansible_distribution_version == "16.04"
+  when: ansible_distribution_version == "16.04" and inventory_hostname != "O1-05-PC01"
 
+- name: Installationsscript zum Client kopieren 16.04 | 7D
+  copy:
+    src: sessionrestart_7D.1604
+    dest: /etc/cron.d/sessionrestart
+    mode: 0644
+  when: ansible_distribution_version == "16.04" and inventory_hostname == "O1-05-PC01"
+  
 - name: Installationsscript zum Client kopieren 14.04
   copy:
     src: sessionrestart.1404

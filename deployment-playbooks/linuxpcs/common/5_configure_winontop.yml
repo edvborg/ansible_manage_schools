@@ -1,0 +1,14 @@
+---
+- hosts: "{{ hostlist }}"
+  
+  pre_tasks:
+  - name: parted installieren
+    apt:
+      name: parted 
+      state: latest
+      
+  roles:
+    - ubuntu_clients/configure_winontop
+    - ubuntu_clients/configure_defaults4users/set_launcher_defaults_inf3
+    
+    

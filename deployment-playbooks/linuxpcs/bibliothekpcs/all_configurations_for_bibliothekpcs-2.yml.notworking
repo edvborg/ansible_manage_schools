@@ -1,0 +1,43 @@
+---
+
+- name: deploy bibliothekpcs
+  hosts: bibliothekpcs
+  
+  roles:
+    - ubuntu_clients/install_software/opt_install_classicmenu-indicator4allusers
+    - ubuntu_clients/configure_domain-logon_autofs-nfsshares
+    
+    - role: ubuntu_clients/configure_domain-logon_autofs-home
+      notify: reboot task    
+
+    - role: ubuntu_clients/configure_domain-logon_lightdm
+      notify: reboot task    
+
+    - role: ubuntu_clients/configure_domain-logon_SSSD-auth
+      notify: reboot task    
+
+
+    - role: ubuntu_clients/configure_cups-client_and_default-printer
+      default_printer: BIBLI-PR01 
+    notify: reboot task  
+
+    - role: ubuntu_clients/configure_autoshutdown 
+      shutdown_time: "20 18"
+    
+    
+  handlers:
+  - name: reboot the host
+    listen: reboot task
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+      
+  - name: wait for host after reboot
+    listen: reboot task
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60

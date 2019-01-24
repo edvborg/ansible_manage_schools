@@ -1,0 +1,35 @@
+--- 
+
+- name: install cups
+  yum:
+    name: "cups"
+    state: "present"
+
+- name: Firewall für cups öffnen
+  command: firewall-cmd --zone=public --permanent --add-port=631/tcp
+
+- name: Firewall für cups öffnen
+  command: firewall-cmd --zone=public --permanent --add-port=80/tcp
+
+- name: Firewall neu laden
+  command: firewall-cmd --reload
+
+- name: copy cupsd.conf to server
+  copy: 
+    src: cupsd.conf
+    dest: /etc/cups/cupsd.conf
+    mode: 0640
+    owner: root
+    group: lp
+  notify: enable and restart service cups
+
+- name: copy printers.conf to server
+  copy: 
+    src: printers.conf
+    dest: /etc/cups/printers.conf
+    mode: 0600
+    owner: root
+    group: lp
+  notify: enable and restart service cups
+
+

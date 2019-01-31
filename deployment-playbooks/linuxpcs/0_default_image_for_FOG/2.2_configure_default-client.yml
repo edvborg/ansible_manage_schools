@@ -13,15 +13,18 @@
   - ubuntu_clients/configure_defaults4machine/disable_some_services
   - ubuntu_clients/configure_defaults4machine/remove_amazon_from_menu
   - ubuntu_clients/configure_defaults4machine/remove_packages_and_autoclean
-##
-##
+
+## defaults for all users
+
   - ubuntu_clients/configure_defaults4users/set_unity_defaults
   - ubuntu_clients/configure_defaults4users/disable_user_services
   - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
   - ubuntu_clients/configure_defaults4users/set_firefox_startup-homepage
   - ubuntu_clients/configure_defaults4users/set_firefox_cachedir-in-tmp
+
 ##
-##  
+## configure desktop env for default user (for klassenpcs, lehrerkiosk) 
+
   - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
   
   tasks:
@@ -51,8 +54,9 @@
     local_action: 
       module: wait_for 
         host="{{inventory_hostname}}" 
-        delay=2 
+        delay=1 
         state=started 
-        timeout=10
+        timeout=2
   
-
+  - name: restart lightdm
+    service: name=lightdm state=restarted

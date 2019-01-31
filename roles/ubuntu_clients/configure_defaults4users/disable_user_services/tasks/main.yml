@@ -33,3 +33,20 @@
 - name: disable update-notifier
   command: "mv /etc/xdg/autostart/update-notifier.desktop  /etc/xdg/autostart/update-notifier.desktop.inactive"
   when: st.stat.islnk is defined
+
+
+- stat: path=/etc/xdg/autostart/gnome-initial-setup-copy-worker.desktop
+  register: st
+
+- name: disable gnome-initial-setup | 1
+  command: "mv /etc/xdg/autostart/gnome-initial-setup-copy-worker.desktop /etc/xdg/autostart/gnome-initial-setup-copy-worker.desktop.inactive"
+  when: st.stat.islnk is defined
+
+
+- stat: path=/etc/xdg/autostart/gnome-initial-setup-first-login.desktop
+  register: st
+
+- name: disable gnome-initial-setup | 2
+  command: "mv /etc/xdg/autostart/gnome-initial-setup-first-login.desktop /etc/xdg/autostart/gnome-initial-setup-first-login.desktop.inactive"
+  when: st.stat.islnk is defined
+

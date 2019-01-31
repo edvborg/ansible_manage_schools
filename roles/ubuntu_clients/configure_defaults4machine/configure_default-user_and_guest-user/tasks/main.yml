@@ -2,6 +2,29 @@
 
 ########################## Benutzer konfigurieren ##################################
 
+- name: install lightdm 
+  apt: name=lightdm
+
+- name: preseed display manager | 1
+  debconf:
+    name: gdm3
+    question: shared/default-x-display-manager
+    vtype: select
+    value: "lightdm"
+  notify: restart lightdm
+
+- name: preseed display manager | 2
+  debconf:
+    name: lightdm
+    question: shared/default-x-display-manager
+    vtype: select
+    value: "lightdm"
+  notify: restart lightdm
+
+- name: configure lightdm as defautl display manager
+  lineinfile: line="/usr/sbin/lightdm" dest="/etc/X11/default-display-manager" state=present insertafter=BOF regexp='/usr/sbin'
+
+
 ### create directory for local accounts
 
 - name: create home2  
@@ -25,7 +48,8 @@
     uid: 1011
     comment: Gastkonfiguration 
     home: /home2/guest-prefs
-    password: $6$GMCIzpJPZ$c9lcNa8MMPto8m.X61fCcIX2hg4E.nAsqqDR3/NesLCRtqlEOHBQUlp/bsTXsS.5WGI44wBvSfOXKvAvvoN0m0
+    password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
 
 ### Benutzer konfigurieren -> guest-session und guest-prefs verlinken
@@ -42,15 +66,19 @@
 
 - name: copy lightdmconfiguration files to remote host
   copy: src=lightdm.conf.autologin dest=/etc/lightdm/lightdm.conf.autologin owner=root mode=0644
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
 - name: copy lightdmconfiguration files to remote host
   copy: src=lightdm.conf.noautologin dest=/etc/lightdm/lightdm.conf.noautologin owner=root mode=0644
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
 - name: copy lightdmconfiguration files to remote host
   copy: src=change-to-autologin.sh dest=/root/change-to-autologin.sh owner=root mode=0700
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
 - name: copy lightdmconfiguration files to remote host
   copy: src=change-to-noautologin.sh dest=/root/change-to-noautologin.sh owner=root mode=0700
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
 
 

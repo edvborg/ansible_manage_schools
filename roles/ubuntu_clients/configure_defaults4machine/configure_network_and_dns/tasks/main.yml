@@ -7,6 +7,10 @@
 # list all services: systemctl list-unit-files --no-pager
 #
 
+
+## 16.04: enable network manager; 
+## 18.04: networkd handles interface (netplan)
+
 - name: delete line iface for interface in /etc/network/interfaces
   lineinfile:
     dest: /etc/network/interfaces
@@ -14,6 +18,7 @@
     backup: yes
     regexp: '^\s*iface.*eno'
     #regexp: "{{ ^\s*iface.* + ansible_interfaces[1]  }}"
+  when: ansible_distribution_version == "16.04"
 
 - name: delete line auto for interface in /etc/network/interfaces
   lineinfile:
@@ -22,6 +27,7 @@
     backup: yes
     # regexp: '{{ "^\s*auto.*" + ansible_interfaces[1]  }}'
     regexp: '^\s*auto.*eno1'
+  when: ansible_distribution_version == "16.04"
 
 ### delete hostname in /etc/hosts löschen;
 #

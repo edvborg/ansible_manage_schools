@@ -1,7 +1,12 @@
 --- 
 
-- name: remove amazon from menu
+- name: remove amazon from menu | 1
   file:
     path: /usr/share/applications/ubuntu-amazon-default.desktop
     state: absent
     
+- name: remove amazon from menu | 2
+  file:
+    path: /usr/share/applications/com.canonical.launcher.amazon.desktop
+    state: absent
+

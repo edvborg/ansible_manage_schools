@@ -2,5 +2,4 @@
 - hosts: linuxpcs
   
   roles:
-  - ubuntu_clients/configure_session_for_defaultuser/configure_webuntis_for_guest
-
+  - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser

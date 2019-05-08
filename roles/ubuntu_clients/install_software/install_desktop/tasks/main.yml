@@ -8,8 +8,10 @@
     
 - name: Installation des Basissystems mit Desktop 16.04
   apt: name="{{ packages_list_desktop_1604 }}" state=present
+  notify: reboot and wait
   when: ( ansible_distribution_version == "14.04") or  ( ansible_distribution_version == "16.04")
 
 - name: Installation des Basissystems mit Desktop 18.04
   apt: name="{{ packages_list_desktop_1804 }}" state=present
+  notify: reboot and wait  
   when: ansible_distribution_version == "18.04"

@@ -1,0 +1,8 @@
+---
+- hosts: linuxpcs
+  
+
+  roles:
+  - ubuntu_clients/configure_defaults4machine/configure_part3-virtualmachines
+  
+

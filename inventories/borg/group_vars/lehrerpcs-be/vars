@@ -1,4 +1,5 @@
 fach: "be"
+localuser: "{{ fach }}-user"
 fach_langbezeichnung: "Bildnerische Erziehung"
 smbpassword: "{{ vaulted_smbpassword_be }}"
 

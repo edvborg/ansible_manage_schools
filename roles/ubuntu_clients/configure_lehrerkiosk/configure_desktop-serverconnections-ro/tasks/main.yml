@@ -1,6 +1,6 @@
 ---
 
-- name: create directory Schreibtisch for guest
+- name: ensuredesktop  directory for local user
   file: 
     path: /home2/{{ localuser }}/Schreibtisch
     state: directory 
@@ -15,7 +15,7 @@
     dest: /home2/{{ localuser }}/Schreibtisch/audioserver.desktop
     mode: 0755
     owner: "{{ localuser }}"  
-  when: ansible_distribution_version == "16.04"
+  #when: ansible_distribution_version == "16.04"
 
 
 ###
@@ -26,7 +26,7 @@
     dest: /home2/{{ localuser }}/Schreibtisch/videoserver.desktop
     mode: 0755
     owner: "{{ localuser }}"  
-  when: ansible_distribution_version == "16.04"
+  #when: ansible_distribution_version == "16.04"
 
 
 ###
@@ -37,7 +37,7 @@
     dest: /home2/{{ localuser }}/Schreibtisch/material.desktop
     mode: 0755
     owner: "{{ localuser }}"  
-  when: ansible_distribution_version == "16.04"
+  #when: ansible_distribution_version == "16.04"
 
 
 ### configure upstart for user
@@ -48,7 +48,7 @@
 
 - name: ensure .config/upstart folder
   file: path=/home2/{{ localuser }}/.config/upstart state=directory owner={{ localuser }}
-
+  when: ansible_distribution_version == "16.04"
 
 - name: copy script for icon positioning
   template:
@@ -56,6 +56,6 @@
     dest: /home2/{{ localuser }}/.config/upstart/set-icon-positions-serverconnections.conf
     mode: 0644
     owner: "{{ localuser }}"  
-
+  when: ansible_distribution_version == "16.04"
 
   

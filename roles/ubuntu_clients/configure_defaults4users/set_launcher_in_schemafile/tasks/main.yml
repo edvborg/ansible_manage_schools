@@ -1,0 +1,17 @@
+--- 
+
+### set Launcher
+    
+- name: set Launcher apps in schema file
+  lineinfile:
+    path: /usr/share/glib-2.0/schemas/10_ubuntu-settings.gschema.override
+    regexp: '^[ \t]*favorite-apps\s='
+    line: "favorite-apps = {{ applist_in_launcher_1804 }}"
+    state: present
+    backup: yes
+  notify: compile schema files
+  when: ansible_distribution_version == "18.04"
+  tags:
+  - launchertest
+
+

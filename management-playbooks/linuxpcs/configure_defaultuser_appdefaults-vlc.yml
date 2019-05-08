@@ -5,5 +5,5 @@
     localuser: guest-prefs
     
   roles:
-  - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+  - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
 

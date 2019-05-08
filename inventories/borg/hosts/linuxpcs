@@ -1,6 +1,7 @@
 ###
 ### Klassenräume
 ###
+
 [linuxpcs:children]
 infpcs
 bibliothekpcs
@@ -10,7 +11,6 @@ laptops
 reservepcs
 testpcs
 
-
 [klassenpcs:children]
 klassenpcs-UG
 klassenpcs-EG
@@ -18,11 +18,10 @@ klassenpcs-O1
 klassenpcs-O2
 klassenpcs-CO
 klassenpcs-lehrer
+klassenpcs-wechselraum
+
 
 [klassenpcs-UG]
-UG-13-PC01
-UG-29-PC01
-UG-36-PC01
 
 [klassenpcs-EG]
 EG-01-PC01
@@ -37,7 +36,6 @@ EG-29-PC01
 EG-30-PC01
 EG-31-PC01
 EG-32-PC01
-EG-35-PC01
 EG-36-PC01
 
 
@@ -71,10 +69,16 @@ CO-04-PC01
 EG-27-PC01  # Lehrergarderobe LÜ
 O1-24-PC01  # Lehrergarderobe LÜ
 O1-06-PC01  # Kustodiat GW
-O2-10-PCR1
-O2-10-PCR2
-O2-10-PCR3
-O2-10-PCT2
+O2-10-PCT2  # Kustodiat INF
+O2-10-PCT4
+
+
+[klassenpcs-wechselraum]
+UG-13-PC01
+UG-29-PC01
+UG-36-PC01
+EG-35-PC01
+
 
 ###
 ### Informatiksäle und Bibliothek
@@ -87,9 +91,12 @@ inf3pcs
 bibliothekpcs
 
 [inf1pcs]
-inf-1-[01:15]
+inf-1-[01:18]
 inf-1-le
-
+O2-10-PCT5
+O2-10-PCT6
+192.168.110.66
+192.168.110.27
 
 [inf2pcs]
 inf-2-[01:15]
@@ -98,7 +105,7 @@ inf-2-le
 [inf3pcs]
 inf-3-[01:15]
 inf-3-le
-
+O2-10-PCT4 
 
 # Bibliothek 
 
@@ -163,6 +170,26 @@ O2-10-LP11   ##
 192.168.90.83
 
 ###
+### Geräte für schriftliche Matura
+###
+
+[maturapcs]
+O2-02-PC01
+O2-03-PC01
+O2-05-PC01
+#O2-07-PC01
+O2-09-PC01
+O2-09-PC01
+O2-18-PC01
+O2-21-PC01
+O2-22-PC01
+O2-25-PC01
+O2-26-PC01
+O2-27-PC01
+O2-32-PC01
+
+
+###
 ### Reservegeräte für Klassenpcs
 ###
 
@@ -182,5 +209,6 @@ O2-10-PCT3
 O2-10-PCT4
 O2-10-PCT5
 O2-10-PCT8
+O2-10-PCV1
 
 

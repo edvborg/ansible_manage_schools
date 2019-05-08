@@ -23,10 +23,13 @@
 #power_button_shutdown: True
 
 
-- name: remove old config
-  file:
-    path: /etc/dconf/db/site.d/15_site_setting_num-workspaces
-    state: absent   
+- name: set static workspaces
+  template:
+    src: 04_site_setting_static-workspaces.j2
+    dest: /etc/dconf/db/site.d/04_site_setting_static-workspaces.j2
+  notify: update dconf
+  when: ansible_distribution_version == "18.04"  
+    
     
 - name: set number of workspaces
   template:
@@ -85,6 +88,15 @@
   notify: update dconf
 
 
+### Var: show_home-trash-network_icons false/false/false
+  
+- name: set/unset show some icons
+  template:
+    src: 14_site_setting_show_home-trash-network_icons.j2
+    dest: /etc/dconf/db/site.d/14_site_setting_show_home-trash-network_icons
+  notify: update dconf
+  tags: dconf_settings
+
 ############################################################################
 
 ###
@@ -111,13 +123,14 @@
   file:
     path: /etc/dconf/db/site.d/33_site_setting_screensaver-timeout
     state: absent   
-    
+  when: ansible_distribution_version == "16.04"  
     
 - name: set screensaver timeout
   template:
     src: 22_site_setting_screensaver-timeout.j2
     dest: /etc/dconf/db/site.d/22_site_setting_screensaver-timeout
   notify: update dconf
+  when: ansible_distribution_version == "16.04"  
     
 
 ###########################################################################
@@ -143,15 +156,22 @@
   notify: update dconf
 
 
-
-
 ### in Bereitschaft gehen ( =3600) wirkungslos!
 - name: set/unset timeout for sleep state
   template:
     src: 31_site_setting_go-to-sleep-timeout.j2
     dest: /etc/dconf/db/site.d/31_site_setting_go-to-sleep-timeout
   notify: update dconf
+  when: ansible_distribution_version == "16.04"  
     
+    
+### niemals in Bereitschaft gehen
+- name: never go to sleep
+  template:
+    src: 31_site_setting_go-to-sleep-never_1804.j2
+    dest: /etc/dconf/db/site.d/31_site_setting_go-to-sleep-never
+  notify: update dconf
+  when: ansible_distribution_version == "18.04"  
 
 
 - name: set/unset darken display
@@ -180,6 +200,7 @@
     src: 40_site_setting_show-integrated-menu.j2
     dest: /etc/dconf/db/site.d/40_site_setting_show-integrated-menu
   notify: update dconf
+  when: ansible_distribution_version == "16.04"  
 
 ### Var: 
 - name: set/unset always show menus
@@ -187,12 +208,7 @@
     src: 41_site_setting_always-show-menu.j2
     dest: /etc/dconf/db/site.d/41_site_setting_always-show-menu
   notify: update dconf
-
-#- name: set/unset always show menus variant lowercase
-#  template:
-#    src: 41.b_site_setting_always-show-menu.j2
-#    dest: /etc/dconf/db/site.d/41.b_site_setting_always-show-menu
-#  notify: update dconf
+  when: ansible_distribution_version == "16.04"  
 
 
 ### Var: 
@@ -201,34 +217,43 @@
     src: 42_site_setting_ubuntu-websearch.j2
     dest: /etc/dconf/db/site.d/42_site_setting_ubuntu-websearch
   notify: update dconf
+  when: ansible_distribution_version == "16.04"  
 
-### Var: launcher_icon_size: 40
+
+### 16.04 Var: launcher_icon_size: 40
 - name: set launcher icon size
   template:
     src: 43_site_setting_launcher-icon-size.j2
     dest: /etc/dconf/db/site.d/43_site_setting_launcher-icon-size
   notify: update dconf
+  when: ansible_distribution_version == "16.04"  
 
-### Var: 
+
+### 18.04 Var: launcher_icon_size: 40
+- name: set launcher icon size
+  template:
+    src: 43_site_setting_launcher-icon-size_1804.j2
+    dest: /etc/dconf/db/site.d/43_site_setting_launcher-icon-size
+  notify: update dconf
+  when: ansible_distribution_version == "18.04"  
+
+
 - name: set/unset show name in panel
   template:
     src: 45_site_setting_show-name-in-panel.j2
     dest: /etc/dconf/db/site.d/45_site_setting_show-name-in-panel
   notify: update dconf
+     
 
-
-### Var: show_home-trash-network_icons false/false/false
-
-- name: remove old config
-  file:
-    path: /etc/dconf/db/site.d/46_site_setting_some-desktop-icons
-    state: absent   
-    
-- name: set/unset show some icons
+### Var: 
+- name: set clock show date
   template:
-    src: 46_site_setting_show_home-trash-network_icons.j2
-    dest: /etc/dconf/db/site.d/46_site_setting_show_home-trash-network_icons
+    src: 46_site_setting_clock-show-date.j2    
+    dest: /etc/dconf/db/site.d/46_site_setting_clock-show-date
   notify: update dconf
+  when: ansible_distribution_version == "18.04"      
+    
+
     
 ### Var: power_button_shutdown: True/False
 - name: configure power-botton

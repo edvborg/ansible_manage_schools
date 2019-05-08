@@ -1,5 +1,7 @@
 ---
 
+## copy script to remote
+
 - name: copy connect2home.sh to remote host
   copy:
     src: connect2home.sh.1404
@@ -15,11 +17,12 @@
     dest: /usr/local/bin/connect2home.sh
     mode: 0755
     owner: root  
-  when: ansible_distribution_version == "16.04"
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
+## copy desktop file 
 
 - name: folder Schreibtisch present
-  file: path="/home2/{{ localuser }}/Schreibtisch" state=directory mode=0700 owner="{{ localuser }}"
+  file: path="/home2/{{ localuser }}/Schreibtisch" state=directory mode=0755 owner="{{ localuser }}"
 
 
 - name: copy connect2home.desktop to remote host
@@ -33,19 +36,92 @@
 ### configure upstart for user
 
 - name: ensure .config folder
-  file: path="/home2/{{ localuser }}/.config" state=directory
+  file: path="/home2/{{ localuser }}/.config" state=directory owner="{{ localuser }}"  mode=0700
 
 
 - name: ensure .config/upstart folder
-  file: path="/home2/{{ localuser }}/.config/upstart" state=directory
+  file: path="/home2/{{ localuser }}/.config/upstart" state=directory owner="{{ localuser }}" mode=0700
+  when: ansible_distribution_version == "16.04"
+
+- name: ensure .config/systemd folder
+  file: path="/home2/{{ localuser }}/.config/systemd" state=directory owner="{{ localuser }}" mode=0700
+  when: ansible_distribution_version == "18.04"
+  tags:
+  - systemd_testing
+
+- name: ensure .config/systemd/user folder
+  file: path="/home2/{{ localuser }}/.config/systemd/user" state=directory owner="{{ localuser }}" mode=0700
+  when: ansible_distribution_version == "18.04"
+  tags:
+  - systemd_testing
 
 
-- name: copy script for icon positioning
+### copy script 
+
+- name: copy script for icon positioning 1604
   copy:
-    src: set-icon-positions-connect2home.conf
-    dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2home.conf"
+    src: set-icon-positions_connect2home.conf
+    dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions_connect2home.conf"
     mode: 0644
     owner: "{{ localuser }}"
+  when: ansible_distribution_version == "16.04"
 
+
+- name: copy script for icon positioning | 1804
+  copy:
+    src: set-icon-position_connect2home.sh
+    dest: "/usr/local/bin/set-icon-position_connect2home.sh"
+    mode: 0755
+    owner: root
+  when: ansible_distribution_version == "18.04"
+
+
+- name: copy script for icon positioning | 1804 2 
+  copy:
+    src: set-icon-position_connect2home.sh
+    dest: "/home2/{{ localuser }}/.config/autostart/set-icon-position_connect2home.sh"
+    mode: 0755
+    owner: "{{ localuser }}"
+  when: ansible_distribution_version == "18.04"
+
+
+### 18.04 put script to autostart folder
+
+- name: ensure .config/autostart folder
+  file: path="/home2/{{ localuser }}/.config/autostart" state=directory owner="{{ localuser }}"  mode=0700
+  when: ansible_distribution_version == "18.04"
+
+
+- name: copy desktop file for icon positioning to default user | 1804
+  copy:
+    src: set-icon-position_connect2home.desktop
+    dest: "/home2/{{ localuser }}/.config/autostart/set-icon-position_connect2home.desktop"
+    mode: 0750
+    owner: "{{ localuser }}"
+  when: ansible_distribution_version == "18.04"
 
   
+- name: copy test
+  copy:
+    src: testing.sh
+    dest: "/usr/local/bin/testing.sh"
+    mode: 0755
+    owner: root
+  when: ansible_distribution_version == "18.04"
+  tags:
+  - systemd_testing
+
+- name: copy script for icon positioning 1804
+  copy:
+    src: set-icon-position_connect2home.service
+    #dest: "/home2/{{ localuser }}/.config/systemd/user/set-icon-position_connect2home.service"
+    dest: "/etc/systemd/user/set-icon-position_connect2home.service"
+    mode: 0644
+    owner: "{{ localuser }}"
+  when: ansible_distribution_version == "18.04"
+  tags:
+  - systemd_testing
+    
+    
+    
+    

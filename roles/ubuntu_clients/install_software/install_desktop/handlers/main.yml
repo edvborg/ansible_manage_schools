@@ -1,0 +1,19 @@
+---
+
+- name: reboot the host
+  listen: reboot and wait
+  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+  async: 1
+  poll: 0
+  ignore_errors: true
+      
+- name: wait for host after reboot
+  listen: reboot and wait
+  local_action: 
+    module: wait_for 
+      host="{{inventory_hostname}}" 
+      delay=15 
+      state=started 
+      timeout=60  
+
+

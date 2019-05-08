@@ -1,0 +1,10 @@
+---
+
+- name: reload networking
+  listen: reload networking and network manager
+  service: name=networking state=restarted
+
+
+- name: reload network manager
+  listen: reload networking and network manager
+  service: name=network-manager enabled=yes state=restarted

@@ -4,14 +4,14 @@
 
 - name: Installation von ntp
   apt: name=ntp state=present update_cache=yes
-  when: ansible_distribution_version == "16.04"
+  when: ( ansible_distribution_version == "16.04" ) or ( ansible_distribution_version == "18.04" )
 
 
 ### Sicherstellen, dass ntpdate nicht installiert ist; Konflikt mit ntp
 
 - name: Entfernen von ntpdate
   apt: name=ntpdate state=absent 
-  when: ansible_distribution_version == "16.04"
+  when: ( ansible_distribution_version == "16.04" ) or ( ansible_distribution_version == "18.04" )
      
  
 ### configure ntp 
@@ -25,7 +25,7 @@
     line: "server 192.168.200.254" 
     insertbefore: '^#server\s*127.*'
   notify: reload ntp
-  when: ansible_distribution_version == "16.04"
+  when: ( ansible_distribution_version == "16.04" ) or ( ansible_distribution_version == "18.04" )
 
 ### enable ntp service
 - name: enable ntp service

@@ -4,133 +4,19 @@
 - name: install virtualbox-ext-pack
   apt: name=virtualbox-ext-pack state=latest
 
-## find device name of hard disk
 
-- name: define name of hard disk | 1
-  set_fact: 
-    hd_device: "/dev/nvme0n1"
-    part3_device: "/dev/nvme0n1p3"
-  when: ansible_mounts[0]['device'].find('nvm')>-1 
-    
-- name: define namo of hard disk | 2
-  set_fact: 
-    hd_device: "/dev/sda"
-    part3_device: "/dev/sda3"
-  when: ansible_mounts[0]['device'].find('sda')>-1 
-  
-##  exists partition 3 ?  
-  
-- name: show partitions of primary disk
-  shell: 'partprobe -d -s {{ hd_device }}'
-  register: output_partprobe
-  
-- debug: var=output_partprobe
- 
-- name: test for partition 3  
-  set_fact:
-    exists_part3: false
-  when: output_partprobe.stdout_lines[0].find('3')<0
-  
-- name: test for partition 3  
-  set_fact:
-    exists_part3: true
-  when: output_partprobe.stdout_lines[0].find('3')>-1
-  
-#- debug: var=output_partprobe.stdout_lines[0].find('3') 
-- debug: var=exists_part3
-      
-## ensure /home from fstab removed     
-      
-- name: grep fstab for home dir
-  shell: grep -q '/dev/*/home' /etc/fstab
-  ignore_errors: true
-  register: grep_home_returncode
-    
-#- debug: var=grep_home_returncode.rc
-  
-- name: umount /home 
-  mount:
-    path: /home
-    state: unmounted
-  when: grep_home_returncode.rc==0
-
-## create partition 3 when nonexistant
- 
-- debug: var=exists_part3
- 
-- name: copy script make_partition to client
-  template: 
-    src: make_partition3.sh.j2
-    dest: /tmp/make_partition3.sh
-    mode: 0755
-    owner: root
-    group: root
-  when: not exists_part3  
-  
-- name: execute script
-  shell: /tmp/make_partition3.sh
-  when: not exists_part3  
-
-## mountpoint
-
-- name: create mount point for partition 3
-  file:
-    path: /virtualmachines
-    state: directory
-    mode: 0777
-
-## ensure part3 file system ext4
-
-- name: umount partition 3 (when mounted)
-  shell: umount {{ part3_device }}
-  ignore_errors: yes
-
-- name: find filesystem on partition 3
-  shell: blkid {{ part3_device }} 
-  register: output_blkid
-
-- name: test for partition 3  filesystem 1
-  set_fact:
-    is_ext4: false
-  when: output_blkid.stdout_lines[0].find('ext4')<0
-  
-- name: test for partition 3  filesystem 2
-  set_fact:
-    is_ext4: true
-  when: output_blkid.stdout_lines[0].find('ext4')>-1
-
-- debug: var=is_ext4   
-
-## formating only if no ext4 filesystem
-
-- name: format partition when filesystem does not exist
-  filesystem: fstype=ext4 dev={{ part3_device }} force=yes
-  when: not is_ext4
-
-## create entry in fstab
-
-- name: fstab |  entry for part3 - /virtualmachines 
-  lineinfile:
-    path: /etc/fstab
-    regexp: '{{ part3_device }}' 
-    line: '{{ part3_device }}  /virtualmachines    ext4     errors=remount-ro       0       1'
-    state: present
-    backup: yes
-
-- name: reload fstab
-  shell: mount -a
-    
+## winontop
 
 - name: create dir for winontop
-  file: path={{ virtualmachines_path }} state=directory mode=0775 group=sudo
+  file: path={{ virtualmachines_path }}/winontop/ state=directory mode=0775 group=sudo
 
 - name: create tmp dir in virtualmachines path
-  file: path="{{ virtualmachines_path }}/tmp" state=directory mode=1777   
+  file: path="{{ virtualmachines_path }}/winontop/tmp" state=directory mode=1777   
 
 - name: copy script to client | 1
   copy: 
     src: startVM.sh
-    dest: "{{ virtualmachines_path }}/startVM.sh"
+    dest: "{{ virtualmachines_path }}/winontop/startVM.sh"
     mode: 0755
     owner: root
     group: root
@@ -138,7 +24,7 @@
 - name: copy script to client | 2
   copy: 
     src: start-and-configureVM.sh
-    dest: "{{ virtualmachines_path }}/start-and-configureVM.sh"
+    dest: "{{ virtualmachines_path }}/winontop/start-and-configureVM.sh"
     mode: 0750
     owner: root
     group: sudo
@@ -146,7 +32,7 @@
 - name: copy Icon to client
   copy: 
     src: win10.png
-    dest: "{{ virtualmachines_path }}/win10.png"
+    dest: "{{ virtualmachines_path }}/winontop/win10.png"
     mode: 0644
     owner: root
     group: root
@@ -154,7 +40,7 @@
 - name: copy desktopfile to client
   template: 
     src: win10.desktop.j2
-    dest: "{{ virtualmachines_path }}/win10.desktop"
+    dest: "{{ virtualmachines_path }}/winontop/win10.desktop"
     mode: 0755
     owner: root
     group: root
@@ -169,13 +55,13 @@
   
     
 #- name: rsync VDI file
-#   synchronize:  src="/netzordner/{{ virtualbox_machines_dir }}/win10.vdi" dest="/virtualmachines/winontop/win10.vdi" partial=yes archive=yes
+#   synchronize:  src="/netzordner/{{ virtualbox_machines_dir }}/win10.vdi" dest="{{ virtualmachines_path }}/winontop/win10.vdi" partial=yes archive=yes
 #  delegate_to: "{{ inventory_hostname }}"
 #  become: yes
 #  become_user: admin
 
 - name: rsync VDI file
-  shell: 'rsync -au /netzordner/{{ virtualbox_machines_dir }}/win10.vdi /virtualmachines/winontop/win10.vdi'
+  shell: 'rsync -au /netzordner/{{ virtualbox_machines_dir }}/win10.vdi {{ virtualmachines_path }}/winontop/win10.vdi'
   become: yes
   become_user: admin
 

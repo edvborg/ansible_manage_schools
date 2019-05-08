@@ -1,6 +1,9 @@
 ---
 - hosts: lehrerpcs-me
 
+  vars:
+    localuser: "{{ fach }}-user"
+
   roles:
   - ubuntu_clients/configure_lehrerkiosk/configure_create_localuser
   - ubuntu_clients/configure_lehrerkiosk/configure_autologin4localuser
@@ -8,7 +11,7 @@
   - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
   - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-fach_autofs
   - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser
-  - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+  - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
   
   
   post_tasks:

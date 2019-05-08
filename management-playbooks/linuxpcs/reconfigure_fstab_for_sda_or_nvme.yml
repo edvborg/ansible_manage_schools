@@ -1,5 +1,5 @@
 ---
-- hosts: linuxpcs
+- hosts: linuxpcs,192.68.140.16
   
   pre_tasks:
   - name: define name of hard disk | 1

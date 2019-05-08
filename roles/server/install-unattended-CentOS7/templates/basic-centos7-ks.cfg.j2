@@ -1,0 +1,83 @@
+#version=RHEL7
+# System authorization information
+auth --enableshadow --passalgo=sha512
+# Use network installation
+install
+# Use graphical install
+graphical
+# Use NFS installation media
+nfs --server=fog --dir=/ks-netinstall/centos/7/
+#nfs --server=laus --dir=/opt/ks-netinstall/CentOSx64/7/
+# Run the Setup Agent on first boot
+firstboot --enable
+ignoredisk --only-use=sda,sdb
+# Keyboard layouts
+keyboard --vckeymap=at-nodeadkeys --xlayouts='at (nodeadkeys)'
+# System language
+lang de_AT.UTF-8
+
+# Network information
+network  --bootproto=dhcp --device=ens192 --ipv6=auto --activate
+network  --hostname="{{ hostname_client }}"
+#
+#
+# Root password
+rootpw --iscrypted $6$rUQL25cyTHLGaz2A$26LR2Y0ZOKQDQmeHMv6dSCDdKPM4mzSG7mvPdTjBrUUMirbmmYCDyQV0RdntpLYnraTIsjFoUHjE2Tw4MrSfj0
+# SELinux configuration
+selinux --disabled
+# System services
+services --enabled="chronyd"
+# System timezone
+timezone Europe/Vienna --isUtc --ntpservers=192.168.200.254
+# System bootloader configuration
+bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=sda
+# Clear the Master Boot Record
+zerombr
+# Partition clearing information
+clearpart --all --drives=sda
+# Disk partitioning information
+part /var --fstype=xfs --ondisk=sda --size=3000
+part /tmp --fstype=xfs --ondisk=sda --size=500
+part /boot --fstype=xfs --ondisk=sda --size=238
+part / --fstype=xfs --grow --ondisk=sda --size=6500
+#
+part swap --fstype swap --grow  --maxsize=4000 --size=1800 --ondisk=sdb
+#
+reboot  ### ?????
+#
+%post --log=/root/my-post-log
+#exec < /dev/tty3 > /dev/tty3
+#chvt 3
+#echo
+#echo "################################"
+#echo "# Running Post Configuration   #"
+#echo "################################"
+# update the system
+yum update -y 
+#
+# prevent future yum updates pulling down & install new kernels (and breaking VMware & video drivers).
+echo "exclude=kernel*" >> /etc/yum.conf
+# 
+yum -y install epel-release
+yum -y update 
+yum -y install ansible open-vm-tools nfs-utils git wget
+#
+wget --no-check-certificate https://raw.githubusercontent.com/edvborg/ansible_manage_schools/master/inventories/id_rsa.pub 
+mkdir /root/.ssh 
+cat id_rsa.pub > /root/.ssh/authorized_keys
+chmod 0700 /root/.ssh
+chmod 0600 /root/.ssh/*
+#
+#
+#
+%end
+
+%packages
+@core
+chrony
+kexec-tools
+%end
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end

@@ -9,25 +9,79 @@
 
 
 ## 16.04: enable network manager; 
-## 18.04: networkd handles interface (netplan)
+
 
 - name: delete line iface for interface in /etc/network/interfaces
   lineinfile:
     dest: /etc/network/interfaces
     state: absent
     backup: yes
-    regexp: '^\s*iface.*eno'
+    regexp: '^\s*iface.*en'
     #regexp: "{{ ^\s*iface.* + ansible_interfaces[1]  }}"
   when: ansible_distribution_version == "16.04"
-
+  register: interfaces_changed1
+  notify: reload networking and network manager
+  tags:
+    - network_test
+    
+    
 - name: delete line auto for interface in /etc/network/interfaces
   lineinfile:
     dest: /etc/network/interfaces
     state: absent
     backup: yes
     # regexp: '{{ "^\s*auto.*" + ansible_interfaces[1]  }}'
-    regexp: '^\s*auto.*eno1'
+    regexp: '^\s*auto.*en.*'
   when: ansible_distribution_version == "16.04"
+  notify: reload networking and network manager
+  register: interfaces_changed2
+  tags:
+    - network_test
+
+
+
+###############################################################
+## 18.04: disable netplan dhcp -> enable network manager
+
+
+- name: find interface file in /etc/netplan
+  find:
+    paths: /etc/netplan/
+    patterns: '*.yaml'
+  register: netplan_files
+  notify: reload networking and network manager
+  tags:
+    - network_test
+
+
+#- debug: msg={{ netplan_files.files[0].path }}
+#  tags:
+#    - network_test
+    
+- name: delete interface yaml file in /etc/netplan
+  file: 
+    path: "{{ item.path }}"
+    state: absent
+    backup: yes
+  with_items: "{{ netplan_files.files }}"
+  notify: reload networking and network manager  
+  tags:
+    - network_test    
+      
+      
+- name: copy netplan yaml file to remote
+  copy:
+    src: "01-network-manager-all.yaml"
+    dest: /etc/netplan/
+    backup: yes
+  when: ansible_distribution_version == "18.04"
+  notify: reload networking and network manager
+  register: interfaces_changed2
+  tags:
+    - network_test
+
+
+############ Namensauflösung ##########################
 
 ### delete hostname in /etc/hosts löschen;
 #
@@ -38,8 +92,6 @@
     backup: yes
     regexp: '.*{{ ansible_hostname }}.*'
 
-
-############ Namensauflösung ##########################
 
 ### mdns für Namensauflösung hintanstellen
 
@@ -52,4 +104,11 @@
     regexp: 'hosts:\s*files\s*mdns4_minimal.*'
     line: "hosts:\t\tfiles dns mdns4_minimal [NOTFOUND=return] mdns4" 
   
+#- name: restart network-manager
+#  service: name=network-manager state=restarted
+#  when: (( ansible_distribution_version == "16.04" ) or ( ansible_distribution_version == "18.04" )) and ( ( interfaces_changed1 is changed ) or ( interfaces_changed2 is changed ) )
+
+
+
+
 

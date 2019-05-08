@@ -1,4 +1,5 @@
 fach: "bu"
+localuser: "{{ fach }}-user"
 fach_langbezeichnung: "Biologie und Umweltkunde"
 smbpassword: "{{ vaulted_smbpassword_bu }}"
 

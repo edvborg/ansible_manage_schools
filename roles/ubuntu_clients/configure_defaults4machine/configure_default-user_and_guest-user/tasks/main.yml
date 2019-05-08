@@ -12,6 +12,8 @@
     vtype: select
     value: "lightdm"
   notify: restart lightdm
+  when: ansible_distribution_version == "18.04"
+
 
 - name: preseed display manager | 2
   debconf:
@@ -21,10 +23,26 @@
     value: "lightdm"
   notify: restart lightdm
 
-- name: configure lightdm as defautl display manager
+- name: configure lightdm as default display manager
   lineinfile: line="/usr/sbin/lightdm" dest="/etc/X11/default-display-manager" state=present insertafter=BOF regexp='/usr/sbin'
+  notify: restart lightdm
 
+- name: reconfigure lightdm package
+  shell: dpkg-reconfigure -f noninteractive lightdm
 
+- name: reconfigure gdm package
+  shell: dpkg-reconfigure -f noninteractive gdm3
+  when: ansible_distribution_version == "18.04"
+
+- name: enable guest session in lightdm
+  lineinfile:
+    dest: /usr/share/lightdm/lightdm.conf.d/50-disable-guest.conf
+    line: "allow-guest=true" 
+    state: present 
+    regexp: '\w*allow-guest\w*=' 
+  when: ansible_distribution_version == "18.04"
+
+  
 ### create directory for local accounts
 
 - name: create home2  
@@ -38,6 +56,7 @@
     comment: admin 
     groups: sudo 
     home: /home2/admin
+    shell: /bin/bash
     password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
 
 
@@ -48,6 +67,7 @@
     uid: 1011
     comment: Gastkonfiguration 
     home: /home2/guest-prefs
+    shell: /bin/bash
     password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
   when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
@@ -80,7 +100,11 @@
   copy: src=change-to-noautologin.sh dest=/root/change-to-noautologin.sh owner=root mode=0700
   when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
+### copy script to copy monitors.xml
 
+- name: copy script for copying monitors.xml
+  copy: src=copy_monitor.xml_to_guest-prefs.sh dest=/root/copy_monitor.xml_to_guest-prefs.sh owner=root mode=0755
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
 
 
 

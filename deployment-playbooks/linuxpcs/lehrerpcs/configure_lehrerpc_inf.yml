@@ -1,6 +1,7 @@
 ---
 - hosts: lehrerpcs-inf
-  
+
+ 
   roles:
     - ubuntu_clients/configure_cups-client_and_default-printer
     

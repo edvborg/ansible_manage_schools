@@ -1,3 +1,4 @@
 fach: "ph"
+localuser: "{{ fach }}-user"
 fach_langbezeichnung: "Physik"
 smbpassword: "{{ vaulted_smbpassword_ph }}"

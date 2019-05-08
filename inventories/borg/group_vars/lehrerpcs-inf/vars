@@ -1,3 +1,4 @@
 fach: "inf"
+localuser: "{{ fach }}-user"
 fach_langbezeichnung: "Informatik"
 smbpassword: "{{ vaulted_smbpassword_inf }}"

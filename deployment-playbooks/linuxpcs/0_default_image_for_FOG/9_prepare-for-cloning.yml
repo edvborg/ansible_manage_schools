@@ -1,5 +1,5 @@
 ---
-- hosts: O2-10-PCT4 
+- hosts: O2-10-PCT4,O2-10-PCT5,O2-10-PCT6,O2-10-PCT2 
   
   pre_tasks:
   - name: define name of hard disk | 1

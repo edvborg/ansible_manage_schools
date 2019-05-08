@@ -1,6 +1,6 @@
 ---
 
-###############################
+############################### - ready for 18.04
 
 - name: ensure lightdm.conf
   copy: src=lightdm.conf dest=/etc/lightdm/lightdm.conf force=no
@@ -62,23 +62,6 @@
     regexp: 'greeter-show-manual-login='
   notify: reload lightdm
 
-- name: Installation von gnome-fallback sicherstellen
-  apt: 
-    name: gnome-session-flashback 
-    state: present
-  when: ansible_distribution_version == "14.04"
-
-- name: configure session
-  lineinfile: 
-    dest: /etc/lightdm/lightdm.conf
-    state: present
-    backup: yes
-    regexp: 'user-session='
-    line: "user-session=gnome-fallback"
-  notify: reload lightdm
-  when: ansible_distribution_version == "14.04"
-
-
 - name: configure session
   lineinfile: 
     dest: /etc/lightdm/lightdm.conf
@@ -87,7 +70,6 @@
     regexp: 'user-session='
     line: "user-session=ubuntu"
   notify: reload lightdm
-  when: ansible_distribution_version == "16.04"
 
 
 

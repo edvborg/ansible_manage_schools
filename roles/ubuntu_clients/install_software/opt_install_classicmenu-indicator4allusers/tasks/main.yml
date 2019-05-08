@@ -1,11 +1,11 @@
 ---
 
-### classicmenu
+### classicmenu - ready for 18.04
 
 
 - name: install classicmenu-indicator
   apt: name=classicmenu-indicator state=present
-  when: ( ansible_distribution_version == "16.04" )
+  when: ( ansible_distribution_version == "16.04" ) or ( ansible_distribution_version == "18.04" )
 
 - name: copy custom_icon to /usr/share/icons
   copy: 
@@ -36,5 +36,37 @@
   - /usr/share/icons/ubuntu-mono-light/status/24/classicmenu-indicator-dark.svg
   - /usr/share/icons/ubuntu-mono-light/status/24/classicmenu-indicator-light.svg
   - /usr/share/icons/ubuntu-mono-light/status/24/classicmenu-indicator.svg
+  when: ( ansible_distribution_version == "16.04" ) 
 
+
+#- name: copy custom_icon to /usr/share/icons
+#  copy: 
+#    src: classicmenu-indicator-custom.svg
+#    dest: "{{ item }}"
+#    owner: root 
+#    group: root 
+#    mode: 0644
+#  with_items: 
+#  - /usr/share/icons/hicolor/scalable/apps/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/hicolor/scalable/apps/classicmenu-indicator-light.svg
+#  - /usr/share/icons/hicolor/scalable/apps/classicmenu-indicator.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/16/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/16/classicmenu-indicator-light.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/16/classicmenu-indicator.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/22/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/22/classicmenu-indicator-light.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/22/classicmenu-indicator.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/24/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/24/classicmenu-indicator-light.svg
+#  - /usr/share/icons/ubuntu-mono-dark/status/24/classicmenu-indicator.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/16/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/16/classicmenu-indicator-light.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/16/classicmenu-indicator.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/22/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/22/classicmenu-indicator-light.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/22/classicmenu-indicator.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/24/classicmenu-indicator-dark.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/24/classicmenu-indicator-light.svg
+#  - /usr/share/icons/ubuntu-mono-light/status/24/classicmenu-indicator.svg
+#  when: ( ansible_distribution_version == "18.04" ) 
 

@@ -5,14 +5,16 @@
     localuser: guest-prefs
     iconposition_x: 1100
     firefox_save_logins: None
+    applist_in_launcher_1804: "[ 'ubiquity.desktop', 'webuntis.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'geogebra-classic.desktop', 'vlc.desktop', 'libreoffice-writer.desktop', 'libreoffice-impress.desktop', 'yelp.desktop' ]"
+
     
   roles:
     - ubuntu_clients/install_software/opt_install_classicmenu-indicator4allusers
     - ubuntu_clients/opt__configure-firefox-policies
-    - ubuntu_clients/configure_session_for_defaultuser/set_autologin-guest
-    - ubuntu_clients/configure_session_for_defaultuser/configure_launchers_for_guest
-    - ubuntu_clients/configure_session_for_defaultuser/configure_webuntis_for_guest
-    - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+    - ubuntu_clients/configure_lehrerkiosk/configure_autologin4guest
+    - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser
+    - ubuntu_clients/configure_defaults4users/set_launcher_in_schemafile
+    - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
     - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
     - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
     - ubuntu_clients/configure_sessionrestart
@@ -48,6 +50,6 @@
 
     - name:  restart lightdm 
       shell: /usr/sbin/service lightdm restart
-      when:  ansible_distribution_version == "14.04" 
+      when:  ansible_distribution_version == "18.04" 
 
 

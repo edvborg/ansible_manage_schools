@@ -1,0 +1,11 @@
+---
+- hosts: klassenpcs
+
+  tasks:       
+  - name: copy monitors.xml from guest-prefs to /var/lib/lightdm
+    copy:
+      src: "/home2/guest-prefs/.config/monitors.xml"
+      dest: "/var/lib/lightdm/.config/monitors.xml"  
+      remote_src: yes
+      
+

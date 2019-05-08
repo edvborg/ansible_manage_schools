@@ -1,5 +1,7 @@
 ---
 
+## - ready for 18.04
+
 - name: copy policies file to remote host
   template:
     src: 'policies.j2'

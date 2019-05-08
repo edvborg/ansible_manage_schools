@@ -1,4 +1,5 @@
 fach: "me"
+localuser: "{{ fach }}-user"
 fach_langbezeichnung: "Musikerziehung"
 smbpassword: "{{ vaulted_smbpassword_me }}"
 

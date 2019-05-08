@@ -1,0 +1,122 @@
+[org/gnome/desktop/wm/preferences]
+num-workspaces={{ num_of_workspaces }}
+
+[org/gnome/desktop/background]
+picture-uri="{{ desktopbackground }}"
+show-desktop-icons=true
+#
+
+
+[org/gnome/nautilus/desktop]
+{% if volumes_visible %}
+volumes-visible=true
+{% else %}
+volumes-visible=false
+{% endif %}
+
+
+[org/gnome/nautilus/preferences]
+{% if sort_dirs_first %}
+sort-directories-first=true
+{% else %}
+sort-directories-first=false
+{% endif %}
+
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='list-view'
+
+
+[org/gnome/desktop/screensaver]
+{% if screen_lock_enabled %}
+lock-enabled=true
+{% else %}
+lock-enabled=false
+{% endif %}
+
+[org/gnome/desktop/screensaver]
+idle-delay=uint32 {{ screensaver_timeout }}
+
+[org/gnome/desktop/session]
+idle-delay=uint32 {{ screen_timeout }}
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-timeout=uint32 {{ sleep_timeout }}
+
+[org/gnome/settings-daemon/plugins/power]
+{% if darken_display %}
+idle-dim=true
+{% else %}
+idle-dim=false
+{% endif %}
+
+[org/gnome/desktop/screensaver]
+{% if lock_on_suspend %}
+ubuntu-lock-on-suspend=true
+{% else %}
+ubuntu-lock-on-suspend=false
+{% endif %}
+
+[com/canonical/unity]
+{% if integrated_menus_enabled %}
+integrated-menus=true
+{% else %}
+integrated-menus=false
+{% endif %}
+
+
+[com/canonical/unity]
+{% if always_show_menus %}
+always-show-menus=true
+{% else %}
+always-show-menus=false
+{% endif %}
+
+### <schema path="/com/canonical/unity/" id="com.canonical.Unity" gettext-domain="unity">
+
+
+[com/canonical/unity/webapps]
+{% if webapps_enabled %}
+integration-allowed=true
+{% else %}
+integration-allowed=false
+{% endif %}
+
+
+[org/compiz/profiles/unity/plugins/unityshell]
+icon-size={{ launcher_icon_size }}
+
+[com/canonical/indicator/session]
+{% if show_name_in_panel %}
+show-real-name-on-panel=true
+{% else %}
+show-real-name-on-panel=false
+{% endif %}
+
+[org/gnome/nautilus/desktop]
+{% if show_home_trash_network_icons %}
+home-icon-visible=true
+network-icon-visible=true
+trash-icon-visible=true
+{% else %}
+home-icon-visible=false
+network-icon-visible=false
+trash-icon-visible=false
+{% endif %}
+
+[org/gnome/settings-daemon/plugins/power]
+{% if power_button_shutdown %}
+button-power='shutdown'
+{% endif %}
+
+
+
+########################################
+
+org.gnome.mutter dynamic-workspaces false
+
+org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 40
+
+org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+
+org.gnome.desktop.interface clock-show-date true

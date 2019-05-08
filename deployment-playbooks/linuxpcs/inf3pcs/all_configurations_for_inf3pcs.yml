@@ -10,8 +10,8 @@
 - name: do configurations for inf-3
   import_playbook: 1_configurations_for_inf3pcs.yml 
 
-#- name: import winontop
-#  import_playbook: ../common/5_configure_winontop.yml hostlist=inf3pcs
+- name: import winontop
+  import_playbook: ../common/5_configure_winontop.yml hostlist=inf3pcs
 
 
 - name: reboot and wait for host

@@ -1,0 +1,11 @@
+---
+  
+- hosts: "{{ pc2remove }}"
+
+  gather_facts: False
+
+  tasks:
+  - name: remove host from dns
+    shell: "/root/remove_host_from_dns.sh {{ inventory_hostname }}"
+    delegate_to: boss
+

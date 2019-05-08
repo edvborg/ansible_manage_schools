@@ -1,3 +1,4 @@
 fach: "konf"
+localuser: "{{ fach }}-user"
 fach_langbezeichnung: "Konferenzzimmer"
 smbpassword: "{{ vaulted_smbpassword_konf }}"

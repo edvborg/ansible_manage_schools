@@ -16,6 +16,8 @@
 
 ## defaults for all users
 
+  - ubuntu_clients/configure_defaults4users/create_dconf_directories
+  - ubuntu_clients/configure_defaults4users/set_launcher_in_schemafile
   - ubuntu_clients/configure_defaults4users/set_unity_defaults
   - ubuntu_clients/configure_defaults4users/disable_user_services
   - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
@@ -25,8 +27,10 @@
 ##
 ## configure desktop env for default user (for klassenpcs, lehrerkiosk) 
 
-  - ubuntu_clients/configure_session_for_defaultuser/set_appdefaults4localuser-vlc
+  - ubuntu_clients/configure_lehrerkiosk/configure_autologin4guest
+  - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
   
+
   tasks:
   - name: set distupgrade never
     lineinfile:
@@ -36,18 +40,13 @@
       line: "Prompt=never"   
 
   
-  post_tasks:
-  - name: restart networking
-    shell: sleep 2 && systemctl restart networking
-    async: 1
-    poll: 0
-    ignore_errors: true
-
-  - name: restart network manager
-    shell: sleep 2 && systemctl restart NetworkManager
-    async: 1
-    poll: 0
-    ignore_errors: true    
+#  post_tasks:
+#  - name: restart network manager
+#    shell: sleep 2 && systemctl restart NetworkManager
+#    async: 1
+#    poll: 0
+#
+#    ignore_errors: true    
 
       
   - name: wait for host after network restart

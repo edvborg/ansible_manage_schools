@@ -9,7 +9,7 @@
   copy: src=webuntis.png dest=/opt/webuntis/webuntis.png
 
 - name: ensure desktop folder 
-  file: path=/home2/{{ localuser }}/Schreibtisch state=directory owner={{ localuser }} group={{ localuser }}  mode=0700
+  file: path=/home2/{{ localuser }}/Schreibtisch state=directory owner={{ localuser }} group={{ localuser }}  mode=0755
 
 - name: copy desktopfile to remote machine
   copy: src=webuntis.desktop dest=/usr/share/applications/webuntis.desktop owner=root mode=0644
@@ -29,7 +29,7 @@
   file: path=/home2/{{ localuser }}/.config/autostart state=directory owner={{ localuser }} group={{ localuser }} mode=0700
 
 
-- name: copy desktopfile to Local User/autostart
+- name: copy desktopfile to local user/autostart
   copy: src=webuntis.desktop dest=/home2/{{ localuser }}/.config/autostart/webuntis.desktop owner={{ localuser }} group={{ localuser }} mode=0700
 
 
@@ -40,7 +40,8 @@
 
 - name: ensure .config/upstart folder
   file: path=/home2/{{ localuser }}/.config/upstart state=directory  mode=0700 owner={{ localuser }} group={{ localuser }}
-
+  when: ansible_distribution_version == "16.04"
+  
 - name: copy script for setting apps in launcher
   template:
     src: set-apps-in-launcher.conf.j2
@@ -48,4 +49,4 @@
     mode: 0644
     owner: "{{ localuser }}"
     group: "{{ localuser }}"
-
+  when: ansible_distribution_version == "16.04"

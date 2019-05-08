@@ -13,7 +13,7 @@
   shell: lspci | egrep 'VGA'
   register: videoreport 
 
-- name: get Video controller information
+- name: get network interface controller information
   shell: lspci | egrep 'Ethernet'
   register: nicreport 
   

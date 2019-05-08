@@ -1,0 +1,158 @@
+--- 
+
+## find device name of hard disk
+
+- name: define name of hard disk | 1
+  set_fact: 
+    hd_device: "/dev/nvme0n1"
+    part3_device: "/dev/nvme0n1p3"
+  when: ansible_mounts[0]['device'].find('nvm')>-1 
+    
+- name: define name of hard disk | 2
+  set_fact: 
+    hd_device: "/dev/sda"
+    part3_device: "/dev/sda3"
+  when: ansible_mounts[0]['device'].find('sda')>-1 
+
+  
+##  exists partition 3 ?  
+  
+- name: show partitions of primary disk
+  shell: 'partprobe -d -s {{ hd_device }}'
+  register: output_partprobe
+  changed_when: false
+  
+# - debug: var=output_partprobe
+  
+  
+- name: test for partition 3  
+  set_fact:
+    exists_part3: false
+  when: output_partprobe.stdout_lines[0].find('3')<0
+  
+- name: test for partition 3  
+  set_fact:
+    exists_part3: true
+  when: output_partprobe.stdout_lines[0].find('3')>-1
+
+  
+#- debug: var=output_partprobe.stdout_lines[0].find('3') 
+
+- debug: var=exists_part3
+      
+
+## ensure /home from fstab removed     
+      
+- name: grep fstab for home dir
+#  #shell: grep -q '*/home' /etc/fstab
+  shell: egrep  '(/dev|UUID).*\/home' /etc/fstab
+  ignore_errors: true
+  register: grep_home_returncode
+  changed_when: false
+
+- name: delete home dir in fstab
+  lineinfile:
+    regexp:  '(/dev|UUID).*\/home'
+    state: absent
+    dest: /etc/fstab
+  when: grep_home_returncode.rc==0
+    
+#- debug: var=grep_home_returncode.rc
+  
+- name: stop automounter
+  service: name=autofs state=stopped
+  when: grep_home_returncode.rc==0
+  
+- name: umount /home 
+  mount:
+    path: /home
+    state: unmounted
+  when: grep_home_returncode.rc==0
+
+- name: start automounter
+  service: name=autofs state=restarted
+  when: grep_home_returncode.rc==0
+
+## create partition 3 when nonexistent
+ 
+- debug: var=exists_part3
+ 
+- name: copy script make_partition to client
+  template: 
+    src: make_partition3.sh.j2
+    dest: /tmp/make_partition3.sh
+    mode: 0755
+    owner: root
+    group: root
+  when: not exists_part3  
+  
+- name: execute script
+  shell: /tmp/make_partition3.sh
+  when: not exists_part3  
+
+## if {{ virtualmachines_path }} exists and is not mountet on part3 {{ virtualmachines_path }} has to be cleaned
+
+
+## create mountpoint if non existent
+
+- name: create mount point for partition 3
+  file:
+    path: "{{ virtualmachines_path }}"
+    state: directory
+    mode: 0775
+
+
+## ensure part3 file system ext4
+
+- name: find filesystem on partition 3
+  shell: blkid {{ part3_device }} 
+  register: output_blkid
+  changed_when: false
+
+- name: test for partition 3  filesystem | 1
+  set_fact:
+    is_ext4: false
+  when: output_blkid.stdout_lines[0].find('ext4')<0
+  
+- name: test for partition 3  filesystem | 2
+  set_fact:
+    is_ext4: true
+  when: output_blkid.stdout_lines[0].find('ext4')>-1
+
+- debug: var=is_ext4   
+
+## formating only if no ext4 filesystem
+
+- name: umount partition 3 (when mounted)
+  shell: umount {{ part3_device }}
+  ignore_errors: yes
+  when: not is_ext4
+
+- name: format partition when filesystem does not exist
+  filesystem: fstype=ext4 dev={{ part3_device }} force=yes
+  when: not is_ext4
+
+## create entry in fstab
+
+- name: fstab |  entry for part3 - {{ virtualmachines_path }} 
+  lineinfile:
+    path: /etc/fstab
+    regexp: '{{ part3_device }}' 
+    line: '{{ part3_device }}  {{ virtualmachines_path }}    ext4     errors=remount-ro       0       1'
+    state: present
+    backup: yes
+
+- name: reload fstab
+  shell: mount -a
+    
+
+- name: create dir for winontop
+  file: path={{ virtualmachines_path }}/winontop state=directory mode=0775 group=sudo
+
+- name: create dir for labor
+  file: path="{{ virtualmachines_path }}/labor" state=directory mode=01777   
+
+- name: create dir ISOs in labor
+  file: path="{{ virtualmachines_path }}/labor/ISOs" state=directory mode=0777   
+
+

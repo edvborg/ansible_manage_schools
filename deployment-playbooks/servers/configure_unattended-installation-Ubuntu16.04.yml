@@ -1,0 +1,24 @@
+﻿---
+- hosts: boss   ## DHCP-Server
+                ## wird so konfiguriert, dass der Client eine Netzwerk-Installation durchführt
+
+  vars:
+    hostname_client: "wiki2"
+    macaddress_client: "00:0c:29:4f:20:e2" 
+
+
+#    hostname_client: "inf-2-01"
+#    macaddress_client: "6c:0b:84:0b:ed:83"
+
+
+###### defaults
+#   release: "16.04"
+#   architecture: "x86_64"
+#
+####### examples  
+
+
+  roles:
+  - clients/ubuntu/install-unattended
+
+

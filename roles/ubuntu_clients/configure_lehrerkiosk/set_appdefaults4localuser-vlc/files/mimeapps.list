@@ -1,4 +1,5 @@
 [Added Associations]
+application/x-cd-image=vlc.desktop;
 text/x-python=editra.desktop;
 video/dv=vlc.desktop;
 video/mpeg=vlc.desktop;
@@ -20,6 +21,8 @@ video/mp4v-es=vlc.desktop;
 video/mp2t=vlc.desktop;
 video/x-matroska=vlc.desktop;
 video/webm=vlc.desktop;
+x-content/video-dvd=vlc.desktop;
+x-content/audio-cdda=vlc.desktop;
 
 [Default Applications]
 video/x-matroska=vlc.desktop
@@ -43,3 +46,5 @@ video/mp4=vlc.desktop
 video/mp4v-es=vlc.desktop
 video/mp2t=vlc.desktop
 video/webm=vlc.desktop
+x-content/video-dvd=vlc.desktop
+x-content/audio-cdda=vlc.desktop

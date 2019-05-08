@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+  
+    
+  - name: add ppa repository for musescore3
+    apt_repository:
+      repo: ppa:mscore-ubuntu/mscore3-stable
+      state: present
+
+
+  - name: install musescore 3 latest
+    apt: 
+      name:
+      - musescore
+      state: latest 
+      update_cache: yes
+

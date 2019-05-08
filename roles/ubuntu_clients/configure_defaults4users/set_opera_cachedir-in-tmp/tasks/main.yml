@@ -3,11 +3,10 @@
 - name: ensure opera-stable installed
   apt: name=opera-stable state=present 
 
-- name: opera | modify Exec line in desktopfile 1
-  replace: 
-    path: /usr/share/applications/opera.desktop
-    regexp: '(.*Exec=.*opera)'
-    replace:   '\1 --disk-cache-dir="/tmp/opera-cache"'
+- name: opera | copy modified desktop file to remote
+  copy: 
+    src: opera.desktop
+    dest: /usr/share/applications/opera.desktop
     backup: yes
     
     

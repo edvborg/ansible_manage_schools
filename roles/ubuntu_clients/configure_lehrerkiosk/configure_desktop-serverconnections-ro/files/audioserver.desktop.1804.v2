@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=mit Audioserver verbinden
+Comment=mit Audioserver verbinden
+Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba/audio/
+Type=Application
+Icon=audio-x-generic
+Categories=GTK;GNOME;Application;Utility;
+

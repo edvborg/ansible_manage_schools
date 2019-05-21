@@ -3,7 +3,7 @@
   
   vars:
     localuser: guest-prefs
-    iconposition_x: 1100
+    iconposition_x: 1400
     firefox_save_logins: None
     applist_in_launcher_1804: "[ 'ubiquity.desktop', 'webuntis.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'geogebra-classic.desktop', 'vlc.desktop', 'libreoffice-writer.desktop', 'libreoffice-impress.desktop', 'yelp.desktop' ]"
 

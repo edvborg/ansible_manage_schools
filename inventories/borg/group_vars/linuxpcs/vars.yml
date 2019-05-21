@@ -51,7 +51,6 @@ packages_list_graphics_1604:
   - gimp-help-de 		#
   - dia 			#
   - inkscape 			#
-  - kipi-plugins 		#
   - digikam 			#
   - digikam-doc 		#
   - blender 			#
@@ -251,7 +250,6 @@ packages_list_graphics_1804:
   - gimp-help-de 		#
   - dia 			#
   - inkscape 			#
-  - kipi-plugins 		#
   - digikam 			#
   - digikam-doc 		#
   - blender 			#
@@ -301,6 +299,7 @@ packages_list_multimedia_1804:
   - fluidsynth 
   - timidity 
   - hydrogen 
+  - lmms
   - handbrake			# Videos/DVDs konvertieren
   - mediainfo-gui
   - pitivi 			# Video-Editor 

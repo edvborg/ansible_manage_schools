@@ -1,5 +1,11 @@
 ---
 
+- name: remove host from dns
+  shell: "/root/remove_host_from_dns.sh {{ inventory_hostname }}"
+  delegate_to: boss
+  listen: reload networking and network manager
+
+
 - name: reload networking
   listen: reload networking and network manager
   service: name=networking state=restarted
@@ -8,3 +14,7 @@
 - name: reload network manager
   listen: reload networking and network manager
   service: name=network-manager enabled=yes state=restarted
+
+
+
+

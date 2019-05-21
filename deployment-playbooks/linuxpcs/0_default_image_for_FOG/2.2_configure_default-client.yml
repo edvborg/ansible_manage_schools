@@ -1,6 +1,10 @@
 ---
 - hosts: linuxpcs
   
+  vars:
+    launcher_icon_size: 30
+
+
   roles:
 ##
   - ubuntu_clients/configure_auto_hostname

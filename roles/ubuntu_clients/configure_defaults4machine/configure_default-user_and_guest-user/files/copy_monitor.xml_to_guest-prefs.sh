@@ -10,5 +10,7 @@ if [ -f $guestdir/.config/monitors.xml ] ; then
 fi
 #
 cp $guestdir/.config/monitors.xml /home2/guest-prefs/.config/
+cp $guestdir/.config/monitors.xml /var/lib/lightdm/.config/
+
 #
 

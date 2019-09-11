@@ -2,8 +2,8 @@
 
 - name: shutdown script zum Client kopieren
   copy:
-    src: ausschalten.sh
-    dest: /usr/local/sbin/ausschalten.sh
+    src: autoshutdown.sh
+    dest: /usr/local/sbin/autoshutdown.sh
     mode: 0750
 
 
@@ -12,4 +12,4 @@
     dest: /etc/cron.d/shutdown_pc
     create: yes
     regexp: "ausschalten.sh"
-    line: "{{ shutdown_time }} * * * root /usr/local/sbin/ausschalten.sh >> /var/log/shutdown.log 2>&1" 
+    line: "{{ shutdown_time }} * * * root /usr/local/sbin/autoshutdown.sh >> /var/log/shutdown.log 2>&1" 

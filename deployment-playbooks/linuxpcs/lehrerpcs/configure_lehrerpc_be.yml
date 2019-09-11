@@ -1,5 +1,5 @@
 ---
-- hosts: lehrerpcs-be O2-10-PCT2
+- hosts: lehrerpcs_be 
 
   vars:
     localuser: "{{ fach }}-user"

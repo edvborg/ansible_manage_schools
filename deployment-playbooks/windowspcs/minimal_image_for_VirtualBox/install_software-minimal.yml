@@ -1,0 +1,16 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: Installation von Software mit chocolatey
+    win_chocolatey: 
+      name:
+      - firefox         
+      - chromium         
+      - wireshark        
+      - bluefish        
+      - adobereader         
+      - 7zip               
+      - softerraldapbrowser 
+      state: present
+    

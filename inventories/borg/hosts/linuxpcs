@@ -12,18 +12,20 @@ reservepcs
 testpcs
 
 [klassenpcs:children]
-klassenpcs-UG
-klassenpcs-EG
-klassenpcs-O1
-klassenpcs-O2
-klassenpcs-CO
-klassenpcs-lehrer
-klassenpcs-wechselraum
+klassenpcs_UG
+klassenpcs_EG
+klassenpcs_O1
+klassenpcs_O2
+klassenpcs_CO
+klassenpcs_lehrer
 
 
-[klassenpcs-UG]
+[klassenpcs_UG]
+UG-13-PC01
+UG-29-PC01
+UG-36-PC01
 
-[klassenpcs-EG]
+[klassenpcs_EG]
 EG-01-PC01
 EG-02-PC01
 EG-03-PC01
@@ -36,10 +38,11 @@ EG-29-PC01
 EG-30-PC01
 EG-31-PC01
 EG-32-PC01
+EG-35-PC01
 EG-36-PC01
 
 
-[klassenpcs-O1]
+[klassenpcs_O1]
 O1-03-PC01 
 O1-04-PC01 
 O1-05-PC01 
@@ -51,7 +54,7 @@ O1-26-PC01
 O1-27-PC01
 
 
-[klassenpcs-O2]
+[klassenpcs_O2]
 O2-09-PC01 
 O2-18-PC01 
 O2-25-PC01 
@@ -59,26 +62,16 @@ O2-26-PC01
 O2-27-PC01 
 
 
-[klassenpcs-CO]
+[klassenpcs_CO]
 CO-01-PC01
 CO-02-PC01
 CO-03-PC01
 CO-04-PC01
 
-[klassenpcs-lehrer]
+[klassenpcs_lehrer]
 EG-27-PC01  # Lehrergarderobe LÜ
 O1-24-PC01  # Lehrergarderobe LÜ
 O1-06-PC01  # Kustodiat GW
-O2-10-PCT2  # Kustodiat INF
-O2-10-PCT4
-
-
-[klassenpcs-wechselraum]
-UG-13-PC01
-UG-29-PC01
-UG-36-PC01
-EG-35-PC01
-
 
 ###
 ### Informatiksäle und Bibliothek
@@ -91,12 +84,9 @@ inf3pcs
 bibliothekpcs
 
 [inf1pcs]
-inf-1-[01:18]
+inf-1-[01:16]
 inf-1-le
-O2-10-PCT5
-O2-10-PCT6
-192.168.110.66
-192.168.110.27
+#O2-10-PCT6
 
 [inf2pcs]
 inf-2-[01:15]
@@ -105,7 +95,7 @@ inf-2-le
 [inf3pcs]
 inf-3-[01:15]
 inf-3-le
-O2-10-PCT4 
+#O2-10-PCT4 
 
 # Bibliothek 
 
@@ -117,36 +107,37 @@ O1-01-PC[11:18]
 ###
 
 [lehrerpcs:children]
-lehrerpcs-be
-lehrerpcs-bu
-lehrerpcs-inf
-lehrerpcs-konf
-lehrerpcs-me
-lehrerpcs-ph
+lehrerpcs_be
+lehrerpcs_bu
+lehrerpcs_konf
+lehrerpcs_me
+lehrerpcs_ph
 
 
-[lehrerpcs-be]
+[lehrerpcs_be]
 O2-02-PC01 
 O2-03-PC01
 O2-04-PC01
 
 
-[lehrerpcs-bu]
+[lehrerpcs_bu]
 O2-05-PC01
+O2-06-PC01
+O2-07-PC01
 
 
-
-[lehrerpcs-inf]
+[lehrerpcs_qinf]
 O2-10-PC01
 O2-10-PC02
 
-[lehrerpcs-me]
+[lehrerpcs_me]
 O2-21-PC01
 O2-22-PC01
 
 
 
-[lehrerpcs-ph]
+
+[lehrerpcs_ph]
 O2-30-PC01
 O2-31-PC01
 O2-32-PC01
@@ -154,7 +145,7 @@ O2-32-PC01
 
 # Konferenzzimmer
 
-[lehrerpcs-konf]
+[lehrerpcs_konf]
 O1-29-PC03
 O1-29-PC04
 

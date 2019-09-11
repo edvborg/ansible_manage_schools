@@ -1,0 +1,140 @@
+--- 
+
+- name: install samba packages
+  yum:  
+    name: 
+    - samba   
+    - samba-client
+    state: installed
+
+- name: Firewall für samba öffnen | 1
+  command: firewall-cmd --zone=public --permanent --add-port=445/tcp
+
+- name: Firewall für samba öffnen | 2
+  command: firewall-cmd --zone=public --permanent --add-port=139/tcp
+
+- name: Firewall neu laden
+  command: firewall-cmd --reload
+
+- name: copy config files | 1
+  unarchive:
+    src: samba_etc_samba.tar.gz
+    dest: /etc/samba/
+
+- name: copy config files | 2
+  copy:
+    src: smb.conf
+    dest: /etc/samba/smb.conf
+  notify: enable and restart service smb
+
+# execute command: smbpasswd -W SERVERPASSWD-goes-here
+
+# manually set sid number on LDAP ? is there an autmated way ?
+# should look like:
+# [root@samba etc]# net getdomainsid
+# SID for local machine SAMBA is: S-1-5-21-2336030208-1547323707-3435355501
+# SID for domain BORG-IBK.LOCAL is: S-1-5-21-2336030208-1547323707-3435355501
+# [root@samba etc]# net getlocalsid
+# SID for domain SAMBA is: S-1-5-21-2336030208-1547323707-3435355501
+
+
+- name: create directory exports
+  file:
+    path: /exports/
+    state: directory
+    owner: root
+    mode: 0755
+
+- name: create subdirectories in exports
+  file:
+    path: "/exports/{{item}}"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items:
+  - video
+  - audio
+  - material
+  - sysadmin
+  - netlogon
+
+- name: create subdirectory profiles in exports
+  file:
+    path: "/exports/profiles"
+    state: directory
+    owner: root
+    mode: 1777
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/audio/{{item}}-audio"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: "{{list_of_subjects}}"
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/video/{{item}}-video"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: "{{list_of_subjects}}"
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/material/{{item}}-material"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: "{{list_of_subjects}}"
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/material/{{item}}"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: 
+  - inf-cnap
+  - inf-lehrer
+  - inf-schueler
+
+
+#- name: append nfs-mounts to fstab 		!funktioniert so nicht!
+#  blockinfile:
+#    block: "{{ lines_of_nfsmounts }}"
+#    dest: "/etc/fstab"
+#    backup: yes
+#    insertafter: EOF
+
+# TODO:
+# - append fstab_append-nfs-mounts to fstab file!
+
+
+##############################################################################
+## ldapbrowser
+
+
+- name: install some packages
+  yum:  
+    name: 
+    - java-latest-openjdk  
+    - xorg-x11-xauth
+    state: installed
+  tags: 
+  - ldapbrowser
+
+- name: copy ldapbrowser folder
+  unarchive:
+    src: samba_usr_local_ldapbrowser.tar.gz
+    dest: /usr/local/
+  tags: 
+  - ldapbrowser
+
+
+## set password in  /usr/local/ldapbrowser/ldap.borg-ibk.local.cfg
+
+
+
+

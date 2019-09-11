@@ -2,17 +2,38 @@
 
 ## find device name of hard disk
 
-- name: define name of hard disk | 1
-  set_fact: 
-    hd_device: "/dev/nvme0n1"
-    part3_device: "/dev/nvme0n1p3"
-  when: ansible_mounts[0]['device'].find('nvm')>-1 
-    
-- name: define name of hard disk | 2
+
+- name: define name of hard disk | when sda
   set_fact: 
     hd_device: "/dev/sda"
+    part1_device: "/dev/sda1"
+    part2_device: "/dev/sda2"  
     part3_device: "/dev/sda3"
-  when: ansible_mounts[0]['device'].find('sda')>-1 
+  when: item.find('sda')>-1 
+  loop: "{{ ansible_devices.keys() }}"
+
+- name: define name of hard disk | when nvme
+  set_fact: 
+    hd_device: "/dev/nvme0n1"
+    part1_device: "/dev/nvme0n1p1"
+    part2_device: "/dev/nvme0n1p2"
+    part3_device: "/dev/nvme0n1p3"
+  when: item.find('nvme')>-1 
+  loop: "{{ ansible_devices.keys() }}"
+
+
+
+#- name: define name of hard disk | 1
+#  set_fact: 
+#    hd_device: "/dev/nvme0n1"
+#    part3_device: "/dev/nvme0n1p3"
+#  when: ansible_mounts[0]['device'].find('nvm')>-1 
+    
+#- name: define name of hard disk | 2
+#  set_fact: 
+#    hd_device: "/dev/sda"
+#    part3_device: "/dev/sda3"
+#  when: ansible_mounts[0]['device'].find('sda')>-1 
 
   
 ##  exists partition 3 ?  

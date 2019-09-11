@@ -45,9 +45,15 @@ ldap_uri: "ldap://{{ ldapserver_address }}"
 samba_address: 192.168.200.205
 samba_netmask: 255.255.255.0
 samba_gateway: 192.168.200.254
-samba2_address: 192.168.200.206
-samba2_netmask: 255.255.255.0
-samba2_gateway: 192.168.200.254
+samba4_address: 192.168.200.206
+samba4_netmask: 255.255.255.0
+samba4_gateway: 192.168.200.254
+
+##########################################################
+### nextcloud-Server (test)
+nc_address: 192.168.200.207
+nc_netmask: 255.255.255.0
+nc_gateway: 192.168.200.254
 
 ##########################################################
 ### CUPS-Server

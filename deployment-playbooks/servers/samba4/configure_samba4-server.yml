@@ -1,0 +1,9 @@
+---
+- hosts: samba
+  
+  roles:
+  - server/configure_samba4-server 
+
+# not necessary, DNS is used
+#  - name: enable and start nmb
+#    service: name=nmb enabled=yes state=restarted

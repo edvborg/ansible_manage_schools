@@ -1,0 +1,16 @@
+---
+- hosts: servers
+  
+
+  tasks:
+  - name: install ome tools 
+    yum:
+      name: 
+      - sysstat
+      - sysusage 
+      - nmon
+      - iotop
+      state: installed  
+
+
+

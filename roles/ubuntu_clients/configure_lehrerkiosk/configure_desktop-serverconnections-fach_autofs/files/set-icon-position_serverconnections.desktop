@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Desktop-Truster
+Comment=Autostarter to trust all desktop files
+Exec=sh -c '$HOME/.config/autostart/set-icon-position_serverconnections.sh'
+Type=Application

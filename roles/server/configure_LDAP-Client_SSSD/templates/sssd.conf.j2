@@ -6,6 +6,7 @@ domains = LDAP
 [nss]
 
 [pam]
+offline_credentials_expiration = 3
 
 [domain/LDAP]
 id_provider = ldap
@@ -23,11 +24,10 @@ ldap_group_search_base = {{ ldap_groups_base_dn }}
 ldap_user_object_class = inetOrgPerson
 ldap_user_gecos = cn
 
-
-### ldap_tls_reqcert = hard
+ldap_id_use_start_tls = true
+ldap_tls_reqcert = demand
 ldap_tls_cacert = /etc/ssl/certs/boss.borg-ibk.local.pem
-### ldap_tls_cacert = /etc/ssl/certs/ca-certificates.crt
-### ldap_id_use_start_tls = true
+
 ###  uncomment below if the SME is a “iPasserelle”
 ### ldap_user_shell = desktopLoginShell
 ###  comment below if the SME is a “iPasserelle”

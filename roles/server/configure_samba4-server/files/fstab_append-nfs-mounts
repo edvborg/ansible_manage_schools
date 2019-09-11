@@ -1,0 +1,94 @@
+
+#
+# Mount der Homeverzeichnisse und Profil-Verzeichnisse
+#
+#
+192.168.210.252:/volumes/tank/home	/home                   nfs     _netdev,nfsvers=3,defaults,noacl,nolock 0 0
+#
+#
+#
+#
+#
+# Falls der Backupserver den Fileserver ersetzen muss
+#
+#backups:/hd_snapshots/snapshots/profile-directories/20150408/tree /export/profiles  nfs _netdev,nfsvers=3,defaults,noacl,nolock 0 0
+#
+#backups:/hd_snapshots/snapshots/home-directories/20150408/tree   /home	nfs  _netdev,nfsvers=3,defaults,noacl,nolock 0 0
+#
+#
+#
+# Mounts von fs.borg-ibk.local:
+
+
+
+192.168.210.252:/volumes/tank/freigaben/audio/be-audio    /exports/audio/be-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/bu-audio    /exports/audio/bu-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/ch-audio    /exports/audio/ch-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/d-audio    /exports/audio/d-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/e-audio    /exports/audio/e-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/eth-audio    /exports/audio/eth-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio   		 /exports/audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/f-audio    /exports/audio/f-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/gs-audio    /exports/audio/gs-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/gw-audio    /exports/audio/gw-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/i-audio    /exports/audio/i-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/inf-audio    /exports/audio/inf-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/m-audio    /exports/audio/m-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/me-audio    /exports/audio/me-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/ph-audio    /exports/audio/ph-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/pup-audio    /exports/audio/pup-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/rk-audio    /exports/audio/rk-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/spa-audio    /exports/audio/spa-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/spk-audio    /exports/audio/spk-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/audio/suk-audio    /exports/audio/suk-audio       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+#
+192.168.210.252:/volumes/tank/freigaben/material/be-material    /exports/material/be-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/bu-material    /exports/material/bu-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/ch-material    /exports/material/ch-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/d-material    /exports/material/d-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/e-material    /exports/material/e-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/eth-material    /exports/material/eth-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material    			/exports/material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/f-material    /exports/material/f-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/gs-material    /exports/material/gs-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/gw-material    /exports/material/gw-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/i-material    /exports/material/i-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/inf-cnap    /exports/material/inf-cnap       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/inf-lehrer    /exports/material/inf-lehrer       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/inf-material    /exports/material/inf-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/inf-schueler    /exports/material/inf-schueler       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/me-material    /exports/material/me-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/m-material    /exports/material/m-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/ph-material    /exports/material/ph-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/pup-material    /exports/material/pup-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/rk-material    /exports/material/rk-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/spk-material    /exports/material/spk-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/material/suk-material    /exports/material/suk-material       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+#
+192.168.210.252:/volumes/tank/freigaben/profiles		/exports/profiles	 nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+#
+192.168.210.252:/volumes/tank/freigaben/sysadmin    /exports/sysadmin       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+#
+192.168.210.252:/volumes/tank/freigaben/video/be-video    /exports/video/be-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/bu-video    /exports/video/bu-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/ch-video    /exports/video/ch-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/d-video    /exports/video/d-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/eth-video    /exports/video/eth-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/e-video    /exports/video/e-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video    		/exports/video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/f-video    /exports/video/f-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/gs-video    /exports/video/gs-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/gw-video    /exports/video/gw-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/inf-video    /exports/video/inf-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/i-video    /exports/video/i-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/me-video    /exports/video/me-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/m-video    /exports/video/m-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/ph-video    /exports/video/ph-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/pup-video    /exports/video/pup-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/rk-video    /exports/video/rk-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/spa-video    /exports/video/spa-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/spk-video    /exports/video/spk-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+192.168.210.252:/volumes/tank/freigaben/video/suk-video    /exports/video/suk-video       nfs    _netdev,nfsvers=3,defaults,noacl,noatime 0 0
+
+
+

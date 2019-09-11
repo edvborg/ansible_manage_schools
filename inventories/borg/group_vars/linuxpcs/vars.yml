@@ -1,5 +1,4 @@
 virtualmachines_path: /virtualmachines/
-
 virtualbox_machines_dir: /virtualbox-machines
 
 
@@ -300,6 +299,8 @@ packages_list_multimedia_1804:
   - timidity 
   - hydrogen 
   - lmms
+  - ladspa-foo-plugins
+  - calf-plugins
   - handbrake			# Videos/DVDs konvertieren
   - mediainfo-gui
   - pitivi 			# Video-Editor 
@@ -373,6 +374,7 @@ packages_list_softwaredevelopment_1804:
   - eclipse 		#
   - scratch 		#
   - arduino
+  - cherrytree
 
 packages_list_tools_1804:
    - tree 		#
@@ -403,6 +405,7 @@ packages_list_tools_1804:
    - sysstat
    - nano
    - mc
+   - gnome-calculator
 
 ############################################################################
 

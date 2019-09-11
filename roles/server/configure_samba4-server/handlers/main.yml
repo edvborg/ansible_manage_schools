@@ -1,0 +1,4 @@
+---
+
+- name: enable and restart service smb
+  service: name=smb enabled=yes state=restarted

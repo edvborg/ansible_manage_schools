@@ -1,5 +1,5 @@
 ---
-- hosts: lehrerpcs-me
+- hosts: lehrerpcs_me
 
   vars:
     localuser: "{{ fach }}-user"

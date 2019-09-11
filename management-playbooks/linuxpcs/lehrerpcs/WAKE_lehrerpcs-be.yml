@@ -4,7 +4,7 @@
   gather_facts: False
 
   vars: 
-    group: "{{ groups['lehrerpcs-be'] }}"
+    group: "{{ groups['lehrerpcs_be'] }}"
   
   tasks:
   - name: Alle Linux-PCs aufwecken

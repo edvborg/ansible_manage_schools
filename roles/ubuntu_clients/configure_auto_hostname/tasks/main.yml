@@ -13,12 +13,6 @@
     mode: 0700
   when: (ansible_distribution_version == "16.04") or  ( ansible_distribution_version == "18.04")
 
-- name: Installationsscript zum Client kopieren 14.04
-  copy:
-    src: set_hostname_with_fog-14.04.sh
-    dest: /usr/local/sbin/set_hostname_with_fog.sh
-    mode: 0700
-  when: ansible_distribution_version == "14.04"
       
 - name: remove old cronjob
   file: path=/etc/cron.d/configure-hostname state=absent

@@ -2,7 +2,19 @@
 ################### SERVER
 ###################
 
-192.168.140.38
+[servers:children]
+dhcpservers
+nameservers
+ldapservers
+sambaservers
+installservers
+radiusservers
+intranetservers
+cupsservers
+proxyservers
+wikiservers
+webservers
+nextcloudservers
 
 [dhcpservers]
 boss
@@ -31,7 +43,6 @@ intra
 [cupsservers]
 cups
 cups2
-192.168.200.223
 
 [proxyservers]
 proxy
@@ -44,10 +55,14 @@ wiki
 [webservers]
 www
 
+[nextcloudservers]
+nc
+
 [testservers]
 basicserver
 testserver
 192.168.200.190
 192.168.200.191
 192.168.200.192
+192.168.200.195
 

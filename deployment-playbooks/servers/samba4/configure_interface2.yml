@@ -1,0 +1,21 @@
+---
+- hosts: samba,192.168.200.206
+  
+  
+## ntp configuration done with kickstart installation
+
+  
+  vars:
+    network_interface: ens224
+    ip_address: 192.168.210.205
+    ip_netmask: 255.255.255.0
+    ip_gateway: "" 
+
+ 
+
+  roles:
+  - server/configure_interface
+    #  register: task_result
+   
+  
+

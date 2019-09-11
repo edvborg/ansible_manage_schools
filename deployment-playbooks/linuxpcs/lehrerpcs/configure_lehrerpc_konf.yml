@@ -1,5 +1,5 @@
 ---
-- hosts: lehrerpcs-konf
+- hosts: lehrerpcs_konf
   
   vars:
     localuser: "{{ fach }}-user"
@@ -9,12 +9,11 @@
   - ubuntu_clients/configure_lehrerkiosk/configure_autologin4localuser
   - ubuntu_clients/configure_lehrerkiosk/configure_gsettings4localuser
   - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
-  # - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-fach_autofs
   - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser
   - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
-  - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-rw_in_userspace
+  #- ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-rw_in_userspace   ## problem
   - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
-  - ubuntu_clients/install_software/opt_install_mediathekview
+  - ubuntu_clients/install_software/opt_install_mediathekview   ## problem
   
   tasks:
   - name: Mediathek-Icon auf den Desktop kopieren   

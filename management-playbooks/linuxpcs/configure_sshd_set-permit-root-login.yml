@@ -1,0 +1,13 @@
+---
+- hosts: linuxpcs
+  
+  tasks:
+  - name: enable root login with ssh
+    lineinfile: 
+      dest: /etc/ssh/sshd_config
+      state: present
+      line: 'PermitRootLogin yes'
+      regexp: '#?PermitRootLogin'
+        
+       
+  

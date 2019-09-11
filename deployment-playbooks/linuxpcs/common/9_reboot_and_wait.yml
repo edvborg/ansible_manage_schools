@@ -1,5 +1,5 @@
 ---
-- hosts: linuxpcs
+- hosts: "{{hostlist }}"
 
   tasks:
   - name: reboot the host

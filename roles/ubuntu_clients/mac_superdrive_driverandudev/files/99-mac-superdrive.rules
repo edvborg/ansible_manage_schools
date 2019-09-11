@@ -1,0 +1,2 @@
+# Rule for Apple Macbook Air Superdrive (external CD/DVD drive)
+ACTION=="add", ATTRS{idProduct}=="1500", ATTRS{idVendor}=="05ac", DRIVERS=="usb", RUN+="/usr/bin/sg_raw /dev/$kernel EA 00 00 00 00 00 01"

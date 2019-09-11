@@ -35,6 +35,10 @@
     group: root
     mode: 0600
 
+- name: apply sssd settings to pam 
+  command: authconfig --enablesssdauth --update
+  
+  
 - name: reload sssd
   service: name=sssd enabled=yes state=restarted
 

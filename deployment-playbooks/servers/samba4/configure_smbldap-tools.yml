@@ -1,0 +1,174 @@
+---
+- hosts: samba,192.168.200.190
+  
+  vars:
+    host_name: samba
+    ip_address: "{{ samba_address }}"
+
+  tasks:
+  - name: install dependencies
+    yum:
+      name: 
+      - smbldap-tools
+      state: installed  
+
+
+  - name: change lines in smbldap.conf | 1
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'SID="S-1-5-21-2336030208-1547323707-3435355501" '	
+      regexp: '.*SID=.*' 
+ 
+
+  - name: change lines in smbldap.conf | 2
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'sambaDomain="borg-ibk.local" '	
+      regexp: '.*sambaDomain=.*' 
+
+
+
+  - name: change lines in smbldap.conf | 3
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'masterLDAP="ldap.borg-ibk.local" '	
+      regexp: '.*masterLDAP=.*' 
+
+
+  - name: change lines in smbldap.conf | 4
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'slaveLDAP="ldap.borg-ibk.local" '	
+      regexp: '.*slaveLDAP=.*' 
+
+
+
+
+  - name: change lines in smbldap.conf | 5
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'ldapTLS="0" '	
+      regexp: '.*ldapTLS=.*' 
+
+
+
+  - name: change lines in smbldap.conf | 6
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: '#verify="require" '	
+      regexp: '.*verify=.*' 
+
+
+  - name: change lines in smbldap.conf | 7
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: '#cafile="/etc/pki/tls/certs/ldapserverca.pem" '	
+      regexp: '.*cafile=.*' 
+
+  - name: change lines in smbldap.conf | 8
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: '#clientcert="/etc/pki/tls/certs/ldapclient.pem" '	
+      regexp: '.*clientcert=.*' 
+
+  - name: change lines in smbldap.conf | 9
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: '#clientkey="/etc/pki/tls/certs/ldapclientkey.pem" '	
+      regexp: '.*clientkey=.*' 
+
+  - name: change lines in smbldap.conf | 10
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'suffix="dc=borg-ibk,dc=local" '	
+      regexp: '.*suffix=.*' 
+
+  - name: change lines in smbldap.conf | 11
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'usersdn="ou=People,${suffix}" '	
+      regexp: '.*usersdn=.*' 
+
+
+  - name: change lines in smbldap.conf | 12
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'groupsdn="ou=Groups,${suffix}" '	
+      regexp: '.*groupsdn=.*' 
+
+  - name: change lines in smbldap.conf | 13
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'computersdn="ou=Computers,${suffix}" '	
+      regexp: '.*computersdn=.*' 
+
+  - name: change lines in smbldap.conf | 14
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'userHomeDirectoryMode="711" '	
+      regexp: '.*userHomeDirectoryMode=.*' 
+
+
+  - name: change lines in smbldap.conf | 15
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'userGecos="BORG User" '	
+      regexp: '.*userGecos=.*' 
+
+  - name: change lines in smbldap.conf | 16
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'defaultUserGid="513" '	
+      regexp: '.*defaultUserGid=.*' 
+
+  - name: change lines in smbldap.conf | 17
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'userHomeDirectoryMode="711" '	
+      regexp: '.*userHomeDirectoryMode=.*' 
+
+  - name: change lines in smbldap.conf | 18
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'userSmbHome="\\samba\%U" '	
+      regexp: '.*userSmbHome=.*' 
+
+  - name: change lines in smbldap.conf | 19
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap.conf
+      line: 'userProfile="\\samba\profiles\%U" '	
+      regexp: '.*userProfile=.*' 
+
+
+  - name: change lines in smbldap_bind.conf | 1
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap_bind.conf
+      line: 'slaveDN="cn=Directory Manager" '	
+      regexp: '.*slaveDN=.*' 
+
+
+  - name: change lines in smbldap_bind.conf | 2
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap_bind.conf
+      line: 'masterDN="cn=Directory Manager" '	
+      regexp: '.*masterDN=.*' 
+
+  - name: change lines in smbldap_bind.conf | 3
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap_bind.conf
+      line: 'slavePw="secret" '	
+      regexp: '.*slavePw=.*' 
+
+  - name: change lines in smbldap_bind.conf | 4
+    lineinfile:
+      path: /etc/smbldap-tools/smbldap_bind.conf
+      line: 'masterPw="secret" '	
+      regexp: '.*masterPw=.*' 
+
+##
+## set password in /etc/smbldap-tools/smbldap_bind.conf (händisch) !!!
+##
+
+
+
+

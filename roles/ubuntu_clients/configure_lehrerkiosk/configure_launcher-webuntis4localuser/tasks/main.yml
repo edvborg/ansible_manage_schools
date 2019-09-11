@@ -14,10 +14,6 @@
 - name: copy desktopfile to remote machine
   copy: src=webuntis.desktop dest=/usr/share/applications/webuntis.desktop owner=root mode=0644
 
-- name: copy desktopfile to Local User
-  copy: src=webuntis.desktop dest=/home2/{{ localuser }}/Schreibtisch/webuntis.desktop owner={{ localuser }} mode=0700
-  when: ansible_distribution_version == "14.04"
- 
 
 ### configure autostart for webuntis
 

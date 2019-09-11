@@ -1,6 +1,6 @@
 ---
 
-- hosts: O2-10-PCT2,O2-10-PCT4,O2-10-PCT5,O2-10-PCT6 
+- hosts: linuxpcs
   
   gather_facts: yes
   

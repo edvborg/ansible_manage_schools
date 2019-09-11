@@ -1,0 +1,15 @@
+---
+  
+- hosts: all
+  gather_facts: True
+
+  tasks:
+  - name: show OS | 1
+    debug:
+      var: "{{ ansible_distribution }}"
+
+  - name: show OS | 2
+    debug:
+      var: "{{ ansible_distribution_version }}"
+  
+

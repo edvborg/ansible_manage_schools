@@ -47,7 +47,7 @@
 
 
 
-### copy script 
+# copy script 
 
 - name: copy script for icon positioning | 1604
   copy:
@@ -58,19 +58,20 @@
   when: ansible_distribution_version == "16.04"
 
 
-- name: copy script for icon positioning | 1804 
-  template:
-    src: set-icon-position_connect2home.sh.j2
-    dest: "/home2/{{ localuser }}/.config/autostart/set-icon-position_connect2home.sh"
-    mode: 0755
-    owner: "{{ localuser }}"
-  when: ansible_distribution_version == "18.04"
 
 
 ### 18.04 put script to autostart folder
 
 - name: ensure .config/autostart folder
   file: path="/home2/{{ localuser }}/.config/autostart" state=directory owner="{{ localuser }}"  mode=0700
+  when: ansible_distribution_version == "18.04"
+
+- name: copy script for icon positioning | 1804 
+  template:
+    src: set-icon-position_connect2home.sh.j2
+    dest: "/home2/{{ localuser }}/.config/autostart/set-icon-position_connect2home.sh"
+    mode: 0755
+    owner: "{{ localuser }}"
   when: ansible_distribution_version == "18.04"
 
 

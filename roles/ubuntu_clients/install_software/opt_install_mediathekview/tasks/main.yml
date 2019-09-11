@@ -10,23 +10,34 @@
     url: https://download.mediathekview.de/stabil/MediathekView-latest.tar.gz
     dest: /opt/MediathekView-latest.tar.gz
 
+- name: ensure MediathekView dir
+  file:
+    path: /opt/MediathekView/
+    state: directory
+    mode: 0755
+    
 - name: unarchive Mediathekview archive
   unarchive:
     src: /opt/MediathekView-latest.tar.gz
-    dest: /opt/
+    dest: /opt/MediathekView/
     remote_src: yes
+    mode: 0755
 
-- name: find name of MediathekView directory
+- name: find name of MediathekView shell script
   find:
-    paths: /opt/
-    patterns: 'Mediathek[vV]iew-[0-9][0-9].*[0-9]'
-    file_type: directory
-  register: dir_list
+    paths: /opt
+    patterns: 'Mediathek[Vv]iew.*\.sh'
+    use_regex: yes
+    recurse: yes
+    file_type: file
+  register: script_path
 
 - name: test
-  debug: var=dir_list.files[0].path
+  debug: var=script_path.files[0].path
   
 - name: copy desktop file to remote
+  vars: 
+    mediathekview_startscript: "{{ script_path.files[0].path }}"
   template:
     src: mediathekview.desktop.j2
     dest: /usr/share/applications/mediathekview.desktop

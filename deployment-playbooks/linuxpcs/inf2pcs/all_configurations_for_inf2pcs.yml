@@ -7,7 +7,7 @@
   import_playbook: ../common/0_reconfigure_fstab.yml hostlist=inf2pcs
     
 
-- name: do configurations for inf-3
+- name: do configurations for inf-2
   import_playbook: 1_configurations_for_inf2pcs.yml 
 
 #- name: import winontop

@@ -1,0 +1,17 @@
+---
+- hosts: inf3pcs O2-10-PCT2
+  
+ 
+  roles:
+    - ubuntu_clients/install_software/opt_install_classicmenu-indicator4allusers
+    - ubuntu_clients/configure_domain-logon_autofs-home
+    - ubuntu_clients/configure_domain-logon_autofs-nfsshares
+    - ubuntu_clients/configure_domain-logon_lightdm
+    - ubuntu_clients/configure_domain-logon_SSSD-auth
+    - ubuntu_clients/configure_cups-client_and_default-printer
+    - ubuntu_clients/configure_autoshutdown
+
+- name: reboot and wait for host
+  import_playbook: ../common/9_reboot_and_wait.yml hostlist=inf3pcs
+
+    

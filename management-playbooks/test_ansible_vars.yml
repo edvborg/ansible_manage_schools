@@ -28,12 +28,35 @@
 #      var: "{{ item }}"
 #    with_items: "{{ ansible_devices.keys() }}"
 
- 
+# funktioniert: 
+#  - name: show first partitions
+#    debug: 
+#      var: item
+#    loop: "{{ ansible_devices.keys() }}"
+      
+  - name: define name of hard disk | 1
+    set_fact: 
+      hd_device: "/dev/nvme0n1"
+      part1_device: "/dev/nvme0n1p1"
+      part2_device: "/dev/nvme0n1p2"
+      part3_device: "/dev/nvme0n1p3"
+    when: item.find('nvm')>-1 
+    loop: "{{ ansible_devices.keys() }}"
 
-#      var: "{{ ansible_devices.keys() | regex_findall('\b[a-z]*\b') }}"
+  - name: show result
+    debug: var=hd_device
 
-  - name: show first partitions
-    debug: 
-      var: ansible_mounts[0]['device'] 
-      #var: ansible_devices.keys()
+#  - name: test
+#    debug:
+#      #var: "{{ ansible_mounts[3]['mount'] }}"
+#      #var: "{{ ansible_devices.keys() | regex_findall('\b[a-z]*\b') }}"
+#      var: "{{ ansible_devices }}"
+
+
+#  - name: show first partitions
+#    debug: 
+#      var: item.device.find('/dev/nvme')
+#    loop: "{{ ansible_mounts }}"
+      
+
 

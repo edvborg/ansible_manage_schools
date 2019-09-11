@@ -17,8 +17,7 @@ O1-29-PC02
 
 [winpcs-test]
 #O2-10-PCT1
-O2-10-PCV5
-O2-10-PCV7
+O2-10-VB01
 O2-10-VMT3
 O2-10-VMT4
 Win7-64-Master
@@ -26,8 +25,6 @@ Win7-64-Master
 
 [winpcs-lehrer]
 O1-33-PC01 # Sprechzimmer
-O2-06-PC01 # Kustodiat BU
-O2-07-PC01 # Saal BU
 O2-24-PC01 # Musikgym Koordinator
 
 [winpcs-bib]

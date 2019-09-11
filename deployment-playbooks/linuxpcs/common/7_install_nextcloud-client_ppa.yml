@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+  
+    
+  - name: add ppa repository for nextcloud-client
+    apt_repository:
+      repo: ppa:nextcloud-devs/client
+      state: present
+
+
+  - name: install nextcloud-client latest
+    apt: 
+      name:
+      - nextcloud-client
+      state: latest 
+      update_cache: yes
+

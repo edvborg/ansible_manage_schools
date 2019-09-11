@@ -1,0 +1,13 @@
+---
+
+- name: install sg3-utils
+  apt:
+    name: sg3-utils
+    state: present
+    
+       
+- name: udev rule for macbook air superdrive
+  copy:
+    src: 99-mac-superdrive.rules
+    dest: /etc/udev/rules.d/99-mac-superdrive.rules
+

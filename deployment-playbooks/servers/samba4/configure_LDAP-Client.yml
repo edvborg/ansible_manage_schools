@@ -1,0 +1,9 @@
+---
+- hosts: samba,192.168.200.206
+  
+ 
+ 
+
+  roles:
+  - server/configure_LDAP-Client_SSSD   
+

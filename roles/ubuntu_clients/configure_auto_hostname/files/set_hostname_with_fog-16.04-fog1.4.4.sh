@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # 
-# für Ubuntu 16.04
+# für Ubuntu 16.04 / 18.04
 # 
 # Borg Innsbruck
 #

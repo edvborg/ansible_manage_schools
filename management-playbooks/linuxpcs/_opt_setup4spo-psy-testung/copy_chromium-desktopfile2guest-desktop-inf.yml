@@ -1,0 +1,52 @@
+---
+- hosts: inf2pcs inf1pcs inf3pcs
+
+  tasks:
+  - name: create dir guest configuration
+    file:
+      path: /home2/guest-prefs
+      mode: 0700
+      state: directory
+      owner: guest-prefs
+
+  - name: create dir for this klassenpc
+    file:
+      path: /home2/guest-prefs/Schreibtisch
+      mode: 0700
+      state: directory
+      owner: guest-prefs
+
+  - name: copy file to guest account 
+    copy: 
+      remote_src: true
+      src: /usr/share/applications/chromium-browser.desktop 
+      dest: /etc/guest-session/skel/Schreibtisch/
+      owner: guest-prefs
+      mode: 0700
+
+  - name: no gnome-keyring for chromium
+    replace: 
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      regexp: '(Exec=chromium-browser)'
+      replace:   '\1 --password-store=basic'
+      
+  - name: start chromium with testing URL
+    replace: 
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      regexp: '(Exec=chromium-browser.*)'
+      replace:   '\1 http://qdedemo.amescon.com/app/onlinefillout/2c51db65-bf8f-48be-b905-a2fd4e6517ba#stay'     
+     
+  - name: rename desktop file 1
+    replace: 
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      regexp: 'Name=Chromium Web Browser'
+      replace:   'Name=Sportpsychologische Testung'
+      
+
+  - name: rename desktop file 2
+    replace: 
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      regexp: 'Name\[de\]=.*'
+      replace:   'Name[de]=Sportpsychologische Testung'
+      
+      

@@ -1,0 +1,14 @@
+---
+- hosts: windowspcs
+
+  tasks:
+  - name: grab packettracer installation file
+    win_get_url:
+      url: http://wiki.borg-ibk.local/files/SamsungUniversalPrintDriver2PS.exe
+      dest: 'C:\ToDo\SamsungUniversalPrintDriver2PS.exe'
+      
+  - name: show info
+    debug: msg="Muss per Hand installiert werden!!" 
+      
+
+  

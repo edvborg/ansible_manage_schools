@@ -1,6 +1,6 @@
 ---
 
-### connect to home folder
+#################################################
 
 - name: copy connect2video-rw.sh to remote host
   copy:
@@ -10,16 +10,27 @@
     owner: root 
   when: ansible_distribution_version == "16.04" 
 
+- name: copy connect2video-rw.sh to remote host
+  copy:
+    src: connect2video-rw.sh.1804
+    dest: /usr/local/bin/connect2video-rw.sh
+    mode: 0755
+    owner: root 
+  when: ansible_distribution_version == "18.04" 
+  
+
 - name: ensure folder Schreibtisch is present
   file: path="/home2/{{ localuser }}/Schreibtisch" state=directory mode=0700 owner="{{ localuser }}"
 
 - name: copy video.desktop to remote host
   copy:
-    src: connect2video-rw.desktop.1604
+    src: connect2video-rw.desktop
     dest: /home2/{{ localuser }}/Schreibtisch/connect2video-rw.desktop
     mode: 0700
     owner: "{{ localuser }}"
     group: "{{ localuser }}" 
+
+#######################################################
 
 - name: copy connect2audio-rw.sh to remote host
   copy:
@@ -29,13 +40,25 @@
     owner: root 
   when: ansible_distribution_version == "16.04" 
 
+- name: copy connect2audio-rw.sh to remote host
+  copy:
+    src: connect2audio-rw.sh.1804
+    dest: /usr/local/bin/connect2audio-rw.sh
+    mode: 0755
+    owner: root 
+  when: ansible_distribution_version == "18.04" 
+  
+#
+  
 - name: copy audio.desktop to remote host
   copy:
-    src: connect2audio-rw.desktop.1604
+    src: connect2audio-rw.desktop
     dest: /home2/{{ localuser }}/Schreibtisch/connect2audio-rw.desktop
     mode: 0700
     owner: "{{ localuser }}"
     group: "{{ localuser }}" 
+
+######################################################
 
 - name: copy connect2material-rw.sh to remote host
   copy:
@@ -45,24 +68,35 @@
     owner: root 
   when: ansible_distribution_version == "16.04" 
 
+- name: copy connect2material-rw.sh to remote host
+  copy:
+    src: connect2material-rw.sh.1804
+    dest: /usr/local/bin/connect2material-rw.sh
+    mode: 0755
+    owner: root 
+  when: ansible_distribution_version == "18.04" 
+
+
 - name: copy material.desktop to remote host
   copy:
-    src: connect2material-rw.desktop.1604
+    src: connect2material-rw.desktop
     dest: /home2/{{ localuser }}/Schreibtisch/connect2material-rw.desktop
     mode: 0700
     owner: "{{ localuser }}"
     group: "{{ localuser }}" 
 
+######################################################
 
-### configure upstart for user
+### configure icon position
 
 - name: ensure .config folder
   file: path="/home2/{{ localuser }}/.config" state=directory
 
+### 16.04 upstart 
 
 - name: ensure .config/upstart folder
   file: path="/home2/{{ localuser }}/.config/upstart" state=directory
-
+  when: ansible_distribution_version == "16.04" 
 
 - name: copy script for icon positioning video
   copy:
@@ -70,7 +104,7 @@
     dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2video-rw.conf"
     mode: 0644
     owner: "{{ localuser }}"
-
+  when: ansible_distribution_version == "16.04" 
 
 - name: copy script for icon positioning audio
   copy:
@@ -78,7 +112,7 @@
     dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2audio-rw.conf"
     mode: 0644
     owner: "{{ localuser }}"
-
+  when: ansible_distribution_version == "16.04" 
 
 - name: copy script for icon positioning material
   copy:
@@ -86,5 +120,33 @@
     dest: "/home2/{{ localuser }}/.config/upstart/set-icon-positions-connect2material-rw.conf"
     mode: 0644
     owner: "{{ localuser }}"
+  when: ansible_distribution_version == "16.04" 
+
+
+
+
+### 18.04  put icon positioning script to autostart folder
+
+- name: ensure .config/autostart folder
+  file: path="/home2/{{ localuser }}/.config/autostart" state=directory owner="{{ localuser }}"  mode=0700
+  when: ansible_distribution_version == "18.04"
+
+- name: copy script for icon positioning video
+  template:
+    src: set-icon-position_serverconnections-rw.sh.j2
+    dest: "/home2/{{ localuser }}/.config/autostart/set-icon-position_serverconnections-rw.sh"
+    mode: 0755
+    owner: "{{ localuser }}"
+  when: ansible_distribution_version == "18.04" 
+
+
+
+- name: copy desktop file for icon positioning
+  copy:
+    src: set-icon-position_serverconnections-rw.desktop
+    dest: /home2/{{ localuser }}/.config/autostart/set-icon-position_serverconnections-rw.desktop
+    mode: 0644
+    owner: "{{ localuser }}"  
+  when: ansible_distribution_version == "18.04"
 
 

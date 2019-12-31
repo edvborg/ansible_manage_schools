@@ -13,5 +13,5 @@
 
 - name: Installation des Basissystems mit Desktop 18.04
   apt: name="{{ packages_list_desktop_1804 }}" state=present
-  notify: reboot and wait  
+  # notify: reboot and wait  
   when: ansible_distribution_version == "18.04"

@@ -1,0 +1,2 @@
+server_password: "{{ vaulted_server_password }}"
+

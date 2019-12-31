@@ -3,6 +3,18 @@
 - name: ensure apt-transport-https
   apt: name=apt-transport-https state=latest
 
+
+#######################################################################
+#
+# packages, need preseeding for noninteractive installation 
+#
+# - libdvd-pkg
+# - ttf-mscorefonts-installer
+# - postfix
+# - jackd2
+# - virtualbox-ext-pack
+# - virtualbox-guest-additions-iso
+#
 ####################################### DVDCSS #########################
 
 - name: make debconf noninteractive
@@ -122,24 +134,6 @@
   apt: name=ubuntu-restricted-extras
   when: ansible_distribution_version == "16.04"
 
-##################################### Opera ########################################
-
-   
-- name: add key  for repo
-  apt_key:  
-    url: http://deb.opera.com/archive.key
-    state: present
-
-- name: add repository for opera
-  apt_repository:
-    repo: deb https://deb.opera.com/opera-stable/ stable non-free # Opera Browser (final releases) 
-    filename: opera-stable
-    state: present
-
-- name: install opera
-  apt: name=opera-stable update_cache=yes
-
-
 
 ######################### ardour rosegarden with jack configuration #####################
 
@@ -163,6 +157,21 @@
   notify: reconfigure jackd
 
 
+############################# virtualbox ##################################################
 
-
-
+- name: preseed debconf for virtualbox-ext-pack
+  debconf:
+    name: virtualbox-ext-pack
+    question: virtualbox-ext-pack/license
+    vtype: boolean
+    value: "true"
+  notify: reconfigure virtualbox-ext-pack
+  
+- name: install 
+  apt: 
+    name: 
+    - virtualbox-ext-pack
+    state: latest 
+    update_cache: yes
+  notify: reconfigure virtualbox-ext-pack
+ 

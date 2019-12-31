@@ -1,0 +1,11 @@
+---
+- hosts: "{{hostlist }}"
+
+  tasks:
+  - name: add cronjob for restarting sssd
+    lineinfile:
+      path: /etc/cron.d/restart_sssd
+      create: yes
+      regexp: "@reboot"
+      line: '@reboot root bash -c "sleep 20 && systemctl restart sssd >> /var/log/restart_sssd.log 2>&1" '   
+ 

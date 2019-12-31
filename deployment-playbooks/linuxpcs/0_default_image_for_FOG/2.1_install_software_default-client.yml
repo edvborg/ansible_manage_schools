@@ -4,21 +4,22 @@
   roles:
   - ubuntu_clients/install_software/install_packages-ubuntu-repo
   - ubuntu_clients/install_software/install_packages-others	
+  - ubuntu_clients/install_software/install_update_opera
   - ubuntu_clients/install_software/install_update_geogebra
   - ubuntu_clients/install_software/install_sun_java
 
 
-#  tasks: 
-#  - name: reboot the host
-#    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
-#    async: 1
-#    poll: 0
-#    ignore_errors: true
+  tasks: 
+  - name: reboot the host
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
       
-#  - name: wait for host after reboot
-#    local_action: 
-#      module: wait_for 
-#        host="{{inventory_hostname}}" 
-#        delay=15 
-#        state=started 
-#        timeout=60
+  - name: wait for host after reboot
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60

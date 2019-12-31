@@ -1,0 +1,23 @@
+---
+- hosts: lehrerpcs_schularzt
+
+  vars:
+    localuser: "schularzt"
+
+  roles:
+  - ubuntu_clients/configure_lehrerkiosk/configure_create_localuser
+  - ubuntu_clients/configure_lehrerkiosk/configure_autologin4localuser
+  - ubuntu_clients/configure_lehrerkiosk/configure_gsettings4localuser
+  - role: ubuntu_clients/opt__configure-firefox-policies
+    firefox_save_logins: True
+
+#  - ubuntu_clients/configure_lehrerkiosk/configure_desktop-connect2home
+#  - ubuntu_clients/configure_lehrerkiosk/configure_launcher-webuntis4localuser
+#  - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
+  
+
+  post_tasks:
+  - name: restart lightdm
+    service:
+      name: lightdm
+      state: restarted

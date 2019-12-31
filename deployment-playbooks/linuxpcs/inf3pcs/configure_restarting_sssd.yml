@@ -1,0 +1,9 @@
+---
+- hosts: inf3pcs
+
+
+
+- name: configure cronjob for restarting sssd after 20 s
+  import_playbook: ../common/8_configure_restarting_sssd.yml hostlist=inf3pcs
+    
+

@@ -1,0 +1,17 @@
+﻿---
+- hosts: boss
+
+  tasks: 
+  - name: Remove old DNS record
+    nsupdate:
+      key_name: "ansible"
+      key_secret: "i7ffeaw/aK5ouSzJ2bfbBkZe5ZzrP2E2bx3AZiblARY="
+      server: boss    
+      zone: "borg-ibk.local"
+      record: "{{ hosts_to_remove }}"
+      type: "A"
+      state: absent
+    #delegate_to: boss
+ 
+
+ 

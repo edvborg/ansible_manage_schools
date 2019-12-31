@@ -1,0 +1,21 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: add ppa repository for handbrake
+    apt_repository:
+      repo: ppa:stebbins/handbrake-releases
+      state: present
+ 
+
+  - name: update apt cache if not done in last hour
+    apt: 
+      update_cache=yes 
+      cache_valid_time=3600
+
+
+  - name: install handbrake latest 
+    apt: name={{ item }} state=latest
+    with_items:
+      - handbrake
+

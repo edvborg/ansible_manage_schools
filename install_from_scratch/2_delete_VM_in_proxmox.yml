@@ -1,0 +1,22 @@
+﻿---
+- hosts: pve01
+  
+  vars:
+    host_to_delete: use    ap -e 'host_to_delete=O2-10-PCV6' 2_delete_VM_in_proxmox.yml
+    
+  tasks:
+  - name: this host will be deleted
+    debug: var=host_to_delete
+    
+  - name: delete VM in pve01
+    proxmox_kvm:
+      api_host: pve01
+      api_user: root@pam
+      api_password: "{{ server_password }}"
+      name        : "{{ host_to_delete }}"
+      state		  : absent
+    register: vm_deleted
+
+  - name: print return valus for new VM
+    debug: var=vm_deleted
+

@@ -11,7 +11,8 @@
 ##
 ## 
   - ubuntu_clients/configure_defaults4machine/configure_default-user_and_guest-user
-  - ubuntu_clients/configure_defaults4machine/configure_network_and_dns
+  #  - ubuntu_clients/configure_defaults4machine/configure_change_to_network-manager
+  - ubuntu_clients/configure_defaults4machine/configure_name_resolution
   - ubuntu_clients/configure_defaults4machine/configure_ntp-client
   - ubuntu_clients/configure_defaults4machine/configure_smb-client
   - ubuntu_clients/configure_defaults4machine/disable_some_services

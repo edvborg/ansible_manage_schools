@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+#
+FACH=$(zenity --entry --title="Mit dem Audioordner verbinden" --text="Geben Sie das Kürzel für das Unterrichtsfach an (z. B. e, bu, it, usw.):" )
+SHARE=$FACH-audio
+#
+USERNAME=$(zenity --entry --title="Mit dem Audioserver verbinden" --text="Geben Sie ihren Benutzernamen mit Schreibrechten an:" )
+#
+PASSWORD=$(zenity --entry --title="Passwort" --hide-text --text="Geben Sie das Passwort ein:" )
+#
+gio mount "smb://samba/$SHARE" <<EOF
+$USERNAME
+BORG-IBK.LOCAL
+$PASSWORD
+EOF
+#
+sleep 1
+#
+nautilus smb://samba/$SHARE &
+ 
+

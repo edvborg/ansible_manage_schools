@@ -1,0 +1,22 @@
+---
+
+- hosts: linuxpcs
+
+  pre_tasks:
+  - name: add ppa repository for ansible
+    apt_repository:
+      repo: ppa:ansible/ansible
+      state: present
+
+  - name: update ansible to latest version
+    apt: name=ansible state=latest update_cache=yes
+
+
+  tasks:
+  - name: show version 
+    command: ansible --version
+    register: result
+
+  - name: print output from ansible --version
+    debug: var=result.stdout_lines
+

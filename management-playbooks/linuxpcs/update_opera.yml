@@ -1,7 +1,7 @@
 ---
 - hosts: linuxpcs
 
-  tasks:
+  pre_tasks:
   - name: ensure apt-transport-https
     apt: name=apt-transport-https state=latest
    
@@ -16,20 +16,12 @@
   - name: remove old opera repos 2
     file: path=/etc/apt/sources.list.d/opera.list state=absent
 
-  - name: add key  for repo
-    apt_key:  
-      url: http://deb.opera.com/archive.key
-      state: present
 
-  - name: add repository for opera
-    apt_repository:
-      repo: deb https://deb.opera.com/opera-stable stable non-free 
-      filename: deb_opera_com_opera
-      state: present
+  roles:
+  - ubuntu_clients/install_software/install_update_opera
 
-  - name: install opera
-    apt: name=opera-stable update_cache=yes
 
+  tasks:
   - name: show version 
     command: opera --help
     register: result

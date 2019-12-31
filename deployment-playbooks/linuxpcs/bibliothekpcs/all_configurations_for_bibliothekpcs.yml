@@ -12,7 +12,8 @@
     
     - role: ubuntu_clients/configure_cups-client_and_default-printer
       default_printer: BIBLI-PR01
-
+    - role: ubuntu_clients/opt__configure-firefox-policies
+      firefox_save_logins: True
     - role: ubuntu_clients/configure_autoshutdown 
       shutdown_time: "20 18"
     

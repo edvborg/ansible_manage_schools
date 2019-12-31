@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - { role: ubuntu_clients/install_software/install_update_opera }
+
+
+

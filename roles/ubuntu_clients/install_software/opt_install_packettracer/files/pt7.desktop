@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Exec=packettracer
+Icon=pt7
+Type=Application
+Terminal=false
+Name=Packet Tracer 7.1
+Comment=Simulation von Netzwerken
+StartupNotify=true
+Categories=Network;Application;

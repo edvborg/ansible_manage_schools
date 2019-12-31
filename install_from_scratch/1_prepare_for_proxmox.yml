@@ -1,0 +1,18 @@
+﻿---
+- hosts: pve_nodes
+
+  tasks:
+  - name: ensure pip packages etc
+    apt:
+      name:
+      - python-pip
+      - python-virtualenv
+      - python-setuptools
+
+  - name: ensure python packages for proxmox
+    pip:
+      name:
+      - proxmoxer
+      - requests
+
+

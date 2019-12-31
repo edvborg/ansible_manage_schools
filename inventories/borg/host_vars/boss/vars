@@ -1,0 +1,2 @@
+nsupdate_secret: "{{ vaulted_nsupdate_secret }}"
+

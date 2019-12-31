@@ -1,0 +1,36 @@
+---
+
+- hosts: pve_nodes
+
+  pre_tasks:
+  - name: install required packages
+    apt:
+      name:
+      - python-apt
+      - python3-apt
+      state: latest
+      update_cache: yes
+
+
+  - name: add key for ansible repo
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: 6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367
+        
+  - name: add ppa repository for ansible
+    apt_repository:
+      repo: deb http://ppa.launchpad.net/ansible/ansible/ubuntu bionic main
+      state: present
+
+  - name: update ansible to latest version
+    apt: name=ansible state=latest update_cache=yes
+
+
+  tasks:
+  - name: show version 
+    command: ansible --version
+    register: result
+
+  - name: print output from ansible --version
+    debug: var=result.stdout_lines
+

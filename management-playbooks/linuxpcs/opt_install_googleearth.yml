@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: download deb package
+    get_url: 
+      # url: https://code.visualstudio.com/docs/?dv=linux64_deb
+      url: http://wiki.borg-ibk.local/files/google-earth-pro-stable_current_amd64.deb
+      dest: /root/google-earth-pro-stable_current_amd64.deb
+ 
+  - name: install google earth
+    apt:
+      deb: /root/google-earth-pro-stable_current_amd64.deb
+      state: present
+
+ 
+

@@ -1,23 +1,58 @@
 ---
-
-- name: install libqt5scripttools5
-  apt: 
-    name: libqt5scripttools5
-    state: present
     
 - name: create remote install dir 
   file: path=/root/PT  state=directory
 
 
-- name: get tar archive from http_repo
-  get_url: url="{{ http_filerepo_url }}/PacketTracer71_64bit_linux.tar.gz"  dest=/root/PT/
+- name: install libqt5scripttools5
+  apt: 
+    name: libqt5scripttools5
+    state: present
+  when: ansible_distribution_version == "16.04"
+  
 
+- name: install dependencies | 1804
+  apt: 
+    name: 
+    - libqt5webkit5 
+    - libqt5multimediawidgets5 
+    - libqt5svg5 
+    - libqt5script5 
+    - libqt5scripttools5 
+    - libqt5sql5
+    state: present
+  when: ansible_distribution_version == "18.04"
+  
+
+#- name: install dependencies | 2
+#  get_url: 
+#    url: http://ftp.us.debian.org/debian/pool/main/libp/libpng/libpng12-0_1.2.50-2+deb8u3_amd64.deb 
+#    dest: /root/PT/
+#  when: ansible_distribution_version == "18.04"
+
+
+- name: install libpng12 deb from debian repo
+  apt:
+    deb: http://ftp.us.debian.org/debian/pool/main/libp/libpng/libpng12-0_1.2.50-2+deb8u3_amd64.deb 
+    # deb: /root/PT/libpng12-0_1.2.50-2+deb8u3_amd64.deb
+    state: present
+  when: ansible_distribution_version == "18.04"
+
+################## Ubuntu 16.04 ################################
+
+
+- name: get tar archive from http_repo
+  get_url: url="{{ http_filerepo_url }}/Packettracer/PacketTracer71_64bit_linux.tar.gz"  dest=/root/PT/
+  when: ansible_distribution_version == "16.04"
+
+  # https://wiki.borg-ibk.tsn.at/files/Packettracer/Packet%20Tracer%207.2.1%20for%20Linux%2064%20bit.tar.gz
 
 - name: untar archive
   unarchive:
     remote_src: yes     
     src: /root/PT/PacketTracer71_64bit_linux.tar.gz
     dest: /root/PT
+  when: ansible_distribution_version == "16.04"
 
 
 - name: copy installscript to remote host
@@ -26,11 +61,13 @@
     dest: /root/PT/install.modified
     owner: root
     mode: 0700
+  when: ansible_distribution_version == "16.04"
 
 - name: run install script
   shell:
     cmd: ./install.modified
     chdir: /root/PT/ 
+  when: ansible_distribution_version == "16.04"
   
 - name: modify startup script
   lineinfile:
@@ -38,5 +75,40 @@
     state: absent
     backup: yes
     regexp: "export.*LD_LIBRARY_PATH"
-  
+  when: ansible_distribution_version == "16.04"
+
+#################### Ubuntu 18.04 #############################
+
+
+- name: get tar archive from http_repo  18.04
+  get_url: url="{{ http_filerepo_url }}/Packettracer/Packettracer_722.tar.gz"  dest=/root/PT/
+  when: ansible_distribution_version == "18.04"
+
+- name: create directory
+  file:
+    path: "{{ pt_install_dir }}"
+    state: directory
+    mode: 0775 
+    owner: root
+    group: root
+
+- name: untar archive 18.04
+  unarchive:
+    remote_src: yes     
+    src: /root/PT/Packettracer_722.tar.gz
+    dest: "{{ pt_install_dir }}"
+  when: ansible_distribution_version == "18.04"
+
+
+- name: create symbolic link for packetracer
+  file:
+    src: "{{ pt_install_dir }}/packettracer"
+    dest: /usr/local/bin/packettracer
+    state: link
+
+- name: copy dektop file to remote host
+  copy:
+    src: pt7.desktop
+    dest: "/usr/share/applications/"
+
 

@@ -11,6 +11,9 @@
     - ubuntu_clients/configure_cups-client_and_default-printer
     - ubuntu_clients/configure_autoshutdown
 
+- name: install musescore3 
+  import_playbook: ../common/6_install_musescore3_ppa.yml
+
 - name: reboot and wait for host
   import_playbook: ../common/9_reboot_and_wait.yml hostlist=inf3pcs
 

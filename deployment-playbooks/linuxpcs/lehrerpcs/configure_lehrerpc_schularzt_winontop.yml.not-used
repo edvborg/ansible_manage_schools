@@ -1,0 +1,16 @@
+---
+- hosts: UG-08-PC02
+
+    
+
+- name: reconfigure fstab | sda or nvmen1
+  import_playbook: ../common/0_reconfigure_fstab.yml hostlist=UG-08-PC02 
+    
+
+- name: import winontop
+  import_playbook: ../common/5_configure_winontop.yml hostlist=UG-08-PC02 virtualmachines_path=/virtualmachines/
+
+
+- name: reboot and wait for host
+  import_playbook: ../common/9_reboot_and_wait.yml hostlist=UG-08-PC02
+

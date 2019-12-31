@@ -2,7 +2,21 @@
 
 ########################## Netzwerk konfigurieren ##################################
 
-### NIC
+### 18.04 machine configuration with netplan file 
+# 
+#   service networking
+#   example: 
+#   systemctl restart networking
+#
+#      
+### change to network-manager
+#   
+# user can configure network devices
+#
+#   service network-manager
+#   example: 
+#   systemctl restart network-manager 
+#
 #
 # list all services: systemctl list-unit-files --no-pager
 #
@@ -19,7 +33,6 @@
     regexp: '^\s*iface.*en'
     #regexp: "{{ ^\s*iface.* + ansible_interfaces[1]  }}"
   when: ansible_distribution_version == "16.04"
-  register: interfaces_changed1
   notify: reload networking and network manager
   tags:
     - network_test
@@ -34,7 +47,6 @@
     regexp: '^\s*auto.*en.*'
   when: ansible_distribution_version == "16.04"
   notify: reload networking and network manager
-  register: interfaces_changed2
   tags:
     - network_test
 
@@ -77,37 +89,8 @@
     backup: yes
   when: ansible_distribution_version == "18.04"
   notify: reload networking and network manager
-  register: interfaces_changed2
   tags:
     - network_test
-
-
-############ Namensauflösung ##########################
-
-### delete hostname in /etc/hosts löschen;
-#
-- name: delete hostname in /etc/hosts
-  lineinfile:
-    dest: /etc/hosts
-    state: absent
-    backup: yes
-    regexp: '.*{{ ansible_hostname }}.*'
-
-
-### mdns für Namensauflösung hintanstellen
-
-- name: change order for mdns in /etc/nsswitch.conf
-  lineinfile:
-    dest: /etc/nsswitch.conf
-    state: present
-    backup: yes
-    backrefs: yes
-    regexp: 'hosts:\s*files\s*mdns4_minimal.*'
-    line: "hosts:\t\tfiles dns mdns4_minimal [NOTFOUND=return] mdns4" 
-  
-#- name: restart network-manager
-#  service: name=network-manager state=restarted
-#  when: (( ansible_distribution_version == "16.04" ) or ( ansible_distribution_version == "18.04" )) and ( ( interfaces_changed1 is changed ) or ( interfaces_changed2 is changed ) )
 
 
 

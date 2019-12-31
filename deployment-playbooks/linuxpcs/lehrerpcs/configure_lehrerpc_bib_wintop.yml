@@ -1,0 +1,16 @@
+---
+- hosts: O1-01-PC01
+
+
+
+- name: reconfigure fstab | sda or nvmen1
+  import_playbook: ../common/0_reconfigure_fstab.yml hostlist=O1-01-PC01
+    
+
+- name: import winontop
+  import_playbook: ../common/5_configure_winontop.yml hostlist=O1-01-PC01
+
+
+- name: reboot and wait for host
+  import_playbook: ../common/9_reboot_and_wait.yml hostlist=O1-01-PC01
+

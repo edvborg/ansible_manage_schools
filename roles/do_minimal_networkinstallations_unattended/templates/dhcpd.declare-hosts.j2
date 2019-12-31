@@ -1,0 +1,27 @@
+group {
+
+##  unattended installation
+
+{% for key, value in macaddresses_of_hostnames.iteritems() %}
+host {{ key }} {
+  hardware ethernet {{ value }};
+  next-server {{ tftpserver_address }};
+  ##
+  {% if release == "19.10" %}
+  {% if architecture == "x86_64" %}
+  filename "os/ubuntu/19.10/ubuntu.ipxe"; 
+  {% endif %}
+  {% endif %}
+  ##
+  {% if release == "18.04" %}
+  {% if architecture == "x86_64" %}
+  filename "os/ubuntu/18.04/ubuntu.ipxe"; 
+  {% endif %}
+  {% endif %}
+  ##
+  option host-name "{{ key }}" ;
+  
+}
+{% endfor %}
+}
+

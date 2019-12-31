@@ -358,7 +358,8 @@ packages_list_office_1804:
   - mythes-de			        #
   - evince 				#
   - poppler-data			#
-
+  - fonts-crosextra-caladea
+  - fonts-crosextra-carlito
 
 packages_list_science_1804:
   - openuniverse		#
@@ -389,9 +390,9 @@ packages_list_tools_1804:
    - kleopatra
    - virtualbox
    - virtualbox-qt
-   - virtualbox-ext-pack
    - vde2
-   - virtualbox-guest-additions-iso
+   ## - virtualbox-ext-pack has to be preseeded -> install_packages_others
+   - virtualbox-guest-additions-iso 
    - smbclient
    - apt-file
    - dconf-editor
@@ -452,4 +453,4 @@ launcher_icon_size: 40
 show_name_in_panel: True
 show_home_trash_network_icons: False
 power_button_shutdown: True
-
+firefox_save_logins: True

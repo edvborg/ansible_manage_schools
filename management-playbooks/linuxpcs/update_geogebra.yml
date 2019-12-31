@@ -2,13 +2,6 @@
 - hosts: linuxpcs
  
 
-  pre_tasks:
-  - name: remove opera repo (error with apt-get update)
-    file:
-      path: /etc/apt/sources.list.d/opera.list
-      state: absent
-
-
   roles:
   - ubuntu_clients/install_software/install_update_geogebra
 

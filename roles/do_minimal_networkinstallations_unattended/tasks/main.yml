@@ -1,0 +1,71 @@
+---
+
+###########################################################################
+##
+## Wenn in /etc/dhcp/dhcpd.{{ hostname_client }}.conf keine IP-Adresse angegeben wird, wird sie 
+## dynamisch vergeben und in DNS eingetragen.
+## Als Name wird aber nicht der Name aus /etc/dhcp/dhcpd.{{ hostname_client }}.conf verwendet, 
+## sondern nach dem Muster: dhcp-192-168-140-33.borg-ibk.local
+##
+
+- debug: var=create_entry_for_host
+
+- name: configure dhcpd.declare_host for unattended client installation
+  template:
+    src: 'dhcpd.declare-hosts.j2'
+    dest: '/etc/dhcp/dhcpd.ansible_hosts.conf'
+  when: create_entry_for_host
+
+
+- name: remove dhcpd.declare_host 
+  file:
+    path: '/etc/dhcp/dhcpd.ansible_hosts.conf'
+    state: absent
+  when: not create_entry_for_host
+
+###
+
+- name: include host_declaration_file in dhcpd.conf
+  blockinfile:
+    dest: /etc/dhcp/dhcpd.conf
+    backup: yes
+    mode: 0640
+    state: present
+    marker: "# {mark} ANSIBLE MANAGED BLOCK <DHCP>"
+    block: |
+
+       include "/etc/dhcp/dhcpd.ansible_hosts.conf";  
+      
+    insertafter: ".*Deklarationen mit Ansible.*"	
+  when: create_entry_for_host
+  
+- name: remove host_declaration_file in dhcpd.conf
+  blockinfile:
+    dest: /etc/dhcp/dhcpd.conf
+    backup: yes
+    mode: 0640
+    state: absent
+    marker: "# {mark} ANSIBLE MANAGED BLOCK <DHCP>"
+    block: |
+
+       include "/etc/dhcp/dhcpd.ansible_hosts.conf";  
+      
+    insertafter: ".*Deklarationen mit Ansible.*"
+  when: not create_entry_for_host
+
+##
+
+- name: check dhcpd.conf
+  command: dhcpd -t 
+  register: dhcpdstatus
+  ignore_errors: true
+
+- name: Show error 
+  debug: msg="Fehler in dhcpd.conf!"
+  when: not dhcpdstatus.rc == 0
+  
+- name: restart dhcpd service
+  service: name=dhcpd state=restarted 
+  when: dhcpdstatus.rc == 0
+
+

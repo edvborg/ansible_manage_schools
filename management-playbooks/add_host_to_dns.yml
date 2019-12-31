@@ -1,0 +1,11 @@
+---
+  
+- hosts: "{{ pc2add }}"
+
+  gather_facts: False
+
+  tasks:
+  - name: remove host from dns
+    shell: "/root/add_host_to_dns.sh {{ inventory_hostname }}"
+    delegate_to: boss
+

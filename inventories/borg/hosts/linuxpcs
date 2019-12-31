@@ -72,6 +72,8 @@ CO-04-PC01
 EG-27-PC01  # Lehrergarderobe LÜ
 O1-24-PC01  # Lehrergarderobe LÜ
 O1-06-PC01  # Kustodiat GW
+O2-10-PCV9  # Master , auf PVE01
+O2-10-PCV6  # Klassenmaster
 
 ###
 ### Informatiksäle und Bibliothek
@@ -86,7 +88,7 @@ bibliothekpcs
 [inf1pcs]
 inf-1-[01:16]
 inf-1-le
-#O2-10-PCT6
+O2-10-PCT5
 
 [inf2pcs]
 inf-2-[01:15]
@@ -108,25 +110,32 @@ O1-01-PC[11:18]
 
 [lehrerpcs:children]
 lehrerpcs_be
+lehrerpcs_bib
 lehrerpcs_bu
+lehrerpcs_ch
 lehrerpcs_konf
 lehrerpcs_me
 lehrerpcs_ph
-
+lehrerpcs_inf
+lehrerpcs_spok
 
 [lehrerpcs_be]
 O2-02-PC01 
 O2-03-PC01
 O2-04-PC01
 
+[lehrerpcs_bib]
+O1-01-PC01
 
 [lehrerpcs_bu]
 O2-05-PC01
 O2-06-PC01
 O2-07-PC01
 
+[lehrerpcs_ch]
+UG-16-PC01
 
-[lehrerpcs_qinf]
+[lehrerpcs_inf]
 O2-10-PC01
 O2-10-PC02
 
@@ -134,7 +143,12 @@ O2-10-PC02
 O2-21-PC01
 O2-22-PC01
 
+[lehrerpcs_spok]
+EG-27-PC01 
+O1-24-PC01
 
+[lehrerpcs_schularzt]
+UG-08-PC02
 
 
 [lehrerpcs_ph]
@@ -148,7 +162,7 @@ O2-32-PC01
 [lehrerpcs_konf]
 O1-29-PC03
 O1-29-PC04
-
+O2-10-PCT5
 
 ###
 ### Laptops mit Ubuntu
@@ -198,5 +212,8 @@ O2-10-PCT4
 O2-10-PCT5
 O2-10-PCT8
 O2-10-PCV1
-
-
+## auf PVE
+O2-10-PCV6 ipaddr=192.168.140.106	
+O2-10-PCV7 ipaddr=192.168.140.107
+O2-10-PCV8 ipaddr=192.168.140.108
+O2-10-PCV9 ipaddr=192.168.140.109

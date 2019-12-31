@@ -1,0 +1,4 @@
+fach: "spok"
+localuser: "{{ fach }}-user"
+fach_langbezeichnung: "Sport"
+smbpassword: "{{ vaulted_smbpassword_spok }}"

@@ -5,6 +5,10 @@
 #    url: 'http://keys.gnupg.net/pks/lookup?op=get&search=0xe18ce6625cb26b26:'
 #    dest: /root/java_repo.key
 
+
+- name: ensure pgp is present
+  apt: name=gpg state=present
+
 - name: copy key to remote 
   copy: src=java_repo.key dest=/root/java_repo.key 
 

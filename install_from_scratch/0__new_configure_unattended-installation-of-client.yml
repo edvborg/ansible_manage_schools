@@ -3,12 +3,8 @@
                 ## wird so konfiguriert, dass der Client eine Netzwerk-Installation durchführt
 
   vars:
-    hostname_client: "wiki2"
-    macaddress_client: "00:0c:29:4f:20:e2" 
-
-
-#    hostname_client: "inf-2-01"
-#    macaddress_client: "6c:0b:84:0b:ed:83"
+    macaddresses_of_hostnames: { "O2-10-PCV6": "1A:E0:CA:CC:AC:A1", "O2-10-PCV7": "86:80:3B:15:CF:56" }
+    create_entry_for_host: True
 
 
 ###### defaults
@@ -19,6 +15,6 @@
 
 
   roles:
-  - clients/ubuntu/install-unattended
+  - do_minimal_networkinstallations_unattended
 
 

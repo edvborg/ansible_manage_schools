@@ -1,0 +1,4 @@
+fach: "ch"
+localuser: "{{ fach }}-user"
+fach_langbezeichnung: "Chemie"
+smbpassword: "{{ vaulted_smbpassword_ch }}"

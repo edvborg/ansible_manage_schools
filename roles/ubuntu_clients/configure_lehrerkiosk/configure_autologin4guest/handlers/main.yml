@@ -1,6 +1,11 @@
 ---
 
+- name: sleep for 10 seconds and continue with play
+  wait_for:
+    timeout: 10
+  delegate_to: localhost
+  
 - name: reload lightdm
-  service: name=lightdm enabled=yes state=restarted
+  service: name=lightdm enabled=yes state=restarted sleep=5
 
 

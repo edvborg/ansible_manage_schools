@@ -1,0 +1,29 @@
+--- 
+
+########################## name resolution ##################################
+
+### delete hostname in /etc/hosts löschen;
+#
+- name: delete hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    state: absent
+    backup: yes
+    regexp: '.*{{ ansible_hostname }}.*'
+
+
+### mdns für Namensauflösung hintanstellen
+
+- name: change order for mdns in /etc/nsswitch.conf
+  lineinfile:
+    dest: /etc/nsswitch.conf
+    state: present
+    backup: yes
+    backrefs: yes
+    regexp: 'hosts:\s*files\s*mdns4_minimal.*'
+    line: "hosts:\t\tfiles dns mdns4_minimal [NOTFOUND=return] mdns4" 
+  
+
+
+
+

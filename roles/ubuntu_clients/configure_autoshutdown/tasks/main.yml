@@ -11,5 +11,5 @@
   lineinfile:
     dest: /etc/cron.d/shutdown_pc
     create: yes
-    regexp: "ausschalten.sh"
+    regexp: "autoshutdown.sh"
     line: "{{ shutdown_time }} * * * root /usr/local/sbin/autoshutdown.sh >> /var/log/shutdown.log 2>&1" 

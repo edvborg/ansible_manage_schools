@@ -1,0 +1,5 @@
+fach: "bib"
+localuser: "{{ fach }}-user"
+fach_langbezeichnung: "Bibliothek"
+smbpassword: "{{ vaulted_smbpassword_bib }}"
+

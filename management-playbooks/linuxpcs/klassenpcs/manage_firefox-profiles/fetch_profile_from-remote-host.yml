@@ -1,5 +1,5 @@
 ---
-- hosts: O2-10-PCT2
+- hosts: O2-10-PCV6
 
   vars: 
     username: admin

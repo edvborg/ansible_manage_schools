@@ -1,0 +1,40 @@
+- name: create VM in pve01
+  proxmox_kvm:
+    api_host: 192.168.220.111
+    api_user: root@pam
+    api_password: "{{ hostvars['pve01']['server_password'] }}"
+    name        : "{{ item }}"
+    # vmid: 
+    node        : 192.168.220.111
+    cores       : 2 
+    memory      : 4096
+    # ostype:   #for some guests only
+    # update      : yes
+    sata		   : '{"sata0":"local-lvm:30,format=raw"}'
+    #sata		   : '{"sata0":"pve-storage:30,format=raw"}'
+    #scsihw	  : virtio-scsi-pci | lsi
+    #virtio      : '{"virtio0":"pve-storage:30"}'
+    #
+    net         : '{"net0":"virtio,bridge=vmbr1,tag=140"}'
+  #with_items: "{{ hosts_to_provision }}"
+  delegate_to: 192.168.220.111
+  register: vm_return
+  tags: create_vms
+
+- name: MAC get
+  set_fact:
+    macaddress: "{{ vm_return.mac.net0 }}"
+    cacheable: yes
+  #with_items: "{{ hosts_to_provision }}"
+  tags: create_vms
+      
+- name: build dict
+  set_fact:
+    macaddresses_of_hostnames: "{{ macaddresses_of_hostnames | combine({ item :macaddress }) }}"
+  tags: create_vms
+   
+- name: print MAC address
+  debug: var=macaddress
+  tags: create_vms
+     
+

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Bibac-Text nach pdf umwandeln
+Comment=Bibac-Text nach pdf umwandeln
+MimeType=text/plain;text/csv;
+Exec=/opt/print_bibac/print_bibac.sh %F
+Type=Application
+Icon=/usr/local/share/uniflow/uniflow.png
+Categories=GNOME;GTK;Utility;TextEditor;
+

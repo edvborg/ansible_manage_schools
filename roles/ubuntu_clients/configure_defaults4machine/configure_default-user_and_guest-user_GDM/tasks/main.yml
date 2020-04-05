@@ -1,0 +1,126 @@
+--- 
+
+########################## GDM konfigurieren ##################################
+
+- name: enable automatic login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "AutomaticLoginEnable = true" 
+    state: present
+    regexp: '^#  AutomaticLoginEnable'
+    insertafter: '[daemon]'
+  when: ansible_distribution_version == "18.04"
+
+- name: set user for automatic login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "AutomaticLogin = borgguest" 
+    state: present
+    regexp: 'AutomaticLogin'
+    insertafter: '[daemon]' 
+  when: ansible_distribution_version == "18.04"
+
+- name: enable timed login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "TimedLoginEnable = true" 
+    state: present
+    regexp: 'TimedLoginEnable'
+    insertafter: '[daemon]' 
+  when: ansible_distribution_version == "18.04"
+
+- name: set user for timed login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "TimedLogin = borgguest" 
+    state: present
+    regexp: 'TimedLogin'
+    insertafter: '[daemon]' 
+  when: ansible_distribution_version == "18.04"
+
+- name: set timed login delay
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "TimedLoginDelay = 0" 
+    state: present
+    regexp: 'TimedLoginDelay'
+    insertafter: '[daemon]'
+  notify: restart gdm3
+  when: ansible_distribution_version == "18.04"
+
+  
+### create directory for local accounts
+
+- name: create home2  
+  file: path=/home2 state=directory mode=0755 owner=root
+
+
+### Benutzer konfigurieren -> lokales Administratorkonto einrichten
+- name: Benutzerkonto admin einrichten
+  user: 
+    name: admin
+    comment: admin 
+    groups: sudo 
+    home: /home2/admin
+    shell: /bin/bash
+    password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
+
+
+### Benutzer konfigurieren -> Konto für Gastkonfiguration einrichten
+- name: Benutzerkonto borgguest einrichten
+  user: 
+    name: borgguest
+#    uid: 1011
+    comment: Gastkonfiguration 
+    home: /tmp/borgguest
+    shell: /bin/bash
+    password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+### copy script for home dir of guestuser
+- name: copy Default script to /etc/gdm3/PostLogin/
+  copy: src=Default_PostLogin dest=/etc/gdm3/PostLogin/Default owner=root mode=0755
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+### copy script to restart gdm3 after session
+- name: copy Default script to /etc/gdm3/PostSession/
+  copy: src=Default_PostSession dest=/etc/gdm3/PostSession/Default owner=root mode=0755
+  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+
+### Benutzer konfigurieren -> guest-session und guest-prefs verlinken
+
+#- name: create directory guest-session
+#  file: path=/etc/guest-session state=directory mode=0755 owner=root
+
+
+#- name: create link from /home2/guest-prefs to guest-session  
+#  file: src=/home2/guest-prefs dest=/etc/guest-session/skel state=link
+
+
+### copy small scripts for changing autologin/noautologin
+
+#- name: copy lightdmconfiguration files to remote host
+#  copy: src=lightdm.conf.autologin dest=/etc/lightdm/lightdm.conf.autologin owner=root mode=0644
+#  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+#- name: copy lightdmconfiguration files to remote host
+#  copy: src=lightdm.conf.noautologin dest=/etc/lightdm/lightdm.conf.noautologin owner=root mode=0644
+#  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+#- name: copy lightdmconfiguration files to remote host
+#  copy: src=change-to-autologin.sh dest=/root/change-to-autologin.sh owner=root mode=0700
+#  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+#- name: copy lightdmconfiguration files to remote host
+#  copy: src=change-to-noautologin.sh dest=/root/change-to-noautologin.sh owner=root mode=0700
+#  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+### copy script to copy monitors.xml
+
+#- name: copy script for copying monitors.xml
+#  copy: src=copy_monitor.xml_to_guest-prefs.sh dest=/root/copy_monitor.xml_to_guest-prefs.sh owner=root mode=0755
+#  when: (ansible_distribution_version == "16.04") or (ansible_distribution_version == "18.04")
+
+
+

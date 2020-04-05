@@ -1,0 +1,17 @@
+---
+- hosts: linuxpcs
+
+  vars:
+    filename:  kali-linux-2017.3-vbox-amd64.ova
+    dest_path: /virtualmachines/labor/ISOs
+
+  tasks:
+  - name: copy file to remote machines 
+    copy: 
+      src:   "{{ filename }}"
+      dest:  "{{ dest_path }}"
+      owner: root
+      mode:  0775
+
+      
+      

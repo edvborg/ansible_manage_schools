@@ -17,6 +17,11 @@ NETMASK={{ ip_netmask }}
 {%   endif %}
 ONBOOT=yes
 DOMAIN={{ dns_search }}
+{% if ansible_distribution_major_version == "7"  %}
 NM_CONTROLLED=no
+{%   endif %}
+{% if ansible_distribution_major_version == "8"  %}
+NM_CONTROLLED=yes
+{%   endif %}
 IPV6INIT=no
 

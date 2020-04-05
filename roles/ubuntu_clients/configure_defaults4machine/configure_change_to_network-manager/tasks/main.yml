@@ -22,36 +22,6 @@
 #
 
 
-## 16.04: enable network manager; 
-
-
-- name: delete line iface for interface in /etc/network/interfaces
-  lineinfile:
-    dest: /etc/network/interfaces
-    state: absent
-    backup: yes
-    regexp: '^\s*iface.*en'
-    #regexp: "{{ ^\s*iface.* + ansible_interfaces[1]  }}"
-  when: ansible_distribution_version == "16.04"
-  notify: reload networking and network manager
-  tags:
-    - network_test
-    
-    
-- name: delete line auto for interface in /etc/network/interfaces
-  lineinfile:
-    dest: /etc/network/interfaces
-    state: absent
-    backup: yes
-    # regexp: '{{ "^\s*auto.*" + ansible_interfaces[1]  }}'
-    regexp: '^\s*auto.*en.*'
-  when: ansible_distribution_version == "16.04"
-  notify: reload networking and network manager
-  tags:
-    - network_test
-
-
-
 ###############################################################
 ## 18.04: disable netplan dhcp -> enable network manager
 

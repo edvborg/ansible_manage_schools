@@ -1,0 +1,23 @@
+#!/bin/bash
+# file: /etc/gdm3/PostLogin/Default
+guestuser="borgguest"
+
+# uncomment for debugging
+# exec >> /var/log/guestuserscript
+# exec 2>&1
+
+# Delete dir if it alreadi exists
+if [ -d /tmp/"$guestuser" ]; then
+	 rm -rf /tmp/"$guestuser"
+fi
+
+# Copy home directory from user "admin" to guestuser
+# echo commands for debugging
+if [ "$USER" == "$guestuser" ]; then
+	# echo "User ist borgguest \n"
+	mkdir tmp/"$guestuser"
+	cp -Rv /home2/admin/. /tmp/"$guestuser"/
+	chown -R "$guestuser":"$guestuser" /tmp/"$guestuser"
+	# echo "Verzeichnis erstellt und Rechte gesetzt!"
+fi
+exit 0

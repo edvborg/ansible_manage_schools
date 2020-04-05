@@ -13,7 +13,7 @@
   - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
   - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-rw_in_userspace   ## problem
   - ubuntu_clients/configure_lehrerkiosk/configure_desktop-serverconnections-ro
-  - ubuntu_clients/install_software/opt_install_mediathekview   ## problem
+  - ubuntu_clients/install_software/opt_install_mediathekview  
   
   tasks:
   - name: Mediathek-Icon auf den Desktop kopieren   

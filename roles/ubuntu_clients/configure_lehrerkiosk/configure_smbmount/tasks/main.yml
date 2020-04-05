@@ -1,0 +1,43 @@
+---
+
+## configure automount for smb share
+
+- name: install cifs-utils
+  apt: name="cifs-utils" state=present
+
+- name: /etc/auto.master present
+  file: path=/etc/auto.master state=file mode=0644 owner=root
+
+- name: entry for netzordner in /etc/auto.master present
+  lineinfile: 
+    dest: /etc/auto.master
+    owner: root
+    mode: 0644
+    regexp: "/netzordner"
+    line: "/netzordner	/etc/auto.netzordner    --ghost" 
+
+
+- name: folder for smb credentials present 
+  file: path=/etc/credentials.d state=directory mode=0700 owner=root
+
+- name: file with smb credentials  
+  blockinfile:
+    dest: /etc/credentials.d/smb.credentials.{{ fach }}
+    create: yes
+    block: |
+      username={{ fach }}-smbuser
+      password={{ smbpassword }}
+
+- name: mountpoint present
+  file: path=/netzordner state=directory mode=0755 owner=root
+  
+- name: line for smb share  
+  lineinfile: 
+    dest: /etc/auto.netzordner 
+    create: yes
+    owner: root
+    mode: 0644
+    regexp: "{{ fach }}-material"
+    line: "{{ fach }}-material  -fstype=cifs,rw,iocharset=utf8,uid={{ localuser }},gid={{ localuser }},credentials=/etc/credentials.d/smb.credentials.{{ fach }}  ://samba/{{ fach }}-material" 
+
+

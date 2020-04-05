@@ -1,0 +1,3 @@
+#!/bin/sh
+/etc/init.d/gdm3 restart
+exit 0

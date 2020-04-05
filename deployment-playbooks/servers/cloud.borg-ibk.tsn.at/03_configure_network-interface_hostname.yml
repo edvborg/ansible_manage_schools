@@ -1,0 +1,54 @@
+---
+- hosts: basicserver
+  
+  
+  ## REM ntp configuration done with kickstart installation
+
+  
+  vars:
+    host_name: cloud
+    network_interface: "{{ ansible_default_ipv4.interface }}"
+    ip_address: "{{ cloud_address }}"
+    ip_netmask: "{{ cloud_netmask }}"
+    ip_gateway: "{{ cloud_gateway }}" 
+
+ 
+  pre_tasks:
+  - name: configure sshd
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      line: "GSSAPIAuthentication no"	
+      regexp: '.*GSSAPIAuthentication.*' 
+ 
+  - name: install dependencies
+    yum:
+      name: 
+      - dbus   
+      - net-tools 
+      - bind-utils 
+      state: installed
+      
+  tasks:
+  - name: change hostname
+    hostname: 
+      name: "{{ host_name }}"    
+
+  - name: add hostname to /etc/hosts
+    lineinfile:
+      path: /etc/hosts
+      line: "{{ ip_address }}    {{ host_name}}.{{ domain_name }}        {{ host_name}} "	
+      regexp: '.*{{ host_name}}.*' 
+ 
+
+  - name: add new ip address  to hosts list
+    add_host: name='{{ ip_address }}' groups=linuxpcs
+
+
+  roles:
+  - server/configure_interface
+    #  register: task_result
+   
+  
+
+  
+

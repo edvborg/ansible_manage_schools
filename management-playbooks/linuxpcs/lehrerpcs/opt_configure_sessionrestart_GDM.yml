@@ -1,0 +1,7 @@
+---
+- hosts: O2-10-PCV7
+  
+  roles:
+  - ubuntu_clients/configure_defaults4machine/configure_default-user_and_guest-user_GDM
+  - ubuntu_clients/configure_sessionrestart_GDM
+

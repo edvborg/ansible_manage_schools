@@ -50,10 +50,13 @@ samba4_netmask: 255.255.255.0
 samba4_gateway: 192.168.200.254
 
 ##########################################################
-### nextcloud-Server (test)
-nc_address: 192.168.200.207
-nc_netmask: 255.255.255.0
-nc_gateway: 192.168.200.254
+### nextcloud-Server
+cloud_address: 192.168.200.207
+cloud_netmask: 255.255.255.0
+cloud_gateway: 192.168.200.254
+cloud_address_dmz: 172.16.1.38
+cloud_netmask_dmz: 255.255.255.0
+cloud_gateway_dmz: 172.16.1.254
 
 ##########################################################
 ### CUPS-Server
@@ -67,7 +70,7 @@ cups2_gateway: 192.168.200.254
 ##########################################################
 ### TFTP-Server == FOG
 
-tftpserver_address: 192.168.200.230
+tftpserver_address: 192.168.200.231
 tftpserver_netmask: 255.255.255.0
 tftpserver_gateway: 192.168.200.254
 

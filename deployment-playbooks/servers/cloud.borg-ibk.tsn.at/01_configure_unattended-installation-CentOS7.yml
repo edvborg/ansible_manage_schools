@@ -1,0 +1,12 @@
+﻿---
+- hosts: boss   ## DHCP-Server
+                ## wird so konfiguriert, dass der Client eine Netzwerk-Installation durchführt
+
+  vars:
+    hostname_client: "basicserver"   			## 
+    macaddress_client: "00:0c:29:82:2c:16" 
+
+
+  roles:
+  - server/install-unattended-CentOS7
+

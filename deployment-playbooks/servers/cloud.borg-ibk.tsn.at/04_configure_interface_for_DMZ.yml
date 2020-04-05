@@ -1,0 +1,21 @@
+---
+- hosts: 192.168.200.207
+  
+  vars:
+    network_interface: ens192
+    ip_address: "{{ cloud_address_dmz }}"
+    ip_netmask: "{{ cloud_netmask_dmz }}"
+    ip_gateway: "{{ cloud_gateway_dmz }}"
+	message_after_configuration: |
+	  ## interface address is configured for DMZ (172.16.1.0/24 )
+	  ## 
+	  ## after this playbook the interface must be connected to DMZ manually  
+	 
+
+  roles:
+  - server/configure_interface
+    #  register: task_result
+   
+  tasks:
+  - debug: msg="{{ message_after_configuration }}"
+

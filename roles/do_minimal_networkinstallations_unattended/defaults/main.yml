@@ -2,4 +2,5 @@
 create_entry_for_host: True
 release: "18.04"
 architecture: "x86_64"
+boot_mode: "ipxe"
 

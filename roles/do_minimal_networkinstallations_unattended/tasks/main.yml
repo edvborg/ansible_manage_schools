@@ -12,10 +12,15 @@
 
 - name: configure dhcpd.declare_host for unattended client installation
   template:
-    src: 'dhcpd.declare-hosts.j2'
+    src: 'dhcpd.declare-hosts_ipxe.j2'
     dest: '/etc/dhcp/dhcpd.ansible_hosts.conf'
-  when: create_entry_for_host
+  when: create_entry_for_host and boot_mode == "ipxe"
 
+- name: configure dhcpd.declare_host for unattended client installation
+  template:
+    src: 'dhcpd.declare-hosts_pxe.j2'
+    dest: '/etc/dhcp/dhcpd.ansible_hosts.conf'
+  when: create_entry_for_host and boot_mode == "pxe"
 
 - name: remove dhcpd.declare_host 
   file:

@@ -1,0 +1,35 @@
+---
+
+- hosts: linuxpcs
+
+  pre_tasks:
+  - name: add key for mysql repo
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: A4A9406876FCBD3C456770C88C718D3B5072E1F5
+        
+        
+  - name: add repository for mysql
+    apt_repository:
+      repo: deb http://repo.mysql.com/apt/ubuntu/ xenial mysql-8.0
+      state: present
+    when:  ansible_distribution_version == "16.04" 
+
+  - name: add repository for mysql
+    apt_repository:
+      repo: deb http://repo.mysql.com/apt/ubuntu/ bionic mysql-8.0
+      state: present
+    when:  ansible_distribution_version == "18.04" 
+    
+  - name: update mysql-client to latest version
+    apt: name=mysql-client state=latest update_cache=yes
+
+
+  tasks:
+  - name: show version 
+    command: /usr/bin/mysql -V
+    register: result
+
+  - name: print output from mysql version
+    debug: var=result.stdout_lines
+

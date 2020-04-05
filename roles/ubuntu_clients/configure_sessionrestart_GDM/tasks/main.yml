@@ -1,0 +1,20 @@
+---
+
+- name: copy gui-from-cron.sh to client 
+  copy:
+    src: gui-from-cron.sh
+    dest: /usr/local/bin/gui-from-cron.sh
+    mode: 0755
+  when: ansible_distribution_version == "18.04"
+ 
+- name: Installationsscript zum Client kopieren 18.04
+  copy:
+    src: sessionrestart.1804
+    dest: /etc/cron.d/sessionrestart
+    mode: 0644
+  when: ansible_distribution_version == "18.04"
+
+- name: restart cron
+  service:
+    name: cron
+    state: restarted

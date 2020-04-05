@@ -302,6 +302,7 @@ packages_list_multimedia_1804:
   - ladspa-foo-plugins
   - calf-plugins
   - handbrake			# Videos/DVDs konvertieren
+  - mediainfo
   - mediainfo-gui
   - pitivi 			# Video-Editor 
   - kino 
@@ -368,6 +369,8 @@ packages_list_science_1804:
   - stellarium 
 
 packages_list_softwaredevelopment_1804:
+  - openjdk-11-jre 
+  - openjdk-11-jdk
   - bluefish 		# Texteditor
   - geany               # Texteditor
   - idle 		# kleine Python IDE

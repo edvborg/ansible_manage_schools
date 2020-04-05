@@ -1,0 +1,8 @@
+---
+- hosts: O1-01-PC01
+
+
+
+  roles:
+  - ubuntu_clients/opt__configure-bibac-printing
+

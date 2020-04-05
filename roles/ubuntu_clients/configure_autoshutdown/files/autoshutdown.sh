@@ -4,6 +4,8 @@
 user=$(who -H | grep -v 'root\|NAME' | awk '{print $1}')
 homedir=$(getent passwd | grep $user | awk -F: '{print $6}')
 
+## R.L. 1.4.2020 eingefügt:
+if [ -z $user ] ; then /sbin/shutdown -h now ; fi
 
 export XAUTHORITY=$homedir/.Xauthority
 export DISPLAY=:0

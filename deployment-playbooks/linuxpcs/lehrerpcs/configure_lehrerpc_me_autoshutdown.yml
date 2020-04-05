@@ -1,0 +1,11 @@
+---
+
+- name: lehrerpcs_me configure autoshutdown
+  hosts: lehrerpcs_me
+  
+  roles:
+    - role: ubuntu_clients/configure_autoshutdown 
+      shutdown_time: "21 18"
+    
+
+

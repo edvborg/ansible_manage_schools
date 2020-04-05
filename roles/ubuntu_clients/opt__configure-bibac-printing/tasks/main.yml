@@ -1,0 +1,35 @@
+--- 
+
+### copy files
+ 
+- name: create dir for bibac printing
+  file:
+    path: /opt/print_bibac/
+    state: directory
+    mode: 0755
+
+    
+- name: copy text2pdf script to remote host
+  copy:
+    src: print_bibac.sh
+    dest: /opt/print_bibac/print_bibac.sh
+    mode: 0755  
+
+- name: copy template to remote host
+  copy:
+    src: vorlage.ott
+    dest: /opt/print_bibac/vorlage.ott
+    mode: 0755  
+
+- name: copy desktop file script to remote host
+  copy:
+    src: print_bibac.desktop
+    dest: /usr/share/applications/print_bibac.desktop
+    mode: 0644  
+
+- name: update the MIME database
+  command: update-mime-database /usr/share/mime
+    
+- name: update the application database
+  command: update-desktop-database /usr/share/applications
+

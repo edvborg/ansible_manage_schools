@@ -97,12 +97,11 @@ inf-2-le
 [inf3pcs]
 inf-3-[01:15]
 inf-3-le
-#O2-10-PCT4 
 
 # Bibliothek 
 
 [bibliothekpcs]
-O1-01-PC[11:18]
+bib-[01:09]
 
 ###
 ### Kustodiate, Funktionsräume
@@ -162,7 +161,6 @@ O2-32-PC01
 [lehrerpcs_konf]
 O1-29-PC03
 O1-29-PC04
-O2-10-PCT5
 
 ###
 ### Laptops mit Ubuntu
@@ -209,11 +207,13 @@ O2-32-PC01
 [testpcs]
 O2-10-PCT3
 O2-10-PCT4
-O2-10-PCT5
+#O2-10-PCT5
 O2-10-PCT8
 O2-10-PCV1
+192.168.140.45
 ## auf PVE
-O2-10-PCV6 ipaddr=192.168.140.106	
-O2-10-PCV7 ipaddr=192.168.140.107
-O2-10-PCV8 ipaddr=192.168.140.108
-O2-10-PCV9 ipaddr=192.168.140.109
+O2-10-PCV6	
+O2-10-PCV7
+O2-10-PCV8
+O2-10-PCV9
+O2-10-PCV11

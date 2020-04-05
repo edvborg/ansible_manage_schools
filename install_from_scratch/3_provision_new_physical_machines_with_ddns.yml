@@ -1,0 +1,202 @@
+﻿---
+
+
+- name: PLAY #1  configure and reconfigure dhcpd.conf for unattended installation from network
+  hosts: boss
+  
+  vars:
+    release: "18.04"
+    architecture: "x86_64"
+    hosts_to_provision: use    ap -e 'hosts_to_provision=["O2-10-PCV7","O2-10-PCV8"]' 3_provision_new_physical_machines_with_ddns.yml
+    macaddresses_of_hostnames:
+      O2-10-PCT5: 8c:16:45:c6:82:29
+      #O2-10-PCT2: 1E:FA:AA:61:46:8D
+   
+   
+  pre_tasks:
+  - name: these hosts will be created
+    debug: var=hosts_to_provision
+    tags: install_minimal_os
+    
+  - name: build dict hostname to macaddress
+    set_fact:
+      macaddresses_of_hostnames: {}
+    tags: install_minimal_os
+     
+  tasks:
+  - name: Remove old DNs record
+    shell: "/root/remove_host_from_dns.sh {{ item }}"
+    with_items: "{{ hosts_to_provision }}"
+    tags: install_minimal_os
+
+  - include_tasks: "_create_dict_and_get_macaddress.yml"
+    with_items: "{{ hosts_to_provision }}"
+    tags: install_minimal_os
+    
+  - name: show dict of maccaddresses
+    debug: var=macaddresses_of_hostnames
+    tags: install_minimal_os
+
+    
+  - name: wake machines
+    shell: /usr/local/bin/wake_with_foginfo.sh "{{ item }}"
+    with_items: "{{ macaddresses_of_hostnames.values() }}"
+    delegate_to: localhost 
+    tags: install_minimal_os
+
+
+  - name: create entries for new machines in dhcpd.conf  
+    include_role:
+      name: do_minimal_networkinstallations_unattended
+    vars:
+      create_entry_for_host: True
+      boot_mode: "pxe"
+      my_macaddresses_of_hostnames: "{{ macaddresses_of_hostnames }}"
+    tags: install_minimal_os        
+ 
+
+  - name: wait 60s until PM has booted
+    wait_for:
+      timeout: 60
+    tags: install_minimal_os    
+
+  - name: remove entries for new machines in dhcpd.conf  
+    include_role:
+      name: do_minimal_networkinstallations_unattended
+    vars:
+      create_entry_for_host: False
+    tags: install_minimal_os    
+
+  - local_action: shell date +'%F %T'
+    register: time_start
+    tags: install_minimal_os
+     
+  - name: show start time
+    debug: msg="{{ time_start.stdout }}"
+    tags: install_minimal_os
+ 
+  - name: Wait for system to become reachable
+    wait_for_connection:
+      delay:   120
+      timeout: 1800
+    delegate_to:  "{{ item }}"
+    with_items: "{{ hosts_to_provision }}"
+    tags: install_minimal_os
+
+#  - name: Wait for system to become reachable
+#    wait_for:
+#      host: "{{ item }}"
+#      port: 22
+#      delay:   120
+#      timeout: 1800
+#    with_items: "{{ hosts_to_provision }}"
+#    tags: install_minimal_os
+
+
+  - local_action: shell date +'%F %T'
+    register: time_end
+    tags: install_minimal_os
+
+         
+  - name: show end time
+    debug: msg="{{ time_end.stdout }}"
+    tags: install_minimal_os
+
+####
+####
+
+- name: PLAY #3  Installation of default software
+  hosts: "{{ hosts_to_provision }}"       
+      
+      
+  pre_tasks:
+  - name: wait 60s to ensure local dpkg processes are finished
+    wait_for:
+      timeout: 60
+    tags: install_minimal_os    
+    
+      
+  roles:
+  - ubuntu_clients/install_software/install_desktop
+#  - ubuntu_clients/install_software/install_packages-ubuntu-repo
+#  - ubuntu_clients/install_software/install_packages-others	
+#  - ubuntu_clients/install_software/install_update_opera
+#  - ubuntu_clients/install_software/install_update_geogebra
+  - ubuntu_clients/install_software/install_sun_java
+  tags: install_default_software
+  
+  tasks:        
+  - name: reboot the host
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+    tags: install_default_software
+      
+  - name: wait for host after reboot
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60  
+    tags: install_default_software
+  
+####
+####
+
+- name: PLAY #4  configure new machine 
+  hosts: "{{ hosts_to_provision }}"   
+
+  vars:
+    launcher_icon_size: 30
+
+
+  roles:
+  - ubuntu_clients/configure_auto_hostname
+  - ubuntu_clients/configure_defaults4machine/configure_default-user_and_guest-user
+  - ubuntu_clients/configure_defaults4machine/configure_name_resolution
+  - ubuntu_clients/configure_defaults4machine/configure_ntp-client
+  - ubuntu_clients/configure_defaults4machine/configure_smb-client
+  - ubuntu_clients/configure_defaults4machine/disable_some_services
+  - ubuntu_clients/configure_defaults4machine/remove_amazon_from_menu
+  - ubuntu_clients/configure_defaults4machine/remove_packages_and_autoclean
+  - ubuntu_clients/configure_defaults4users/create_dconf_directories
+  - ubuntu_clients/configure_defaults4users/set_launcher_in_schemafile
+  - ubuntu_clients/configure_defaults4users/set_unity_defaults
+  - ubuntu_clients/configure_defaults4users/disable_user_services
+  - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
+  - ubuntu_clients/configure_defaults4users/set_firefox_startup-homepage
+  - ubuntu_clients/configure_defaults4users/set_firefox_cachedir-in-tmp
+  - ubuntu_clients/configure_lehrerkiosk/configure_autologin4guest
+  - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
+  tags: configure_default_client
+  
+
+  tasks:
+  - name: set distupgrade never
+    lineinfile:
+      dest: /etc/update-manager/release-upgrades
+      state: present
+      regexp: "^Prompt="
+      line: "Prompt=never"   
+    tags: configure_default_client
+    
+  - name: reboot the host
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+    tags: configure_default_client
+      
+  - name: wait for host after reboot
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60  
+    tags: configure_default_client
+
+
+  

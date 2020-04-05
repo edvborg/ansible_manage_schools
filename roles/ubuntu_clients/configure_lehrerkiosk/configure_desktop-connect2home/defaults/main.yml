@@ -2,5 +2,4 @@
 
 fach: "konf"
 localuser: "{{ fach }}-user"
-localpassword: "sokrates"
 iconposition_x: 1200

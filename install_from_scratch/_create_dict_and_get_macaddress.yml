@@ -1,0 +1,23 @@
+- name: get macaddress from fog
+  shell: mysql --batch -u fogreader -pfogpassword --host=fog fog -e 'select hm.hmMAC,hn.hostName from hostMAC hm, hosts hn where hm.hmHostID= hn.hostID' | grep  "{{ item }}" | cut -f1 -s
+  register: fog_result
+  delegate_to: localhost
+  tags: get_mac_dict
+  
+  
+- name: MAC get
+  set_fact:
+    macaddress: "{{ fog_result.stdout }}"
+    cacheable: yes
+  tags: get_mac_dict
+      
+- name: build dict
+  set_fact:
+    macaddresses_of_hostnames: "{{ macaddresses_of_hostnames | combine({ item :macaddress }) }}"
+  tags: get_mac_dict
+   
+- name: print MAC address
+  debug: var=macaddress
+  tags: get_mac_dict
+     
+

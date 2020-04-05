@@ -17,5 +17,6 @@
   - name: install handbrake latest 
     apt: name={{ item }} state=latest
     with_items:
-      - handbrake
+      - handbrake-cli
+      - handbrake-gtk
 

@@ -34,3 +34,6 @@
     state: present 
     update_cache: yes
 
+- name: run install script 
+  command: update-sun-jre install
+

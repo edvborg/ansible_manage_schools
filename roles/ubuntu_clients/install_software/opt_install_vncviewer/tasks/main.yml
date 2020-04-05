@@ -2,7 +2,7 @@
 
 - name: copy vncviewer deb to host
   copy: 
-    src: "VNC-Viewer-6.18.907-Linux-x64.deb"
+    src: "VNC-Viewer-6.20.113-Linux-x64.deb"
     dest: /root/vncviewerx64.deb
     owner: root 
     group: root 

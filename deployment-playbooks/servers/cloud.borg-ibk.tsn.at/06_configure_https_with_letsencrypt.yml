@@ -1,0 +1,64 @@
+---
+- hosts: cloud
+  
+ 
+  vars:
+    modules_enabled:
+
+    
+  tasks:
+  - name: install mod_ssl for apache
+    yum:
+      name: mod_ssl
+      state: "latest"
+      update_cache: yes  
+
+  - name: restart apache
+    service: 
+      name: httpd
+      enabled: yes
+      state: restarted 
+      
+  - name: download and install certbot from website CentOS8
+    get_url: 
+      url: https://dl.eff.org/certbot-auto
+      dest: /usr/local/bin/certbot-auto
+      owner: root
+      mode: 0755
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: testing
+
+  - name: remove yum lock for kernel
+    lineinfile:
+      path: /etc/yum.conf
+      regexp: '\s*exclude\s*=\s*kernel.*'   
+      state: absent
+    tags: testing
+    
+
+  - name: info to execute command certbot CentOS8
+    debug: 
+      msg: " execute by hand            /usr/local/bin/certbot-auto --apache"
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: testing    
+
+
+  - name: install certbot package CentOS7
+    yum:
+      name: 
+      - certbot
+      - python2-certbot-apache
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+    tags: testing
+  
+  - name: execute command certbot CentOS7
+    debug: msg="certbot --apache"
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+    tags: testing    
+
+        
+
+
+
+
+

@@ -1,0 +1,144 @@
+---
+- hosts: cloud
+  
+  vars: 
+    inst_directory: lehrer
+ 
+  tasks:
+
+  - name: download nextcloud archive
+    get_url: 
+      url: https://download.nextcloud.com/server/releases/latest-18.tar.bz2
+      dest: /root/nextcloud.tar.bz2
+    tags: install_nextcloud_instance  
+      
+  - name: Unarchive nextcloud download archive
+    unarchive:
+      src: /root/nextcloud.tar.bz2
+      dest: /var/www/
+      remote_src: yes
+    tags: install_nextcloud_instance      
+
+  - name: does dest dir exist
+    stat: path="/var/www/html/{{ inst_directory }}"
+    register: dir_stat
+    tags: install_nextcloud_instance
+    
+  - name: rename folder to inst_directory
+    command: "mv /var/www/nextcloud/ /var/www/html/{{ inst_directory }}"
+    when: not dir_stat.stat.exists  
+    tags: install_nextcloud_instance
+          
+  - name: set ownership to apache:apache
+    file:
+      path: "/var/www/html/{{ inst_directory }}"
+      owner: apache
+      group: apache
+      recurse: yes
+    tags: install_nextcloud_instance
+    
+#### selinux configuration ###########################################
+
+  - name: Allow apache to modify files in /var/www/html/nextcloud_instance/
+    sefcontext:
+      target: "{{ item }}"
+      setype: httpd_sys_rw_content_t
+      state: present
+    with_items:
+    - '/var/www/html/{{ inst_directory }}/data(/.*)?'
+    - '/var/www/html/{{ inst_directory }}/config(/.*)?' 
+    - '/var/www/html/{{ inst_directory }}/apps(/.*)?'
+    - '/var/www/html/{{ inst_directory }}/.htaccess'
+    - '/var/www/html/{{ inst_directory }}/.user.ini'
+    - '/var/www/html/{{ inst_directory }}/3rdparty/aws/aws-sdk-php/src/data/logs(/.*)?'
+    
+      
+  - name: Apply new SELinux file context to /var/www/html/{{ inst_directory }}/
+    command: restorecon -irv /var/www/html/{{ inst_directory }}/
+      
+      
+
+
+
+### apache configuration ##############################
+ 
+  - name: create conf for nextcloud virtual host
+    blockinfile:
+      path: /etc/httpd/conf.d/{{ inst_directory }}.conf
+      block: |
+        <Directory "/var/www/html/{{ inst_directory }}/">
+          Require all granted 
+          AllowOverride All 
+          Options FollowSymLinks MultiViews
+          <IfModule mod_dav.c>
+              Dav off
+          </IfModule>
+        </Directory>
+      insertafter: BOF
+      create: yes
+  
+  - name: create base datadir for all nextcloud instances   
+    file:
+      path: /opt/nextcloud
+      state: directory
+      owner: apache
+      group: apache
+      mode: 0750    
+          
+  - name: create datadir for nextcloud_instance   
+    file:
+      path: "/opt/nextcloud/{{ inst_directory }}-data"
+      state: directory
+      owner: apache
+      group: apache 
+      mode: 0750    
+
+
+###
+### create user and database
+###
+###
+### mysql -uroot -p
+###
+### CREATE USER '{{ inst_directory }}user'@'localhost' IDENTIFIED BY '{{ inst_directory }}-WSPW';
+### CREATE DATABASE IF NOT EXISTS {{ inst_directory }}db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+### GRANT ALL PRIVILEGES on {{ inst_directory }}db.* to '{{ inst_directory }}user'@'localhost';
+### FLUSH privileges;
+###
+###
+### semanage fcontext -a -t httpd_sys_rw_content_t '/opt/nextcloud/{{ inst_directory }}-data(/.*)?'
+### restorecon -v -R /opt/nextcloud/{{ inst_directory }}-data/
+###
+###
+###                 
+###  Data Dir: /opt/nextcloud/{{ inst_directory }}-data
+###                 
+###  Admin User: {{ inst_directory }}worker  
+###  Admin PW:   {{ inst_directory }}-WSPW
+###                 
+###  
+###                 
+###  Database: MySQL - MariaDB
+###                 
+###  database-user: {{ inst_directory }}user
+###  database-user PW:  {{ inst_directory }}-WSPW  
+###  database name:    {{ inst_directory }}db
+###  database server: localhost:5432         
+###    
+###   
+###   PHP-Konfiguration: 
+###   memory_limit=1G
+###
+###   in: 
+###   
+###   
+###   
+### APP direkt downloaden:  
+### wget https://github.com/nextcloud/documentserver_community/releases/download/v0.1.5/documentserver_community.tar.gz  
+### entpacken und nach <sitepath>/apps verschieben  
+###
+### GOTO:   -> graphical installation               
+###
+###  ToDo: "Pretty Urls"              
+###
+ 

@@ -19,6 +19,7 @@ packages_choco_win10:
   - libreoffice-still    # ok
   - hunspell.portable    # ok
   - adobereader          # ok
+  - sumatrapdf.install  ## ??
   - virtualbox          # ok
   - teraterm            # ok
   - arduino             # ok

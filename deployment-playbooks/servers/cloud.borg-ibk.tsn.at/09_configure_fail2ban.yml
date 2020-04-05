@@ -1,0 +1,39 @@
+---
+- hosts: cloud
+
+  tasks:
+  - name: Install fail2ban
+    yum:
+      name: 
+      - fail2ban
+      #- sendmail
+      state: installed
+
+  - name: remove old jail configuration
+    file:
+      path: "/etc/fail2ban/jail.local"    
+      state: absent
+      
+  - name: enable sshd jail
+    blockinfile:
+      path: "/etc/fail2ban/jail.local"    
+      block: | 
+        [sshd]
+        enabled = true
+      create: yes
+      insertafter: BOF
+    notify: restart fail2ban
+
+  - name: enable fail2ban
+    service:
+      name: fail2ban
+      enabled: yes
+    notify: restart fail2ban
+     
+      
+  handlers:
+  - name: restart fail2ban
+    service: 
+      name:  fail2ban 
+      state: restarted 
+       

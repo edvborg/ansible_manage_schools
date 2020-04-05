@@ -4,7 +4,7 @@
     name: "lldpd"
     state: "present"
   become: true
-  when: ansible_distribution != "Fedora"
+  when: ansible_distribution != "Fedora" and ansible_distribution_major_version == "7"
 
   
 - name: redhat | Configuring Interfaces
@@ -17,9 +17,10 @@
 
 - name: deactivate network manager
   service: name=NetworkManager enabled=no
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
 
 - name: enable network service
   service: name=network enabled=yes
-   
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
 
 

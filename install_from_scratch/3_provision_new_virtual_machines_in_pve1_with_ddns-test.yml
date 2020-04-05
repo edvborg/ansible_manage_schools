@@ -1,0 +1,212 @@
+﻿---
+
+- name: PLAY #1  create VM in Proxmox and gather dict with macaddresses 
+  hosts: localhost
+ 
+  gather_facts: False
+  
+  
+  vars:
+    release: "18.04"
+    architecture: "x86_64"
+    # default #  boot_mode: "ipxe"
+    hosts_to_provision: use    ap -e 'hosts_to_provision=["O2-10-PCV7","O2-10-PCV8"]' 3_provision_new_machines_with_ddns.yml
+    ## this type of dict will be created in PLAY 1:
+    # 
+    #"macaddresses_of_hostnames": {
+    #    "O2-10-PCV7": "1E:FA:AA:61:46:8C"
+    #}
+    
+  pre_tasks:
+  - name: these hosts will be created
+    debug: var=hosts_to_provision
+    tags: create_vms
+    
+  - name: build dict hostname to macaddress
+    set_fact:
+      macaddresses_of_hostnames: {}
+    tags: create_vms
+      
+  - include_tasks: "_create_vm_and_get_macaddress_test.yml"
+    with_items: "{{ hosts_to_provision }}"
+    tags: create_vms
+     
+     
+  - name: show dict of maccaddresses
+    debug: var=macaddresses_of_hostnames
+    tags: create_vms
+    
+  - name: wait 10s until VM has been created
+    wait_for:
+      timeout: 10
+    #delegate_to: boss
+    tags: create_vms
+
+
+ 
+ ## ToDo: wake on LAN physical machine (pm)
+
+####
+####
+
+- name: PLAY #2  configure and reconfigure dhcpd.conf for unattended installation from network
+  hosts: boss
+  
+  tasks:
+  - name: Remove old DNs record
+    shell: "/root/remove_host_from_dns.sh {{ item }}"
+    with_items: "{{ hosts_to_provision }}"
+    tags: install_minimal_os        
+
+  - name: get dict from first play
+    set_fact: my_macaddresses_of_hostnames={{hostvars['localhost']['macaddresses_of_hostnames']}}
+    tags: install_minimal_os    
+
+  - name: create entries for new machines in dhcpd.conf  
+    include_role:
+      name: do_minimal_networkinstallations_unattended
+    vars:
+      create_entry_for_host: True
+      macaddresses_of_hostnames: "{{ my_macaddresses_of_hostnames }}"
+    tags: install_minimal_os        
+
+  - name: first boot of new VM
+    proxmox_kvm:
+      api_host: 192.168.220.111
+      api_user: root@pam
+      api_password: "{{ hostvars['pve01']['server_password'] }}"
+      name        : "{{ item }}"
+      node        : 192.168.220.111
+      state: started
+    delegate_to: 192.168.220.111
+    with_items: "{{ hosts_to_provision }}"
+    tags: install_minimal_os    
+
+  - name: wait 60s until VM has booted
+    wait_for:
+      timeout: 60
+    tags: install_minimal_os    
+
+  - name: remove entries for new machines in dhcpd.conf  
+    include_role:
+      name: do_minimal_networkinstallations_unattended
+    vars:
+      create_entry_for_host: False
+    tags: install_minimal_os    
+
+  - local_action: shell date +'%F %T'
+    register: time_start
+    tags: install_minimal_os
+     
+  - name: show start time
+    debug: msg="{{ time_start.stdout }}"
+    tags: install_minimal_os
+ 
+  - name: Wait for system to become reachable
+    wait_for:
+      host: "{{ item }}"
+      port: 22
+      delay:   120
+      timeout: 1800
+    with_items: "{{ hosts_to_provision }}"
+    tags: install_minimal_os
+
+  - local_action: shell date +'%F %T'
+    register: time_end
+    tags: install_minimal_os
+
+         
+  - name: show end time
+    debug: msg="{{ time_end.stdout }}"
+    tags: install_minimal_os
+
+####
+####
+
+- name: PLAY #3  Installation of default software
+  hosts: "{{ hosts_to_provision }}"       
+      
+  roles:
+  - ubuntu_clients/install_software/install_desktop
+  - ubuntu_clients/install_software/install_packages-ubuntu-repo
+  - ubuntu_clients/install_software/install_packages-others	
+  - ubuntu_clients/install_software/install_update_opera
+  - ubuntu_clients/install_software/install_update_geogebra
+  - ubuntu_clients/install_software/install_sun_java
+  tags: install_default_software
+  
+  tasks:        
+  - name: reboot the host
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+    tags: install_default_software
+      
+  - name: wait for host after reboot
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60  
+    tags: install_default_software
+  
+####
+####
+
+- name: PLAY #4  configure new machine 
+  hosts: "{{ hosts_to_provision }}"   
+
+  vars:
+    launcher_icon_size: 30
+
+
+  roles:
+  - ubuntu_clients/configure_auto_hostname
+  - ubuntu_clients/configure_defaults4machine/configure_default-user_and_guest-user
+  - ubuntu_clients/configure_defaults4machine/configure_name_resolution
+  - ubuntu_clients/configure_defaults4machine/configure_ntp-client
+  - ubuntu_clients/configure_defaults4machine/configure_smb-client
+  - ubuntu_clients/configure_defaults4machine/disable_some_services
+  - ubuntu_clients/configure_defaults4machine/remove_amazon_from_menu
+  - ubuntu_clients/configure_defaults4machine/remove_packages_and_autoclean
+  - ubuntu_clients/configure_defaults4users/create_dconf_directories
+  - ubuntu_clients/configure_defaults4users/set_launcher_in_schemafile
+  - ubuntu_clients/configure_defaults4users/set_unity_defaults
+  - ubuntu_clients/configure_defaults4users/disable_user_services
+  - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
+  - ubuntu_clients/configure_defaults4users/set_firefox_startup-homepage
+  - ubuntu_clients/configure_defaults4users/set_firefox_cachedir-in-tmp
+  - ubuntu_clients/configure_lehrerkiosk/configure_autologin4guest
+  - ubuntu_clients/configure_lehrerkiosk/set_appdefaults4localuser-vlc
+  tags: configure_default_client
+  
+
+  tasks:
+  - name: set distupgrade never
+    lineinfile:
+      dest: /etc/update-manager/release-upgrades
+      state: present
+      regexp: "^Prompt="
+      line: "Prompt=never"   
+    tags: configure_default_client
+    
+  - name: reboot the host
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+    tags: configure_default_client
+      
+  - name: wait for host after reboot
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60  
+    tags: configure_default_client
+
+
+  

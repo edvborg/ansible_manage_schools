@@ -1,0 +1,13 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# file: /etc/cron.d/sessionrestart
+# Crontab for session restart after every class
+#* * * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force #for logging: >> <dir to logfile> 2>&1
+
+50  8 * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force 
+45  9 * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force 
+40  10 * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force 
+45  11 * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force 
+40  12 * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force 
+35  13 * * * borgguest /usr/local/bin/gui-from-cron.sh /usr/bin/gnome-session-quit --force 
+

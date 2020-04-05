@@ -2,4 +2,3 @@
 
 fach: "konf"
 localuser: "{{ fach }}-user"
-localpassword: "sokrates"

@@ -1,0 +1,17 @@
+---
+
+
+### configure Apps in Launcher
+
+
+- name: ensure .config/upstart folder 
+  file: path=/home2/admin/.config/upstart state=directory owner=admin mode=0700
+
+
+- name: configure list of app in Unity Launcher
+  copy: src=set-apps-in-launcher.conf dest=/home2/admin/.config/upstart/set-apps-in-launcher.conf
+  when: ansible_distribution_version == "16.04"
+
+
+
+

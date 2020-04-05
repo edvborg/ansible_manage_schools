@@ -4,6 +4,13 @@
   vars:
     shutdown_time: "10 18"
 
+## default in role:  shutdown_time: "10 18"
+
+  pre_tasks:
+  - name: show usage
+    debug:
+      msg: 'if you want to set time other than "10 18" use: -e shutdown_time="10 18" '
+      
   roles:
   - ubuntu_clients/configure_autoshutdown
   

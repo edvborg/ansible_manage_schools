@@ -1,0 +1,23 @@
+--- 
+
+  
+### disable apport - erstellt Fehlerberichte
+
+- name: disable apport
+  lineinfile:
+    dest: /etc/default/apport
+    state: present
+    regexp: '^\s*enabled=.*'
+    line: "enabled=0"
+ 
+
+### disable check for release upgrades
+
+- name: disable release upgrades
+  lineinfile:
+    dest: /etc/update-manager/release-upgrades
+    state: present
+    regexp: '^\s*Prompt=.*'
+    line: "Prompt=never"
+ 
+

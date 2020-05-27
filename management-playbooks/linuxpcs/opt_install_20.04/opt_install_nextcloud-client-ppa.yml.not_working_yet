@@ -1,0 +1,22 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: add ppa repository for nextcloud
+    apt_repository:
+      repo: ppa:nextcloud-devs/client
+      state: present
+ 
+
+  - name: update apt cache if not done in last hour
+    apt: 
+      update_cache=yes 
+      cache_valid_time=3600
+
+
+  - name: install nextcloud latest 
+    apt: name={{ item }} state=latest
+    with_items:
+      - nextcloud-client
+      - nextcloud-client-l10n
+      - nextcloud-client-nautilus

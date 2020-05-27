@@ -1,0 +1,15 @@
+--- 
+
+### configure ntp servers in /etc/systemd/timesyncd.conf
+
+- name: configure ntp servers
+  lineinfile:
+    dest: /etc/systemd/timesyncd.conf
+    state: present
+    backup: yes
+    regexp: '^.*NTP=.*'
+    line: "NTP=192.168.200.254" 
+  notify: reload systemd-timesyncd
+
+
+

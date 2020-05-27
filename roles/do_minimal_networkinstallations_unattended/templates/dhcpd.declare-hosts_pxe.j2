@@ -7,11 +7,13 @@ host {{ key }} {
   hardware ethernet {{ value }};
   next-server {{ tftpserver_address }};
   ##
-  {% if release == "19.10" %}
+  ##
+  {% if release == "20.04" %}
   {% if architecture == "x86_64" %}
-  filename "os/ubuntu/19.10/ubuntu.ipxe"; 
+  filename "/os/ubuntu/20.04/pxelinux.0"; 
   {% endif %}
   {% endif %}
+  ##
   ##
   {% if release == "18.04" %}
   {% if architecture == "x86_64" %}
@@ -19,8 +21,9 @@ host {{ key }} {
   {% endif %}
   {% endif %}
   ##
+  ##
   option host-name "{{ key }}" ;
-}
+  }
 {% endfor %}
 }
 

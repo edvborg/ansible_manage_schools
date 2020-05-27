@@ -1,0 +1,30 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: add ppa repository for cura
+    apt_repository:
+      repo: ppa:thopiekar/cura
+      state: present
+    when:  ansible_distribution_version == "16.04"
+
+  - name: update apt cache if not done in last hour
+    apt: 
+      update_cache=yes 
+      cache_valid_time=3600
+    when:  ansible_distribution_version == "16.04"
+
+
+  - name: install cura 3D printer software | 16.04
+    apt: name={{ item }} state=latest
+    with_items:
+      - cura
+    when:  ansible_distribution_version == "16.04"
+
+
+  - name: install cura 3D printer software | 18.04
+    apt:
+      name: cura
+      state: present
+    when:  ansible_distribution_version == "18.04"
+

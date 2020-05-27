@@ -1,0 +1,70 @@
+---
+- hosts: cloud
+
+  tasks:
+####
+#
+# service php-fpm enabled 
+#
+#### In:  /etc/php-fpm.d/www.conf
+# 
+# pm.max_children = 120
+# pm.start_servers = 12
+# pm.min_spare_servers = 5
+# pm.max_spare_servers = 35
+#
+# env[PATH] = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin 
+# env[TMP] = /tmp
+# env[TMPDIR] = /tmp
+# env[TEMP] = /tmp
+#
+#
+#### In: /etc/php.ini
+#
+# memory_limit = 512M
+# post_max_size = 2G
+# upload_max_filesize = 2G
+# date.timezone ='Europe/Vienna'
+# 
+# extension=redis.so     is absent!!
+#
+# APCu is disabled by default on CLI which could cause issues with nextcloud’s cron jobs. 
+# Please make sure you set the apc.enable_cli to 1 on your php.ini config file. (not done!! )
+#
+#### In: /var/www/html/<instance>/config/config.php
+#  'memcache.local' => '\OC\Memcache\APCu',
+#  'memcache.distributed' => '\OC\Memcache\Redis',
+#  'memcache.locking' => '\\OC\\Memcache\\Redis',
+#  'redis' => [
+#     'host'     => 'localhost',
+#     'port'     => 6379, 
+#     'timeout'  => 1.5,
+#  ],
+#
+#
+#
+#  NEXTCLOUD DOCS:
+#
+#### Small/Private home server
+#
+#Only use APCu:
+#
+#'memcache.local' => '\OC\Memcache\APCu',
+#
+#
+#
+#### Organizations with single-server and clustered setups
+#
+#Use Redis for everything except local memcache:
+#
+#'memcache.local' => '\OC\Memcache\APCu',
+#'memcache.distributed' => '\OC\Memcache\Redis',
+#'memcache.locking' => '\OC\Memcache\Redis',
+#'redis' => [
+#     #'host' => 'redis-host.example.com',
+#     #'port' => 6379,
+#],
+
+
+
+ 

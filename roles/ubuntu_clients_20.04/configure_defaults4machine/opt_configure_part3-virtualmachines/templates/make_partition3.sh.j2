@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+fdisk {{ hd_device }} &>/dev/null << EOFDELPART
+n
+p
+3
+  
+  
+w
+EOFDELPART
+partprobe

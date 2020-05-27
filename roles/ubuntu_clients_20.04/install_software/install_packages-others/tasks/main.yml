@@ -1,0 +1,172 @@
+---
+
+- name: ensure apt-transport-https
+  apt: name=apt-transport-https state=latest
+
+
+#######################################################################
+#
+# packages, need preseeding for noninteractive installation 
+#
+# - libdvd-pkg
+# - ttf-mscorefonts-installer
+# - postfix
+# - jackd2
+# - virtualbox-ext-pack
+# - virtualbox-guest-additions-iso
+#
+####################################### DVDCSS #########################
+
+- name: make debconf noninteractive
+  debconf:
+    name: debconf
+    question: debconf/frontend
+    value: noninteractive
+    vtype: select
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+
+#  shell: echo  debconf debconf/frontend select noninteractive | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 1
+  debconf:
+    name: libdvd-pkg
+    question: libdvd-pkg/build
+    vtype: boolean 
+    value: "true"
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+
+
+
+#  shell: echo  libdvd-pkg libdvd-pkg/build boolean true | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 2
+  debconf:
+    name: libdvd-pkg
+    question: libdvd-pkg/first-install
+    vtype: note
+    value: ""
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+
+#  shell: echo  libdvd-pkg libdvd-pkg/first-install note  | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 3
+  debconf:
+    name: libdvd-pkg
+    question: libdvd-pkg/post-invoke_hook-remove
+    vtype: boolean 
+    value: "false"
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+
+#  shell: echo  libdvd-pkg libdvd-pkg/post-invoke_hook-remove boolean false | debconf-set-selections
+
+- name: preseed debconf for libdvd-pkg 4
+  debconf:
+    name: libdvd-pkg
+    question: libdvd-pkg/post-invoke_hook-install
+    vtype: boolean 
+    value: "true"
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+
+#  shell: echo  libdvd-pkg libdvd-pkg/post-invoke_hook-install boolean true | debconf-set-selections
+   
+- name: preseed debconf for libdvd-pkg 5
+  debconf:
+    name: libdvd-pkg
+    question: libdvd-pkg/upgrade
+    vtype: note 
+    value: ""
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+
+#  shell: echo  libdvd-pkg libdvd-pkg/upgrade note | debconf-set-selections
+    
+- name: install libdvd-pkg
+  apt: name=libdvd-pkg
+  notify: reconfigure libdvd-pkg
+  tags:
+    - testing
+  
+
+################################### restricted software ####################
+
+######### mscorefonts
+
+- name: preseed ttf-mscorefonts 
+  debconf:
+    name: ttf-mscorefonts-installer
+    question: msttcorefonts/accepted-mscorefonts-eula
+    vtype: select
+    value: "true"
+  notify: reconfigure ttf-mscorefonts-installer
+
+#  shell: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+
+- name: install ttf-mscorefonts
+  apt: name=ttf-mscorefonts-installer
+  notify: reconfigure ttf-mscorefonts-installer
+
+
+######### 
+
+- name: preseed postfix
+  debconf:
+    name: postfix
+    question: postfix/main_mailer_type
+    vtype: select
+    value: "No configuration"
+
+#  shell: echo  echo postfix postfix/main_mailer_type select "No configuration" | debconf-set-selections
+
+
+
+######################### ardour rosegarden with jack configuration #####################
+
+- name: preseed debconf for jackd
+  debconf:
+    name: jackd2
+    question: jackd/tweak_rt_limits
+    vtype: boolean
+    value: "false"
+  notify: reconfigure jackd
+
+#  shell: echo jackd2 jackd/tweak_rt_limits boolean	false | debconf-set-selections
+
+- name: install ardour, rosegarden
+  apt: 
+    name: 
+    - ardour
+    - rosegarden
+    state: present 
+    update_cache: yes
+  notify: reconfigure jackd
+
+
+############################# virtualbox ##################################################
+
+- name: preseed debconf for virtualbox-ext-pack
+  debconf:
+    name: virtualbox-ext-pack
+    question: virtualbox-ext-pack/license
+    vtype: boolean
+    value: "true"
+  notify: reconfigure virtualbox-ext-pack
+  
+- name: install virtualbox-ext-pack
+  apt: 
+    name: 
+    - virtualbox-ext-pack
+    state: latest 
+    update_cache: yes
+  notify: reconfigure virtualbox-ext-pack
+ 

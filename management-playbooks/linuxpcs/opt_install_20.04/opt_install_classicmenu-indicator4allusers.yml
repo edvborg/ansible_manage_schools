@@ -1,0 +1,6 @@
+---
+- hosts: linuxpcs
+
+  roles:
+  - ubuntu_clients_20.04/install_software/opt_install_classicmenu-indicator4allusers
+  

@@ -1,0 +1,55 @@
+---
+- hosts: linuxpcs
+
+  pre_tasks:
+  - name: remove old repo list
+    file: 
+      path: /etc/apt/sources.list.d/google-earth-pro.list
+      state: absent
+      
+  - name: add key for google earth repo | 1
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id:  9534C9C4130B4DC9927992BF4F30B6B4C07CB649
+        
+  - name: add key for google earth repo | 2
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id:  4CCA1EAF950CEE4AB83976DCA040830F7FAC5991 
+
+  - name: add key for google earth repo | 3
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id:  140CA25ED50BB40D3632C4EBC162483B726A2EC2
+      
+  - name: add key for google earth repo | 4
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id:  EB4C1BFD4F042F6DDDCCEC917721F63BD38B4796
+  
+  - name: add key for google earth repo | 5
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id:  68E9B2B03661EE3C44F707504B8EC3BAABDC4346
+      
+  - name: add key for google earth repo | 6
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id:  2F528D36D67B69EDF998D85778BD65473CB3BD13
+
+      
+  tasks:
+  - name: add repository for google earth
+    apt_repository:
+      repo: deb [arch=amd64] http://dl.google.com/linux/earth/deb/ stable main
+      state: present
+      filename: google-earth-pro
+      update_cache: no
+
+  - name: update google_earth to latest version
+    apt: name=google-earth-pro-stable state=latest update_cache=yes
+
+
+
+ 
+

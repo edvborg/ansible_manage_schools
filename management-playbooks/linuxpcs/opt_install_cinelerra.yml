@@ -1,8 +1,0 @@
----
-- hosts: linuxpcs
-
-  roles:
-  - ubuntu_clients/install_software/opt_install_cinelerra
-  
-  
-

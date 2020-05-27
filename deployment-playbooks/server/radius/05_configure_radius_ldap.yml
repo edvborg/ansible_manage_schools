@@ -1,0 +1,43 @@
+---
+- hosts: radius-schueler
+  
+  # Ldap-config File auswählen aus:
+  # mods_available_ldap_lehrer.v1
+  # mods_available_ldap_schueler.v1
+  vars:
+    ldap_config_file: mods_available_ldap_schueler.v1
+
+  roles:
+  - server/configure_radiusserver
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+

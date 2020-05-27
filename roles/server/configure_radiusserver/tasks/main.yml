@@ -1,69 +1,14 @@
 ---  
 
-- name: Installation der radius-Pakete
-  yum: name={{ item }} state=present
-  with_items:
-  - freeradius
-  - freeradius-ldap
-  - freeradius-utils
-  - freeradius-doc
-
+### dependency: Installation der radius-Pakete
+### dependency:  WLC-1 und WLC2 als Radius-Client konfigurieren (Editieren von /etc/raddb/client.conf )
+### dependency: Firewall für Radius Anfragen öffnen
 
 ####################################################################################
-- name: WLC-1 als Radius-Client konfigurieren (Editieren von /etc/raddb/client.conf )
-  blockinfile:
-    dest: /etc/raddb/clients.conf
-    backup: yes
-    group: radiusd
-    mode: 0640
-    state: present
-    marker: "# {mark} ANSIBLE MANAGED BLOCK <WLC>"
-    block: |
-      client wlc {
-         ipaddr          = 192.168.230.204
-         secret          = borg-wlc-2016
-      }
-    insertbefore: "#.*client .*example.org"	
-    
-    
-- name: WLC-2 als Radius-Client konfigurieren (Editieren von /etc/raddb/client.conf )
-  blockinfile:
-    dest: /etc/raddb/clients.conf
-    backup: yes
-    group: radiusd
-    mode: 0640
-    state: present
-    marker: "# {mark} ANSIBLE MANAGED BLOCK <WLC>"
-    block: |
-      client wlc {
-         ipaddr          = 192.168.230.205
-         secret          = borg-wlc-2016
-      }
-    insertbefore: "#.*client .*example.org"	
-    
-    
-- name: radius-schueler als Radius-Client konfigurieren (Editieren von /etc/raddb/client.conf )
-  blockinfile:
-    dest: /etc/raddb/clients.conf
-    backup: yes
-    group: radiusd
-    mode: 0640
-    state: present
-    marker: "# {mark} ANSIBLE MANAGED BLOCK <testmachine>"
-    block: |
-      client radius {
-         ipaddr          = 192.168.200.203
-         secret          = testing123
-      }
-    insertbefore: "#.*client .*example.org"	
-
-
-####################################################################################
-
 
 - name: Konfiguration des LDAP-Moduls (Editieren von /etc/raddb/mods-enabled/ldap )
-  template: 
-    src: mods_ldap.j2 
+  copy: 
+    src: "{{ ldap_config_file }}"
     dest: /etc/raddb/mods-available/ldap
     backup: yes
     owner: root
@@ -80,7 +25,7 @@
     state: link
 
 
-####################################################################################
+#######################  /etc/raddb/mods-available/eap  ####################################
 
 
 - name: Konfigurieren von /etc/raddb/mods-available/eap  | gtc im eap-Tunnel
@@ -98,20 +43,15 @@
     backup: yes  
 
 
-####################################################################################
-- name: Konfigurieren von etc/raddb/sites-available/inner-tunnel
+########################### /etc/raddb/mods-available/eap ###########################
+- name: Konfigurieren von /etc/raddb/sites-available/inner-tunnel
   copy:
-    src: files/inner-tunnel
+    src: files/inner-tunnel.v1
     dest: /etc/raddb/sites-available/inner-tunnel
     backup: yes
   
 
-####################################################################################
-- name: Firewall für Radius Anfragen öffnen
-  command: firewall-cmd --zone=public --permanent --add-service=radius 
 
-- name: Firewall neu laden
-  command: firewall-cmd --reload
 
 - name: enable and restart service radiusd
   service: name=radiusd enabled=yes state=restarted

@@ -11,7 +11,7 @@ nfs --server=fog --dir=/netinstall_nfs/centos/8/
 #
 # Run the Setup Agent on first boot
 firstboot --enable
-ignoredisk --only-use=sda,sdb
+ignoredisk --only-use=sda
 # Keyboard layouts
 keyboard --vckeymap=at-nodeadkeys --xlayouts='at (nodeadkeys)'
 # System language
@@ -42,7 +42,7 @@ part /tmp --fstype=xfs --ondisk=sda --size=500
 part /boot --fstype=xfs --ondisk=sda --size=238
 part / --fstype=xfs --grow --ondisk=sda --size=6500
 #
-part swap --fstype swap --grow  --maxsize=4000 --size=1800 --ondisk=sdb
+part swap --fstype swap --grow  --maxsize=4000 --size=1800 --ondisk=sda
 #
 reboot  ### ?????
 #

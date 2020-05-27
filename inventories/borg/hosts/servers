@@ -15,6 +15,7 @@ proxyservers
 wikiservers
 webservers
 nextcloudservers
+bbbservers
 testservers
 fogservers
 
@@ -34,7 +35,10 @@ samba
 laus
 
 [radiusservers]
+radius-lehrer
+radius-schueler
 radius
+radius1
 radius2 
 radius3
 
@@ -53,6 +57,9 @@ proxy
 
 [wikiservers]
 wiki
+172.16.1.37
+wiki2
+172.16.1.137
 
 [webservers]
 www
@@ -64,8 +71,13 @@ fog ansible_python_interpreter=/usr/bin/python3
 cloud
 192.168.200.207
 
+[bbbservers]
+bbb
+192.168.220.193
+
 [testservers]
 basicserver
+basicserver2
 testserver
 192.168.200.190
 192.168.200.191

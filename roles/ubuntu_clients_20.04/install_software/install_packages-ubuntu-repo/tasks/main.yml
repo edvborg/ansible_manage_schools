@@ -1,0 +1,65 @@
+---
+
+#- name: Add partner repo 20.04
+#  apt_repository:
+#    repo: deb http://archive.canonical.com/ubuntu bionic partner
+#    state: present
+#  when: ansible_distribution_version == "20.04"
+  
+- name: update apt Cache
+  apt: update_cache=yes cache_valid_time=10800
+  
+- name: update all packages
+  apt: upgrade=yes
+  
+################################
+ 
+- name: Installation von Grafik-Software 20.04
+  apt: name="{{ packages_list_graphics_2004 }}" state=present
+  when: ( ansible_distribution_version == "20.04") 
+
+################################
+
+- name: Installation von Netzwerk-Software
+  apt: name="{{ packages_list_internet_2004 }}" state=present
+  when: ( ansible_distribution_version == "20.04") 
+
+
+################################
+
+
+- name: Installation von Multimedia-Software 20.04
+  apt: name="{{ packages_list_multimedia_2004 }}" state=present
+  when: ( ansible_distribution_version == "20.04") 
+  
+################################
+
+  
+- name: Installation von Office-Software 20.04
+  apt: name="{{ packages_list_office_2004 }}" state=present
+  when: ( ansible_distribution_version == "20.04") 
+
+################################
+
+
+- name: Installation von Wissenschaft-Software 20.04
+  apt: name="{{ packages_list_science_2004 }}" state=present
+  when: ansible_distribution_version == "20.04"
+  
+################################
+  
+- name: Installation von Software für Softwareentwicklung 20.04
+  apt: name="{{ packages_list_softwaredevelopment_2004 }}" state=present
+  when: ansible_distribution_version == "20.04"
+  
+################################
+
+    
+- name: Installation von weiterer Zubehör Software  20.04
+  apt: name="{{ packages_list_tools_2004 }}" state=present
+  when: ansible_distribution_version == "20.04"
+  
+################################  
+  
+  
+  

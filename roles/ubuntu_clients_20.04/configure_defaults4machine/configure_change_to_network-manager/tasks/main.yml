@@ -1,0 +1,67 @@
+--- 
+
+########################## Netzwerk konfigurieren ##################################
+
+### 18.04 machine configuration with netplan file 
+# 
+#   service networking
+#   example: 
+#   systemctl restart networking
+#
+#      
+### change to network-manager
+#   
+# user can configure network devices
+#
+#  systemctl commands:   
+#  systemctl restart network-manager 
+#
+#
+#  list all services: systemctl list-unit-files --no-pager
+#
+
+
+###############################################################
+## 18.04: disable netplan dhcp -> enable network manager
+
+
+- name: find interface file in /etc/netplan
+  find:
+    paths: /etc/netplan/
+    patterns: '*.yaml'
+    excludes: '01-network-manager-all.yaml'
+  register: netplan_files
+  notify: reload networking and network manager
+  tags:
+    - network_test
+
+
+#- debug: msg={{ netplan_files.files[0].path }}
+#  tags:
+#    - network_test
+    
+- name: delete interface yaml file in /etc/netplan
+  file: 
+    path: "{{ item.path }}"
+    state: absent
+    backup: yes
+  with_items: "{{ netplan_files.files }}"
+  when: netplan_files.files is defined
+  notify: reload networking and network manager  
+  tags:
+    - network_test    
+      
+      
+- name: copy netplan yaml file to remote
+  copy:
+    src: "01-network-manager-all.yaml"
+    dest: /etc/netplan/
+    backup: yes
+  notify: reload networking and network manager
+  tags:
+    - network_test
+
+
+
+
+

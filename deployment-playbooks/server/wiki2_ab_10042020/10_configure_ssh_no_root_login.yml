@@ -1,0 +1,25 @@
+---
+- hosts: 172.16.1.137
+
+  tasks:
+  - name: add PermitRootLogin no to sshd_config 
+    replace: 
+      path:    "/etc/ssh/sshd_config" 
+      regexp:  ".*PermitRootLogin.*yes"
+      replace: "PermitRootLogin no"
+    notify: restart sshd
+
+  - name: add PermitRootLogin yes for ansible host 
+    blockinfile:
+      path: "/etc/ssh/sshd_config"    
+      block: | 
+        Match Address 192.168.200.241
+        PermitRootLogin yes
+      backup: yes
+      insertafter: EOF 
+    notify: restart sshd
+
+  handlers:
+  - name: restart sshd
+    service: name=sshd state=restarted 
+ 

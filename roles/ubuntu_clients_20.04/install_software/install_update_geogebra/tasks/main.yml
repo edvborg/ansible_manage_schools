@@ -1,0 +1,51 @@
+---
+
+##################################### Geogebra ########################################
+
+- name: ensure apt https 
+  apt: name=apt-transport-https state=present
+
+- name: remove geogebra 4
+  apt: name=geogebra state=absent
+
+- name: remove geogebra 5
+  apt: name=geogebra5 state=absent
+
+- name: add key  for repo
+  apt_key:  
+    url: https://static.geogebra.org/linux/office@geogebra.org.gpg.key 
+    state: present
+    
+- name: add repository for geogebra
+  ## repo file: /etc/apt/sources.list.d/www_geogebra_net_linux.list
+  apt_repository:
+    repo: deb http://www.geogebra.net/linux/ stable main 
+    filename: geogebra
+    state: present
+
+- name: install geogebra
+  apt: name=geogebra-classic update_cache=yes state=latest
+
+- name: create mime type for geogebra
+  copy: 
+    src: geogebra.xml
+    dest: /usr/share/mime/packages/geogebra.xml
+     
+- name: register geogebra for geogebra files
+  lineinfile:
+    path: /usr/share/applications/geogebra-classic.desktop  
+    line: "MimeType=application/vnd.geogebra.file;application/vnd.geogebra.tool;"
+    ## no error if desktop-file is missing
+    create: yes      
+
+- name: change geogebra desktop file 
+  lineinfile:
+    path: /usr/share/applications/geogebra-classic.desktop
+    line: "Exec=geogebra-classic %F"
+    regexp: "Exec="
+
+- name: update the MIME database
+  command: update-mime-database /usr/share/mime
+    
+- name: update the application database
+  command: update-desktop-database /usr/share/applications

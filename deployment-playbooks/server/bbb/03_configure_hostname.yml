@@ -1,0 +1,28 @@
+---
+- hosts: 192.168.200.192
+  
+  vars:
+    host_name: wiki
+ 
+ 
+  pre_tasks:
+  - name: configure sshd
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      line: "GSSAPIAuthentication no"	
+      regexp: '.*GSSAPIAuthentication.*' 
+ 
+  - name: install dependencies
+    apt:
+      name: 
+      - dbus   
+      - net-tools 
+      state: present
+      
+  tasks:
+  - name: change hostname
+    hostname: 
+      name: "{{ host_name }}"    
+
+
+

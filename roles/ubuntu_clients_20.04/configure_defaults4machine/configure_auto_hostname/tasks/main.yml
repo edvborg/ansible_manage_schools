@@ -1,0 +1,26 @@
+---
+
+- name: install mysql client
+  apt:
+    name: mysql-client
+    state: present
+    
+       
+- name: Installationsscript zum Client kopieren 
+  copy:
+    src: set_hostname_with_fog.sh
+    dest: /usr/local/sbin/set_hostname_with_fog.sh
+    mode: 0700
+
+      
+- name: remove old cronjob
+  file: path=/etc/cron.d/configure-hostname state=absent
+  
+
+- name: configure cron for starting hostname script at reboot
+  lineinfile:
+    dest: /etc/cron.d/set_hostname_with_fog
+    create: yes
+    regexp: "@reboot"
+    line: "@reboot root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games; sleep 40 && /usr/local/sbin/set_hostname_with_fog.sh >> /var/log/hostnamechange.log 2>&1" 
+    

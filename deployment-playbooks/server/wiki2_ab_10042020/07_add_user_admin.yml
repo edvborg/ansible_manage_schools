@@ -1,0 +1,17 @@
+---
+
+- hosts: 172.16.1.137
+
+############################### Passwort ist Standardpasswort für lokalen admin
+  vars: 
+    localuser: admin
+  
+  tasks:
+  - name: Benutzerkonto für "{{localuser}}" einrichten
+    user: 
+      name: "{{ localuser }}"
+      comment: "admin without sudo"
+      shell: /bin/bash
+      home: "/home/{{ localuser }}"
+      password: $6$xOeCh1dvtS4Q$zlzsTRMsBUBB93TUWY91ESbMZWHxoltKya9HRKjpn0gLhwFvOyMFvdUSkcB01DXjntXuVP7VsyNAy6wuqtUuC.
+

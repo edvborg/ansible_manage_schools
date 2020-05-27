@@ -1,0 +1,19 @@
+---
+- hosts: linuxpcs
+
+  tasks:
+  - name: add ppa repository for cinelerra
+    apt_repository:
+      repo: ppa:cinelerra-ppa/ppa
+      state: present
+
+  - name: update apt cache 
+    apt:  update_cache=yes 
+
+
+  - name: install cinelerra
+    apt: name={{ item }} state=latest
+    with_items:
+    - cinelerra-cv
+
+

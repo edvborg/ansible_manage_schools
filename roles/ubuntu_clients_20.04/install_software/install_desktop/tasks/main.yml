@@ -1,0 +1,12 @@
+---
+
+- name: update apt Cache
+  apt: update_cache=yes cache_valid_time=10800
+  
+- name: update all packages
+  apt: upgrade=yes
+    
+
+- name: Installation des Basissystems mit Desktop 20.04
+  apt: name="{{ packages_list_desktop_2004 }}" state=present
+  when: ansible_distribution_version == "20.04"

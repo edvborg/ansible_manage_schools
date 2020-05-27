@@ -1,0 +1,39 @@
+---
+
+#- name: download key for repo java
+#  get_url:
+#    url: 'http://keys.gnupg.net/pks/lookup?op=get&search=0xe18ce6625cb26b26:'
+#    dest: /root/java_repo.key
+
+
+- name: ensure pgp is present
+  apt: name=gpg state=present
+
+- name: copy key to remote 
+  copy: src=java_repo.key dest=/root/java_repo.key 
+
+- name: add key  for repo java
+  apt_key:
+    file: /root/java_repo.key
+    state: present     
+
+
+
+#  shell: apt-key adv --keyserver keys.gnupg.net --recv-keys 0xE18CE6625CB26B26
+
+- name: add repository for sun java 
+  apt_repository:
+    repo: deb http://www.duinsoft.nl/pkg debs all 
+    state: present
+   
+- name: install sun java
+  apt: 
+    name: 
+    - update-sun-jre
+    - unixodbc
+    state: present 
+    update_cache: yes
+
+- name: run install script 
+  command: update-sun-jre install
+

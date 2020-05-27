@@ -1,0 +1,16 @@
+---
+
+- name: reconfigure libdvd-pkg
+  shell: dpkg-reconfigure -fnoninteractive libdvd-pkg
+  tags:
+    - testing
+
+- name: reconfigure ttf-mscorefonts-installer
+  shell: dpkg-reconfigure -fnoninteractive ttf-mscorefonts-installer
+
+- name: reconfigure jackd
+  shell: dpkg-reconfigure -fnoninteractive jackd2
+
+- name: reconfigure virtualbox-ext-pack
+  shell: dpkg-reconfigure -fnoninteractive virtualbox-ext-pack
+

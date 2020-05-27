@@ -1,0 +1,5 @@
+---
+
+- name: restart gdm3
+  service: name=gdm3 enabled=yes state=restarted
+

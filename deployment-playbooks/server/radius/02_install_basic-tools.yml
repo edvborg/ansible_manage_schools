@@ -1,0 +1,20 @@
+---
+- hosts: basicserver2
+  
+
+  tasks:
+  - name: install some tools 
+    yum:
+      name: 
+      - rsync
+      - sysstat
+      - sysusage 
+      - dstat
+      #- nmon
+      - iotop
+      - tcpdump
+      - tree
+      state: installed  
+
+
+

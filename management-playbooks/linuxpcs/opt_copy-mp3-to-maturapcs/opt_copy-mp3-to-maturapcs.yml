@@ -2,7 +2,7 @@
 - hosts: maturapcs
 
   vars: 
-    filename: KL19_PT1_ALL_ENG_HO_B2_SF.mp3
+    filename: KL20_PT1_ALL_ENG_HO_B2.mp3
 
   tasks:
   - name: copy mp3 to desktop
@@ -10,13 +10,13 @@
       src: "{{filename}}"
       dest: "/home2/{{localuser}}/Schreibtisch/"
 
-- hosts: O2-07-PC01
-  vars: 
-    filename: KL19_PT1_ALL_FRA_HO_B1_SF.mp3
-
-  tasks:
-  - name: copy mp3 to windows desktop
-    win_copy:
-      src: "{{filename}}"
-      dest: 'C:\ProgramData\Desktop\'
+#- hosts: O2-07-PC01
+#  vars: 
+#    filename: KL19_PT1_ALL_FRA_HO_B1_SF.mp3#
+#
+#  tasks:
+#  - name: copy mp3 to windows desktop
+#    win_copy:
+#      src: "{{filename}}"
+#      dest: 'C:\ProgramData\Desktop\'
 

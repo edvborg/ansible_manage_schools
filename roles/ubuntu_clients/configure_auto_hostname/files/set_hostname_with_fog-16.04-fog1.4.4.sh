@@ -15,7 +15,7 @@
 #Die MAC-Adresse des lokalen Hoste wird ausgelesen und in der Variable "MYMAC" gespeichert.
 #
 for INTERFACE in `ls /sys/class/net/`; do
-        if [ ! $INTERFACE == "lo" ] ; then
+        if [ ! $INTERFACE == "lo" ] && (echo $INTERFACE | grep -q '^e' ) ; then
                 cat /sys/class/net/$INTERFACE/address
                 MYMAC=`cat /sys/class/net/$INTERFACE/address`
         fi

@@ -88,9 +88,6 @@ backupserver_gateway: 192.168.200.254
 ##########################################################
 ### Radius-Server
 
-radiusserver_address: 192.168.200.203
-radiusserver_netmask: 255.255.255.0
-radiusserver_gateway: 192.168.200.254
 
 radiusserver2_address: 192.168.200.204
 radiusserver2_netmask: 255.255.255.0

@@ -1,0 +1,221 @@
+---
+- hosts: cloud
+  
+  tasks:
+  
+     
+######## php installation begin ########################
+
+  - name: install php repo
+    yum:
+      name:
+      - centos-release-scl
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+
+
+  - name: install php repo
+    dnf:
+      name: 
+      - 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+      - 'https://rpms.remirepo.net/enterprise/remi-release-8.rpm'
+      - yum-utils
+      state: present
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+
+  - name: enable the module stream for 7.4 | 1
+    command: dnf module -y reset php
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+    
+  - name: enable the module stream for 7.4 | 2
+    command: dnf module -y install php:remi-7.4
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+    
+  - name: enable the module stream for 7.4 | 3
+    command: dnf update -y
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+      
+ ######################### PHP BEGIN CENTOS 7 #######################################
+    
+  - name: install php CentOS7
+    yum:
+      name:
+      - rh-php72  
+      - rh-php72-php
+      - rh-php72-php-gd 
+      - rh-php72-php-mbstring
+      - rh-php72-php-intl 
+      - rh-php72-php-pecl-apcu 
+      - rh-php72-php-mysqlnd 
+      - rh-php72-php-ldap
+      - rh-php72-php-pecl-redis
+      - rh-php72-php-opcache 
+      - rh-php72-php-imagick
+      state: "latest"
+      update_cache: yes
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+
+ 
+  - name: create symbolic link for php module | 1
+    file:
+      src: /opt/rh/httpd24/root/etc/httpd/conf.d/rh-php72-php.conf 
+      dest: /etc/httpd/conf.d/rh-php72-php.conf 
+      state: link
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+      
+  - name: create symbolic link for php module | 2
+    file:
+      src: /opt/rh/httpd24/root/etc/httpd/conf.modules.d/15-rh-php72-php.conf 
+      dest: /etc/httpd/conf.modules.d/15-rh-php72-php.conf 
+      state: link
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+      
+  - name: create symbolic link for php module | 3
+    file:
+      src: /opt/rh/httpd24/root/etc/httpd/modules/librh-php72-php7.so
+      dest: /etc/httpd/modules/librh-php72-php7.so 
+      state: link
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+
+  - name: create symbolic link for php module | 4
+    file:
+      src: /opt/rh/rh-php72/root/bin/php
+      dest: /usr/bin/php
+      state: link
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+
+######################### PHP END CENTOS 7 #######################################
+
+   
+  - name: install php Centos8
+    yum:
+      name:
+      - php
+      - php-gd 
+      - php-mbstring
+      - php-intl 
+      - php-pecl-apcu 
+      - php-mysqlnd 
+      - php-opcache  
+      - php-json
+      - php-zip
+      - php-ldap
+      - php-smbclient
+      - php-pecl-igbinary
+      - php-pecl-redis5
+      - php-pecl-imagick    
+      state: "latest"
+      update_cache: yes
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+
+  - name: install redis module | enable PowerTools
+    command: yum config-manager --set-enabled PowerTools
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+       
+  - name: install redis module | install some packages
+    yum:
+      name:
+      - php-pear 
+      - gcc 
+      - curl-devel 
+      - php-devel 
+      - zlib-devel 
+      - pcre-devel 
+      - make
+      - ImageMagick
+      - ImageMagick-devel
+      state: "latest"  
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    tags: install_centos8
+
+## MISSING????
+
+# - name: install php-fpm
+#   yum:
+#     name:
+#     - php-fpm
+#
+#
+#
+#
+  - name: enable php-fpm service
+    service: 
+      name: php-fpm
+      enabled: yes
+      state: started   
+
+
+######## php installation end ########################
+
+######## redis installation begin ########################
+    
+  - name: install redis
+    yum:
+      name:
+      - redis 
+      state: "latest"  
+    tags: install_redis
+    
+  - name: enable redis service
+    service: 
+      name: redis
+      enabled: yes
+      state: started   
+    tags: install_redis    
+   
+     
+######## redis installation end ########################
+
+
+######## mysql installation begin ########################
+      
+  - name: install mysql (mariadb)
+    yum:
+      name:
+      - mariadb 
+      - mariadb-server
+      state: "latest"
+    tags: install_mysql
+          
+  - name: configure transaction_isolation for mariadb | transaction isolation
+    lineinfile:
+      path: "/etc/my.cnf.d/mariadb-server.cnf"
+      line: "transaction_isolation = READ-COMMITTED"
+      insertafter: "mysqld"
+      regexp: "^.*transaction_isolation"
+      backup: yes
+    tags: install_mysql      
+ 
+  - name: configure transaction_isolation for mariadb |  binlog_format
+    lineinfile:
+      path: "/etc/my.cnf.d/mariadb-server.cnf"
+      line: "binlog_format = ROW"
+      insertafter: "mysqld"
+      regexp: "^binlog_format"
+      backup: yes
+    tags: install_mysql     
+ 
+ 
+ 
+ 
+  - name: enable mysql service
+    service: 
+      name: mariadb
+      enabled: yes
+      state: restarted      
+    tags: install_mysql      
+         
+#  - name: show command to be run
+#    debug: msg = 'run command      mysql_secure_installation'
+
+      
+######## mysql installation end ########################
+
+
+ 
+

@@ -1,0 +1,13 @@
+﻿---
+
+Installation bei Hand:
+* Netzwerkinstallation
+* Interface Broadcom (1)
+* IP 192.168.220.193 (über dhcp)
+
+* Auswahl: basic server
+           ssh-server
+           
+* Konfiguration: root-PW
+  ssh-Zugang mit root
+  public key installtiert für ansible   

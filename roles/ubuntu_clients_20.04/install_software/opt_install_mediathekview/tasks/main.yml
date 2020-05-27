@@ -1,0 +1,44 @@
+---
+
+- name: install dependencies
+  apt: 
+    name: "{{ mediathekview_dependencies }}"
+    state: present
+ 
+- name: install requirement for apt deb Option
+  apt:
+    name: xz-utils
+    
+- name: download Mediathekview
+  get_url: 
+    url: https://download.mediathekview.de/stabil/MediathekView-latest-linux.deb
+    dest: /opt/MediathekView-latest-linux.deb
+
+#- name: remove old  MediathekView dir
+#  file:
+#    path: /opt/MediathekView/
+#    state: absent
+
+    
+- name: install Mediathekview
+  apt:
+    deb: /opt/MediathekView-latest-linux.deb
+
+  
+- name: copy desktop file to /usr/share/applications/
+  copy:
+    src:  /opt/MediathekView/MediathekView.desktop
+    dest: /usr/share/applications/MediathekView.desktop
+    remote_src: yes
+    mode: 0644
+
+
+
+- name: copy desktop file to Desktop of default user
+  copy:
+    src:  /opt/MediathekView/MediathekView.desktop
+    dest: "/home2/{{ localuser }}/Schreibtisch/MediathekView.desktop"
+    remote_src: yes
+    owner: "{{ localuser }}" 
+    mode: 0755
+  when: localuser is defined

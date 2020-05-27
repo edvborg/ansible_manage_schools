@@ -1,0 +1,109 @@
+---
+- hosts: radius-schueler
+  
+
+  tasks:
+  - name: Installation der radius-Pakete
+    yum: 
+      name:  
+      - freeradius
+      - freeradius-ldap
+      - freeradius-utils
+      - freeradius-doc
+      state: present
+
+
+####################################################################################
+
+  - name: WLC-1 als Radius-Client konfigurieren (Editieren von /etc/raddb/client.conf )
+    blockinfile:
+      dest: /etc/raddb/clients.conf
+      backup: yes
+      group: radiusd
+      mode: 0640
+      state: present
+      marker: "# {mark} ANSIBLE MANAGED BLOCK <WLC1>"
+      block: |
+        client wlc {
+           ipaddr          = 192.168.230.204
+           secret          = borg-wlc-2020
+        }
+      insertbefore: "#.*client .*example.org"	
+    
+    
+  - name: WLC-2 als Radius-Client konfigurieren (Editieren von /etc/raddb/client.conf )
+    blockinfile:
+      dest: /etc/raddb/clients.conf
+      backup: yes
+      group: radiusd
+      mode: 0640
+      state: present
+      marker: "# {mark} ANSIBLE MANAGED BLOCK <WLC2>"
+      block: |
+        client wlc {
+           ipaddr          = 192.168.230.205
+           secret          = borg-wlc-2020
+        }
+      insertbefore: "#.*client .*example.org"	
+    
+    
+  - name: radius3 als Radius-Client konfigurieren zum Testen
+    blockinfile:
+      dest: /etc/raddb/clients.conf
+      backup: yes
+      group: radiusd
+      mode: 0640
+      state: present
+      marker: "# {mark} ANSIBLE MANAGED BLOCK <testmachine>"
+      block: |
+        client radius {
+           ipaddr          = 192.168.200.202
+           secret          = testing123
+        }
+      insertbefore: "#.*client .*example.org"	
+
+
+
+####################################################################################
+
+  - name: Firewall für Radius Anfragen öffnen
+    command: firewall-cmd --zone=public --permanent --add-service=radius 
+
+  - name: Firewall neu laden
+    command: firewall-cmd --reload
+
+  - name: enable and restart service radiusd
+    service: name=radiusd enabled=yes state=restarted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+

@@ -1,1 +1,9 @@
-material.desktop.1804.v1
+[Desktop Entry]
+Version=1.0
+Name=zum Unterrichtsmaterial
+Comment=zum Unterrichtsmaterial
+Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba/material/
+Type=Application
+Icon=folder-symbolic
+Categories=GTK;GNOME;Application;Utility;
+

@@ -1,0 +1,14 @@
+---
+- hosts: maturapcs
+
+  vars: 
+    filename: KL20_PT1_ALL_ENG_HO_B2.mp3
+
+  tasks:
+  - name: remove mp3 from desktop
+    file:
+      path: "/home2/{{localuser}}/Schreibtisch/"
+      state: absent
+
+
+

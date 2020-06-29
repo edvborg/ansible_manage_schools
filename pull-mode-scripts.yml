@@ -11,4 +11,5 @@
 #  roles:
 #  - ubuntu_clients/install_software/install_packages-ubuntu-repo
 
-- import_playbook: management-playbooks/linuxpcs/opt_install_fonts-replacing-cambria-calibri.yml
+- import_playbook: management-playbooks/linuxpcs/opt_install_20.04/opt_install_fonts-replacing-cambria-calibri.yml
+  when: ansible_distribution_version == "20.04"

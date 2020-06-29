@@ -2,36 +2,48 @@
 - hosts: boss
 
   vars:
-    host_to_provision: use    ap -e 'host_to_provision=O2-10-PCV6' 11_create_VM-Ubunut-minimal_in_pve01.yml 
+    use_message: use    ap -e 'host_to_provision=O2-10-PCV6' 10_create_VM-Ubuntu-pve1.yml
+    host_to_provision: "{{ use_message }}"
     hostname_client: "{{ host_to_provision }}"
     release: "20.04"
     architecture: "x86_64"
+    pve_server: pve1
+    pve_storage: NFS-Storage
+    pve_switch: vmbr0
     
     
   pre_tasks:
+  - name: these hosts will be created
+    debug: var=host_to_provision
+    tags: create_vms
+
+  - meta: end_play
+    when: host_to_provision==use_message
+
   - name:
     set_fact:
       macaddresses_of_hostnames: {}
   
   
-  - name: create VM in pve01
+  - name: create VM in pve
     proxmox_kvm:
-      api_host: pve01
+      api_host: "{{ pve_server }}"
       api_user: root@pam
       api_password: "{{ hostvars['pve01']['server_password'] }}"
       name        : "{{ hostname_client }}"
       # vmid: 
-      node        : pve01
+      node        : "{{ pve_server }}"
       cores       : 2 
       memory      : 4096
       # ostype:   #for some guests only
       # update      : yes
-      sata		   : '{"sata0":"pve-storage:30,format=raw"}'
-      #scsihw	  : virtio-scsi-pci | lsi
-      #virtio      : '{"virtio0":"pve-storage:30"}'
+      #sata: 	'{"sata0":"local-lvm:20,format=raw"}'
+      sata: 	'{"sata0":"{{ pve_storage }}:30,format=raw"}'
+      #  scsihw	  : virtio-scsi-pci | lsi
+      #  virtio      : '{"virtio0":"pve-storage:30"}'
       #
-      net         : '{"net0":"virtio,bridge=vmbr1,tag=140"}'
-    delegate_to: pve01
+      net         : '{"net0":"virtio,bridge={{ pve_switch }},tag=140"}'
+    delegate_to: "{{ pve_server }}"
     register: vm_return
 
 
@@ -55,19 +67,14 @@
     
   - name: first boot of new VM
     proxmox_kvm:
-      api_host: pve01
+      api_host: "{{ pve_server }}"
       api_user: root@pam
       api_password: "{{ hostvars['pve01']['server_password'] }}"
       name        : "{{ hostname_client }}"
-      node        : pve01
+      node        : "{{ pve_server }}"
       state: started
-    delegate_to: pve01
+    delegate_to: "{{ pve_server }}"
  
- 
-#  roles:
- # - role: do_minimal_networkinstallations_unattended
-  #  create_entry_for_host: True
-    
 
   tasks:
   - name: create entry in dhcpd.conf   

@@ -7,7 +7,8 @@
   vars:
     release: "18.04"
     architecture: "x86_64"
-    hosts_to_provision: use    ap -e 'hosts_to_provision=["O2-10-PCV7","O2-10-PCV8"]' 3_provision_new_physical_machines_with_ddns.yml
+    use_message:       use    ap -e 'hosts_to_provision=["O2-10-PCT7","O2-10-PCT8"]' 3_provision_new_physical_machines_with_ddns.yml
+    hosts_to_provision: "{{ use_message }}"
     #macaddresses_of_hostnames:
       #HOMEOFFICE-PC01: 90:b1:1c:6e:7b:21
       
@@ -17,6 +18,11 @@
     debug: var=hosts_to_provision
     tags: install_minimal_os
     
+  - meta: end_play
+    when: hosts_to_provision==use_message
+
+
+
   - name: build dict hostname to macaddress
     set_fact:
       macaddresses_of_hostnames: {}

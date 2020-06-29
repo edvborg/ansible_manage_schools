@@ -6,7 +6,7 @@
 
   
   vars:
-    host_name: proxy
+    host_name: proxy_neu
     network_interface: "{{ ansible_default_ipv4.interface }}"
     ip_address: "{{ proxy_address }}"
     ip_netmask: "{{ proxy_netmask }}"

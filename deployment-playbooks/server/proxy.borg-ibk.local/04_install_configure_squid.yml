@@ -1,0 +1,114 @@
+---
+- hosts: 192.168.200.211
+  
+##
+## Already added disk for squid cache
+##
+
+  tasks:
+  - name: Installation der proxy Pakete
+    yum: 
+      name:  
+      - squid
+      state: present
+    tags: install_software
+
+  - name: test partition on new disk
+    parted:
+      device: /dev/sdb
+      state: info
+    register: part_result
+    tags: create_partition
+
+  - name: show part info | 1
+    debug:
+      var: part_result.partitions
+    tags: create_partition
+
+  - name: show part info | 2
+    debug:
+      msg: "no partition"
+    when:  part_result.partitions | length==0
+    tags: create_partition
+
+  - name: create partition on new disk
+    parted:
+      device: /dev/sdb
+      number: 1
+      state: present
+    register: part_result
+    when:  part_result.partitions | length==0
+    tags: create_partition
+
+  - name: Create a ext4 filesystem on /dev/sdb1
+    filesystem:
+      fstype: ext4
+      dev: /dev/sdb1
+    tags: create_partition
+
+  - name: create mountpoint
+    file:
+      path: /cache
+      state: directory 
+      mode: 0755
+      owner: squid
+      group: squid
+    tags: create_partition
+
+  - name: Mount partition to /cache
+    mount:
+      path: /cache
+      src: /dev/sdb1
+      fstype: ext4
+      state: mounted
+    tags: create_partition
+
+  - name: create configuration
+    copy:
+      src: squid.conf
+      dest: /etc/squid/squid.conf
+      backup: yes 
+
+####################################################################################
+
+  - name: Firewall  öffnen
+    command: firewall-cmd --zone=public --permanent --add-service=8080 
+
+  - name: Firewall neu laden
+    command: firewall-cmd --reload
+
+  - name: enable and restart service squid
+    service: name=squid enabled=yes state=restarted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+

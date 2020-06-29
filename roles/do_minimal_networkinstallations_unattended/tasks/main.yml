@@ -22,6 +22,8 @@
     dest: '/etc/dhcp/dhcpd.ansible_hosts.conf'
   when: create_entry_for_host and boot_mode == "pxe"
 
+###
+
 - name: remove dhcpd.declare_host 
   file:
     path: '/etc/dhcp/dhcpd.ansible_hosts.conf'

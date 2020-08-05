@@ -7,7 +7,7 @@
   tasks:
   - name: remove mp3 from desktop
     file:
-      path: "/home2/{{localuser}}/Schreibtisch/"
+      path: "/home2/{{localuser}}/Schreibtisch/{{ filename }}"
       state: absent
 
 

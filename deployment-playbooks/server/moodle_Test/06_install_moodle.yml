@@ -1,0 +1,92 @@
+---
+- hosts: moodle
+
+  tasks:
+
+  - name: Download moodle from git
+    get_url:
+      url: https://download.moodle.org/stable39/moodle-3.9.1.tgz
+      dest: /root/moodle-3.9.1.tgz
+
+  - name: Unarchive moodle download archive
+    unarchive:
+      src: /root/moodle-3.9.1.tgz
+      dest: /var/www/moodle.borg-ibk.tsn.at/public_html/
+      remote_src: yes
+
+  - name: set ownership
+    file: 
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html
+      state: directory
+      recurse: yes
+      owner: apache
+      group: apache
+
+  - name: Checkout from github
+    git:
+      repo: https://github.com/moodle/moodle.git
+      dest: /var/www/moodle.borg-ibk.tsn.at/public_html
+      version: MOODLE_39_STABLE
+
+  - name: Change ownership, group and permissions
+    file:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html
+      owner: apache
+      group: apache
+      mode: '0755'
+      recurse: yes
+
+  - name: Copy config-dist.php to config.php if config.php doesnt exist
+    copy:
+      remote_src: yes
+      src: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config-dist.php
+      dest: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      force: no
+
+  - name: adapt php.config | 1
+    lineinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      regexp: '^\$CFG->dbtype'
+      line: "$CFG->dbtype    = 'mariadb';      // 'pgsql', 'mariadb', 'mysqli', 'sqlsrv' or 'oci'"
+
+  - name: adapt php.config | 2
+    lineinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      regexp: '^\$CFG->dbname'
+      line: "$CFG->dbname    = 'mymoodle';     // database name, eg moodle"
+
+  - name: adapt php.config | 3
+    lineinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      regexp: '^\$CFG->dbuser'
+      line: "$CFG->dbuser    = 'moodleuser';   // your database username"
+
+  - name: adapt php.config | 4
+    lineinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      regexp: '^\$CFG->dbpass'
+      line: "$CFG->dbpass    = 'moodleuser1122';   // your database password"
+
+  - name: adapt php.config | 5
+    lineinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      regexp: '^\$CFG->wwwroot'
+      line: "$CFG->wwwroot   = 'http://moodle.borg-ibk.tsn.at';"
+
+  - name: Create data directory for Moodle (Must not be in www...)
+    file:
+      path: /usr/moodle_data
+      state: directory
+      mode: '0755'
+      owner: apache
+
+  - name: adapt php.config | 6
+    lineinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/config.php
+      regexp: '^\$CFG->dataroot'
+      line: "$CFG->dataroot  = '/usr/moodle_data';"
+
+  - name: All ready for installation
+    debug:
+      msg: "Now everything's ready. Use web browser to open 'http://moodle.borg-ibk.tsn.at/install.php' to start the installation."
+    tags: step

@@ -2,8 +2,8 @@
 - hosts: inf3pcs klassenpcs
 
   vars:
-    weburl: "https://www.perls-testing.de/eligo/mltests/start.php?iIID=27431"
-    url_shortname: "V2-Allgemeiner Verwaltungsdienst"
+    weburl: "https://www.perls-testing.de/eligo/mltests/start.php?iIID=21475"
+    url_shortname: "Lehrling-Allgemeiner Verwaltungsdienst"
     
   tasks:
   - name: create dir guest configuration
@@ -35,14 +35,14 @@
       regexp: '(Exec=firefox.*)'
       replace:   '\1 {{ weburl }}'     
      
-  - name: rename desktop icon 1
+  - name: rename desktop file 1
     replace: 
       path: "/home2/guest-prefs/Schreibtisch/firefox-{{ url_shortname }}.desktop"
       regexp: 'Name=Firefox Web Browser'
       replace:   'Name={{ url_shortname }}'
       
 
-  - name: rename desktop icon 2
+  - name: rename desktop file 2
     replace: 
       path: "/home2/guest-prefs/Schreibtisch/firefox-{{ url_shortname }}.desktop" 
       regexp: 'Name\[de\]=.*'

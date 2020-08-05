@@ -63,29 +63,82 @@
       state: mounted
     tags: create_partition
 
+  - name: set properties for /cache directorie (got changed after mount)
+    file:
+      path: /cache
+      state: directory 
+      recurse: yes
+      mode: 0755
+      owner: squid
+      group: squid
+    tags: create_partition
+
   - name: create configuration
     copy:
       src: squid.conf
       dest: /etc/squid/squid.conf
       backup: yes 
+    tags: configure_squid
 
 ####################################################################################
 
   - name: Firewall  öffnen
-    command: firewall-cmd --zone=public --permanent --add-service=8080 
+    command: firewall-cmd --zone=public --permanent --add-port=8080/tcp
+    tags: firewall 
 
   - name: Firewall neu laden
     command: firewall-cmd --reload
+    tags: firewall
 
   - name: enable and restart service squid
     service: name=squid enabled=yes state=restarted
 
 
+###################################################################################
 
+  - name: install apache
+    yum:
+      name: httpd
+    tags: client_deploy
 
+  - name: copy proxy.pac to /var/www/html/
+    copy:
+      src: proxy.pac
+      dest: /var/www/html/proxy.pac
+      backup: yes 
+    tags: client_deploy
 
+  - name: copy wpad.dat to /var/www/html/
+    copy:
+      src: wpad.dat
+      dest: /var/www/html/wpad.dat
+      backup: yes 
+    tags: client_deploy
 
+  - name: enable apache service
+    service: 
+      name: httpd
+      enabled: yes
+      state: started
+    tags: client_deploy
 
+  - name: Firewall für http öffnen 
+    firewalld:
+      service: http
+      immediate: yes
+      permanent: yes
+      state: enabled
+      zone: public
+    tags: client_deploy
+      
+  - name: Firewall für https öffnen 
+    firewalld:
+      service: https
+      immediate: yes
+      permanent: yes
+      state: enabled
+      zone: public
+    tags: client_deploy
 
 
 

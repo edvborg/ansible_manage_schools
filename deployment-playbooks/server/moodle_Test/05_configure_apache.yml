@@ -1,0 +1,291 @@
+---
+- hosts: moodle
+  
+  
+# ss -4 -l -t    ## zeigt ports ( ip4, listening, tcp, )
+#
+#
+### apache configuration ##############################
+# 
+#[root@cloud ~]# tree /etc/httpd/
+#/etc/httpd/
+#├── conf
+#│   ├── httpd.conf
+#│   └── magic
+#├── conf.d
+#│   ├── autoindex.conf
+#│   ├── README
+#│   ├── userdir.conf
+#│   └── welcome.conf
+#├── conf.modules.d
+#│   ├── 00-base.conf
+#│   ├── 00-dav.conf
+#│   ├── 00-lua.conf
+#│   ├── 00-mpm.conf
+#│   ├── 00-optional.conf
+#│   ├── 00-proxy.conf
+#│   ├── 00-systemd.conf
+#│   ├── 01-cgi.conf
+#│   ├── 10-h2.conf
+#│   ├── 10-proxy_h2.conf
+#│   └── README
+#├── logs -> ../../var/log/httpd
+#├── modules -> ../../usr/lib64/httpd/modules
+#├── run -> /run/httpd
+#└── state -> ../../var/lib/httpd
+#
+
+  
+  vars:
+    modules_enabled:
+    - alias_module
+    - authz_core_module
+    - autoindex_module
+    - dir_module
+    - env_module
+    - expires_module
+    - headers_module
+    - log_config_module
+    - mime_module
+    - negotiation_module
+    - rewrite_module
+    - setenvif_module
+    - slotmem_shm_module
+    - socache_shmcb_module
+    - unixd_module
+    - watchdog_module
+    
+  tasks:
+  - name: install software  
+    yum:
+      name: 
+      - epel-release 
+      - yum-utils 
+      - unzip 
+      - curl 
+      - wget
+      - bash-completion 
+      - mlocate 
+      - bzip2
+      - policycoreutils 
+      - selinux-policy 
+      - selinux-policy-targeted 
+      - libselinux-utils 
+      - setroubleshoot-server 
+      - setools 
+      - setools-console 
+      - mcstrans
+      state: "latest"
+      update_cache: yes
+
+  - name: update system
+    yum:
+      state: "latest"
+      update_only: yes
+
+  - name: install additional selinux package RH7
+    yum:
+      name: 
+      - policycoreutils-python 
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"
+      
+  - name: install additional selinux package RH8
+    yum:
+      name: 
+      - policycoreutils-python-utils
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+      
+
+  - name: install apache
+    yum:
+      name: httpd
+
+  - name: enable apache service
+    service: 
+      name: httpd
+      enabled: yes
+      state: started
+
+  - name: Firewall für http öffnen 
+    firewalld:
+      service: http
+      immediate: yes
+      permanent: yes
+      state: enabled
+      zone: public
+      
+  - name: Firewall für https öffnen 
+    firewalld:
+      service: https
+      immediate: yes
+      permanent: yes
+      state: enabled
+      zone: public
+
+  - name: create document root direchtory | 1
+    file:
+      path: /var/www/moodle.borg-ibk.tsn.at
+      state: directory
+      mode: '0755'
+      owner: apache
+
+  - name: create document root direchtory | 2
+    file:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html
+      state: directory
+      mode: '0755'
+      owner: apache
+
+  - name: create test index file
+    blockinfile:
+      path: /var/www/moodle.borg-ibk.tsn.at/public_html/index.html
+      block: |
+        <!DOCTYPE html>
+        <html lang="en" dir="ltr">
+          <head>
+           <meta charset="utf-8">
+           <title>Welcome to example.com</title>
+          </head>
+          <body>
+           <h1>Success! example.com home page!</h1>
+          </body>
+        </html>
+      create: yes
+      owner: apache
+
+
+#  - name: configure apache | bind to IP address
+#    lineinfile:
+#      path: /etc/httpd/conf/httpd.conf
+#      line: "Listen 172.16.1.38:80"
+#      regexp: '[# ]*Listen '
+#      backup: yes
+      
+
+#  - name: configure apache | commenting and disabling modules
+#    replace:
+#      path: /etc/httpd/conf.modules.d/00-base.conf
+#      regexp: '(LoadModule.*)'
+#      replace: '# \1'
+#      backup: yes
+#    tags: configure_modules
+    
+    
+#  - name: configure apache | enable necessary modules
+#    lineinfile:
+#      path: /etc/httpd/conf.modules.d/00-base.conf
+#      regexp: '[# ]*(LoadModule\s{{ item }}.*)'
+#      line: '\1'
+#      backrefs: yes
+#      backup: yes
+#    with_items: "{{ modules_enabled }}"
+#    tags: configure_modules
+
+#  - name: test if configuration is ok
+#    shell: "httpd -t" 
+#    register: httpd_result
+#    tags: configure_modules
+    
+#  - name: print httpd test result      
+#    debug: var=httpd_result.stderr
+#    tags: configure_modules
+      
+  - name: configure virtual host | remove old configuration
+    file:
+      path:  /etc/httpd/conf.d/moodle.borg-ibk.tsn.at.conf
+      state: absent
+    tags: step
+      
+  - name: configure virtual host | set configuration
+    blockinfile:
+      path:  /etc/httpd/conf.d/cloud.borg-ibk.tsn.at.conf
+      block: |
+        <VirtualHost *:80>
+            ServerName moodle.borg-ibk.tsn.at
+            ServerAlias www.moodle.borg-ibk.tsn.at
+            ServerAdmin webmaster@example.com
+            DocumentRoot /var/www/moodle.borg-ibk.tsn.at/public_html/moodle
+
+            <Directory /var/www/moodle.borg-ibk.tsn.at/public_html/moodle>
+                Options -Indexes +FollowSymLinks
+                AllowOverride All
+            </Directory>
+
+            ErrorLog /var/log/httpd/moodle-error.log
+            CustomLog /var/log/httpd/moodle-access.log combined
+        </VirtualHost>
+      create: yes
+      owner: root
+      group: root
+      mode: 0644
+      insertbefore: BOF
+    tags: step
+      
+  - name: test if configuration is ok
+    shell: "httpd -t" 
+    register: httpd_result
+    tags: step
+    
+  - name: print httpd test result      
+    debug: var=httpd_result.stderr
+    tags: step
+
+
+#  - name: create minimal index.html
+#    blockinfile:
+#      path:  /var/www/html/index.html
+#      block: |
+#        <!DOCTYPE html>
+#        <html>
+#        <head>
+#        <title>BORG Innsbruck</title>
+#        </head>
+#        <body>
+#  
+#        <h1>BORG INNSBRUCK</h1>
+#        </body>
+#        </html> 
+#      create: yes
+#      owner: root
+#      group: root
+#      mode: 0644
+#      insertbefore: BOF
+
+
+#### selinux configuration ###########################################
+
+
+      
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    selinux:
+      policy: targeted
+      state: permissive
+ 
+ 
+#  - name: reboot the host
+#    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+#    async: 1
+#    poll: 0
+#    ignore_errors: true
+   
+   
+#  - name: wait for host after reboot
+#    local_action: 
+#      module:  wait_for
+#        host="{{inventory_hostname}}" 
+#        port=22
+#        delay=15 
+#        state=started 
+#        timeout=60
+#        msg="SSH port is not Listening"  
+
+      
+  - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+    seboolean:
+      name: httpd_can_network_connect
+      state: yes
+      persistent: yes
+ 
+ 
+
+

@@ -1,0 +1,15 @@
+﻿---
+
+Installation bei Hand:
+* Image aud SD-Karte
+* 
+* 
+* wlan Interface mit dhcp
+* IP 192.168.0.18 (über dhcp)
+*
+*
+*  aptget install openssh-server ansible
+*            
+* Konfiguration: root-PW
+  ssh-Zugang mit root
+  public key installiert für ansible   

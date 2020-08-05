@@ -1,5 +1,7 @@
-
-cli:
-  host: UG-04-SW02
-  username: rudi
-  password: "{{ vaulted_switchpassword }}"
+ansible_connection: network_cli
+ansible_network_os: ios
+ansible_user: "{{ vaulted_switchuser }}"
+ansible_password: "{{ vaulted_switchpassword }}"
+#ansible_become: yes
+#ansible_become_method: enable
+#ansible_become_password: "{{ vaulted_switchpassword }}"

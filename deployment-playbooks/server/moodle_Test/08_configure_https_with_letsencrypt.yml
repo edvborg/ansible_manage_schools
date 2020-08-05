@@ -1,0 +1,28 @@
+---
+- hosts: moodle
+    
+  tasks:
+  - name: install mod_ssl for apache
+    yum:
+      name: mod_ssl
+      state: "latest"
+      update_cache: yes  
+
+  - name: restart apache
+    service: 
+      name: httpd
+      enabled: yes
+      state: restarted 
+
+  - name: install certbot
+    dnf:
+      name:
+        - certbot
+        - python3-certbot-apache
+      state: latest
+
+  - name: info to execute command certbot CentOS8
+    debug:
+      msg: " execute by hand            sudo certbot --apache"
+
+

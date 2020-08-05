@@ -1,6 +1,10 @@
 ---
 - hosts: inf2pcs inf1pcs inf3pcs
 
+  vars:
+    weburl: "http://qdedemo.amescon.com/app/onlinefillout/2c51db65-bf8f-48be-b905-a2fd4e6517ba#stay" 
+    url_shortname: "Sportpsychologische Testung"
+ 
   tasks:
   - name: create dir guest configuration
     file:
@@ -20,33 +24,33 @@
     copy: 
       remote_src: true
       src: /usr/share/applications/chromium-browser.desktop 
-      dest: /etc/guest-session/skel/Schreibtisch/
+      dest: '/etc/guest-session/skel/Schreibtisch/chromium-browser_{{ url_shortname }}.desktop'
       owner: guest-prefs
       mode: 0700
 
   - name: no gnome-keyring for chromium
     replace: 
-      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      path: '/etc/guest-session/skel/Schreibtisch/chromium-browser_{{ url_shortname }}.desktop'
       regexp: '(Exec=chromium-browser)'
       replace:   '\1 --password-store=basic'
       
   - name: start chromium with testing URL
     replace: 
-      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      path: '/etc/guest-session/skel/Schreibtisch/chromium-browser_{{ url_shortname }}.desktop' 
       regexp: '(Exec=chromium-browser.*)'
-      replace:   '\1 http://qdedemo.amescon.com/app/onlinefillout/2c51db65-bf8f-48be-b905-a2fd4e6517ba#stay'     
+      replace:   '\1 {{ weburl }}'     
      
   - name: rename desktop file 1
     replace: 
-      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser_{{ url_shortname }}.desktop 
       regexp: 'Name=Chromium Web Browser'
-      replace:   'Name=Sportpsychologische Testung'
+      replace:   'Name={{ url_shortname }}'
       
 
   - name: rename desktop file 2
     replace: 
-      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop 
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser_{{ url_shortname }}.desktop 
       regexp: 'Name\[de\]=.*'
-      replace:   'Name[de]=Sportpsychologische Testung'
+      replace:   'Name[de]= {{ url_shortname }}'
       
       

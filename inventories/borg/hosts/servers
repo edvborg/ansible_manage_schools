@@ -20,7 +20,7 @@ testservers
 fogservers
 
 [dhcpservers]
-boss
+boss ansible_python_interpreter=/usr/bin/python
 
 [nameservers]
 boss
@@ -86,6 +86,7 @@ testserver
 192.168.200.194
 192.168.200.195
 192.168.200.211
+moodle
 
 [pve_nodes]
 pve01

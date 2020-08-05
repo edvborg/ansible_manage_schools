@@ -1,0 +1,26 @@
+---
+- hosts: 192.168.0.18
+  
+## Ubuntu 20.04
+
+  tasks:
+  - name: dist upgrade 
+    apt:
+      upgrade: dist
+      update_cache: yes
+
+
+  - name: install some tools 
+    apt:
+      name: 
+      - rsync
+      - sysstat
+      - dstat
+      - iftop
+      - iotop
+      - tcpdump
+      - tree
+      state: present  
+
+
+

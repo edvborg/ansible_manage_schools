@@ -5,7 +5,7 @@
   hosts: boss
   
   vars:
-    release: "18.04"
+    release: "20.04"
     architecture: "x86_64"
     use_message:       use    ap -e 'hosts_to_provision=["O2-10-PCT7","O2-10-PCT8"]' 3_provision_new_physical_machines_with_ddns.yml
     hosts_to_provision: "{{ use_message }}"

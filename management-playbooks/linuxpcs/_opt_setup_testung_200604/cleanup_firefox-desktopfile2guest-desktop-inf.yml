@@ -4,7 +4,7 @@
   tasks:
   - name: remove desktop file with link from guest account
     file: 
-      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop
+      path: /etc/guest-session/skel/Schreibtisch/firefox.desktop
       state: absent
 
       

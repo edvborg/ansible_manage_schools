@@ -1,0 +1,20 @@
+---
+
+- hosts: moodle
+
+  tasks:
+
+  - name: Create cron job every minute
+    lineinfile:
+      create: yes
+      line: "*/1    *   *   *   *   root  /usr/bin/php    /var/www/moodle.borg-ibk.tsn.at/public_html/moodle/admin/cli/cron.php"
+      path: /etc/cron.d/moodlejob
+      state: present
+      regexp: '$.*cron.php'
+    tags: step
+
+  - name: restart cron.d
+    service: 
+      name: crond
+      state: restarted
+

@@ -3,9 +3,9 @@
 
   tasks:  
   - name: install google substitute fonts
-    apt: name={{ item }} state=latest
-    with_items:
+    apt: 
+      name: 
       - fonts-crosextra-caladea
       - fonts-crosextra-carlito
- 
+      state: latest
 

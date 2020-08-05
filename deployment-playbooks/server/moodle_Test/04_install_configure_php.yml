@@ -1,0 +1,107 @@
+---
+- hosts: moodle
+
+  tasks:
+
+
+  - name: install php repo
+    dnf:
+      name: 
+      - 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+      - 'https://rpms.remirepo.net/enterprise/remi-release-8.rpm'
+      - yum-utils
+      state: present
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+
+  - name: enable the module stream for 7.4 | 1
+    command: dnf module -y reset php
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    
+  - name: enable the module stream for 7.4 | 2
+    command: dnf module -y install php:remi-7.4
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+    
+  - name: enable the module stream for 7.4 | 3
+    command: dnf update -y
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+
+
+  - name: install php Centos8
+    yum:
+      name:
+      - php
+      - php-gd 
+      - php-mbstring
+      - php-xmlrpc
+      - php-soap
+      - php-intl 
+      - php-zip
+      - php-mysqlnd
+      - php-ldap
+      - php-smbclient
+      state: "latest"
+      update_cache: yes
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "8"
+
+  - name: install mariadb
+    yum:
+      name:
+      - mariadb
+      - mariadb-server
+      - python3-PyMySQL
+
+  - name: get mariadb daemon running
+    service:
+      name: mariadb
+      state: started
+      enabled: yes
+
+# This command will exit non-zero when the root password was set previously
+## !! No space between -p and password !! ##
+  - name: Check if root passord is unset
+    shell: >
+      mysql -u root 
+      -pmariadb1122 
+      -h localhost 
+      -S /var/lib/mysql/mysql.sock 
+      -e "quit"
+    changed_when: false
+    ignore_errors: true
+    register: root_pwd_check
+
+
+
+  - name: Set MariaDB root password for the first time
+    mysql_user:
+      name: root
+      password: "mariadb1122"
+      host_all: yes
+      state: present
+    when: root_pwd_check.rc != 0
+
+
+
+  - name: Create a new database with name 'mymoodle'
+    mysql_db:
+      login_user: root
+      login_password: mariadb1122
+      name: mymoodle
+      state: present
+
+  - name: Create user "moodleuser" and grant priveleges
+    mysql_user:
+      login_user: root
+      login_password: mariadb1122
+      name: moodleuser
+      password: "moodleuser1122"
+      state: present
+      priv: "mymoodle.*:SELECT,INSERT,UPDATE,DELETE,CREATE,CREATE TEMPORARY TABLES,DROP,INDEX,ALTER"
+    tags: step
+
+  - name: Flush Privileges
+    shell: >
+      mysql -u root
+      -pmariadb1122
+      -e "FLUSH PRIVILEGES"
+    tags: step
+

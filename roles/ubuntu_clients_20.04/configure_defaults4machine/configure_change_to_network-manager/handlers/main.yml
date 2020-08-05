@@ -8,7 +8,7 @@
 
 - name: reload networking
   listen: reload networking and network manager
-  service: name=networking state=restarted
+  service: name=systemd-networkd state=restarted
 
 
 - name: reload network manager

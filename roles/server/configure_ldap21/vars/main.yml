@@ -2,7 +2,7 @@
 ## ldap_BORG.inf
 full_machine_name: ldap21.borg-ibk.local
 instance_name: ldap_BORG
-root_password: {{ vaulted_Directory_Manager_Passwd }}
+root_password: "{{ vaulted_Directory_Manager_Passwd }}"
 suffix: dc=borg-ibk,dc=local
 
 ## smbldap.conf

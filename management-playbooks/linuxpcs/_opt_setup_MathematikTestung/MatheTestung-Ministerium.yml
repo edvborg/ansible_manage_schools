@@ -1,0 +1,39 @@
+---
+- hosts: inf2pcs inf3pcs
+
+  tasks:
+  - name: iptable einrichten loopback interface erlauben
+    iptables:
+      chain: INPUT
+      in_interface: lo
+      jump: ACCEPT
+
+  - name: iptable einrichten ssh zugriff erlauben
+    iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: ssh
+      jump: ACCEPT
+
+#  - name: nur verbindung zur Schulseite erlauben
+#    iptables:
+#      chain: INPUT
+#      source: 83.175.117.196
+#      jump: ACCEPT
+
+#  - name: nur verbindung zur Schulseite erlauben
+#    iptables:
+#      chain: INPUT
+#      source: 172.16.1.36
+#      jump: ACCEPT
+
+#  - name: erlaubt glaube ich alle Verbindungen im 200er Netz
+#    iptables:
+#      chain: INPUT
+#      source: 192.168.200.200/24
+#      jump: ACCEPT
+
+  - name: iptable einrichten Rest blockieren
+    iptables:
+      chain: INPUT
+      jump: DROP

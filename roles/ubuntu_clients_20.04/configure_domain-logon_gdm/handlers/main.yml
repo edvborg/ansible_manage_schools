@@ -1,0 +1,8 @@
+---
+
+- name: update dconf
+  command: dconf update
+
+- name: restart gdm 
+  listen: reload services sssd and lightdm
+  service: name=gdm enabled=yes state=restarted

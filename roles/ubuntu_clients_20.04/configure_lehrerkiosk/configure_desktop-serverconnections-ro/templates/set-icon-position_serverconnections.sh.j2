@@ -1,0 +1,13 @@
+#!/bin/bash
+# Wait for nautilus-desktop
+#
+
+
+gio set $HOME/Schreibtisch/videoserver.desktop "metadata::trusted" true
+gio set $HOME/Schreibtisch/videoserver.desktop 'metadata::nautilus-icon-position' '{{ iconposition_x }},345'
+
+gio set $HOME/Schreibtisch/audioserver.desktop "metadata::trusted" true
+gio set $HOME/Schreibtisch/audioserver.desktop 'metadata::nautilus-icon-position' '{{ iconposition_x }},451'
+
+gio set $HOME/Schreibtisch/material.desktop    "metadata::trusted" true
+gio set $HOME/Schreibtisch/material.desktop    'metadata::nautilus-icon-position' '{{ iconposition_x }},557'

@@ -1,0 +1,188 @@
+--- 
+
+- name: configure sshd
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "GSSAPIAuthentication no"	
+    regexp: '.*GSSAPIAuthentication.*' 
+#  tags: step
+
+- name: add hostname to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ ip_address }}    {{ host_name}}.{{ domain_name }}        {{ host_name}} "	
+    regexp: '.*{{ host_name}}.*' 
+#  tags: step
+
+### SSSD ###
+
+- name: install packages for LDAP Authentication
+  dnf: 
+    name: 
+    - sssd
+    - sssd-tools
+    - openldap-clients
+    - oddjob-mkhomedir
+    state: present
+#  tags: step
+
+- name: Switch the authentication provider to sssd
+  shell: authselect select sssd with-mkhomedir
+#  tags: step
+
+- name: copy sssd.conf to /etc/sssd/
+  template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    mode: 0600
+    backup: yes
+#  tags: step
+
+- name: copy ca certificate to /etc/openldap/certs/
+  copy:
+    src: ldap21_BORG_CA.crt
+    dest: /etc/openldap/certs/
+    mode: 0640
+#  tags: step
+
+- name: reload sssd
+  service: name=sssd enabled=yes state=restarted
+#  tags: step
+
+
+### SAMBA ###
+
+- name: install samba packages and nfs-utils
+  yum:  
+    name: 
+    - samba   
+    - samba-client
+    - nfs-utils
+    state: installed
+  tags: step
+
+- name: Firewall für samba öffnen | 1
+  command: firewall-cmd --zone=public --permanent --add-port=445/tcp
+#  tags: step
+
+- name: Firewall für samba öffnen | 2
+  command: firewall-cmd --zone=public --permanent --add-port=139/tcp
+#  tags: step
+
+- name: Firewall neu laden
+  command: firewall-cmd --reload
+#  tags: step
+
+- name: copy config files | 1
+  unarchive:
+    src: samba_etc_samba.tar.gz
+    dest: /etc/samba/
+#  tags: step
+
+- name: copy config files | 2
+  copy:
+    src: smb.conf
+    dest: /etc/samba/smb.conf
+#  notify: enable and restart service smb
+#  tags: step
+
+# execute command: smbpasswd -W SERVERPASSWD-goes-here
+
+# manually set sid number on LDAP ? is there an autmated way ?
+# should look like:
+# [root@samba etc]# net getdomainsid
+# SID for local machine SAMBA is: S-1-5-21-2336030208-1547323707-3435355501
+# SID for domain BORG-IBK.LOCAL is: S-1-5-21-2336030208-1547323707-3435355501
+# [root@samba etc]# net getlocalsid
+# SID for domain SAMBA is: S-1-5-21-2336030208-1547323707-3435355501
+# 
+# Samba und Domain SID müssen diese Werte haben, da anscheinend die User-SIDs auf diese bezogen sind.
+# Mit anderen SIDs hat die Samba authentification nicht funktioniert!
+
+- name: create directory exports
+  file:
+    path: /exports/
+    state: directory
+    owner: root
+    mode: 0755
+#  tags: step
+
+- name: create subdirectories in exports
+  file:
+    path: "/exports/{{item}}"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items:
+  - video
+  - audio
+  - material
+  - sysadmin
+  - netlogon
+#  tags: step
+
+- name: create subdirectory profiles in exports
+  file:
+    path: "/exports/profiles"
+    state: directory
+    owner: root
+    mode: 1777
+#  tags: step
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/audio/{{item}}-audio"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: "{{list_of_subjects}}"
+#  tags: step
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/video/{{item}}-video"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: "{{list_of_subjects}}"
+#  tags: step
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/material/{{item}}-material"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: "{{list_of_subjects}}"
+#  tags: step
+
+- name: create subdirectories in audio,video,material
+  file:
+    path: "/exports/material/{{item}}"
+    state: directory
+    owner: root
+    mode: 0755
+  with_items: 
+  - inf-cnap
+  - inf-lehrer
+  - inf-schueler
+#  tags: step
+
+
+#- name: append nfs-mounts to fstab 		!funktioniert so nicht!
+#  blockinfile:
+#    block: "{{ lines_of_nfsmounts }}"
+#    dest: "/etc/fstab"
+#    backup: yes
+#    insertafter: EOF
+
+# TODO:
+# - append fstab_append-nfs-mounts to fstab file!
+
+
+##############################################################################
+
+
+
+
+

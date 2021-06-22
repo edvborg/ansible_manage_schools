@@ -1,0 +1,3 @@
+[org/gnome/login-screen]
+# Disable user list from login screen
+disable-user-list=true

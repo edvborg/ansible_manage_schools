@@ -1,0 +1,14 @@
+---
+
+- name: copy Google Earth Pro deb to remote host
+  copy:
+    src: google-earth-pro-stable_current_amd64.deb
+    dest: "/tmp/google-earth-pro-stable_current_amd64.deb"
+  tags: step
+
+- name: install
+  apt:
+    deb: /tmp/google-earth-pro-stable_current_amd64.deb
+    state: present
+  when: ansible_distribution_version == "18.04"
+  tags: final

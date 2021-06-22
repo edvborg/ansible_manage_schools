@@ -1,0 +1,31 @@
+---
+- hosts: linuxpcs
+  
+  roles:
+  - ubuntu_clients_20.04/install_software/install_desktop
+  - ubuntu_clients_20.04/install_software/install_packages-ubuntu-repo
+  - ubuntu_clients_20.04/install_software/install_packages-others	
+  - ubuntu_clients_20.04/install_software/install_update_geogebra
+#  - ubuntu_clients_20.04/install_software/install_sun_java
+# install_sun_java funktioniert offenbar nicht mehr! Überhaupt notwendig??
+
+  tasks: 
+  - name: use tasksel for ubuntu desktop
+    command: tasksel install ubuntu-desktop 
+
+  - name: execute handlers from roles
+    meta: flush_handlers
+    
+  - name: reboot the host
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+      
+  - name: wait for host after reboot
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=15 
+        state=started 
+        timeout=60

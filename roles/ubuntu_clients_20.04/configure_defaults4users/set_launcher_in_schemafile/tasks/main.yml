@@ -1,0 +1,16 @@
+--- 
+
+### set Launcher
+    
+- name: set Launcher apps in schema file
+  lineinfile:
+    path: /usr/share/glib-2.0/schemas/10_ubuntu-settings.gschema.override
+    regexp: '^[ \t]*favorite-apps\s='
+    line: "favorite-apps = {{ applist_in_launcher_2004 }}"
+    state: present
+    backup: yes
+  notify: compile schema files
+  tags:
+  - launchertest
+
+

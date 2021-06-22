@@ -1,0 +1,60 @@
+--- 
+
+### create dconf dirs
+#
+
+- name: create directories for dconf | db local.d
+  file: 
+    path: /etc/dconf/db/local.d
+    state: directory 
+    mode: 0755
+
+- name: create directories for dconf | db local.d/locks
+  file:
+    path: /etc/dconf/db/local.d/locks
+    state: directory
+    mode: 0755
+
+
+- name: create directories for dconf | db site.d
+  file:
+    path: /etc/dconf/db/site.d
+    state: directory
+    mode: 0755
+
+- name: create directories for dconf | db site.d/locks
+  file: 
+    path: /etc/dconf/db/site.d/locks
+    state: directory 
+    mode: 0755
+
+
+- name: create directories for dconf | db user.d
+  file: 
+    path: /etc/dconf/db/user.d
+    state: directory 
+    mode: 0755
+
+- name: create directories for dconf | db user.d/locks
+  file:
+    path: /etc/dconf/db/user.d/locks
+    state: directory 
+    mode: 0755
+
+
+- name: create directories for dconf | profile
+  file: 
+    path: /etc/dconf/profile
+    state: directory 
+    mode: 0755
+
+- name: create files for dconf profile | profile/user
+  blockinfile:
+    dest: /etc/dconf/profile/user
+    create: yes
+    block: |
+      user-db:user
+      system-db:local
+      system-db:site
+
+

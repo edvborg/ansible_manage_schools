@@ -1,6 +1,10 @@
 --- 
 
 ### configure ntp servers in /etc/systemd/timesyncd.conf
+- name: ntp darf nicht installiert sein für timesyncd
+  apt:
+    name: ntp
+    state: absent
 
 - name: configure ntp servers
   lineinfile:

@@ -1,0 +1,31 @@
+---
+
+### Webuntis als app einrichten und automatisch starten
+### configure webuntis desktop file 
+
+- name: ensure webuntis directory
+  file: path=/opt/webuntis state=directory 
+
+- name: copy Webuntis Icon to remote machine
+  copy: src=webuntis.png dest=/opt/webuntis/webuntis.png
+
+- name: ensure desktop folder 
+  file: path=/home2/{{ localuser }}/Schreibtisch state=directory owner={{ localuser }} group={{ localuser }}  mode=0755
+
+- name: copy desktopfile to remote machine
+  copy: src=webuntis.desktop dest=/usr/share/applications/webuntis.desktop owner=root mode=0644
+
+
+### configure autostart for webuntis
+
+- name: ensure config folder 
+  file: path=/home2/{{ localuser }}/.config state=directory owner={{ localuser }} group={{ localuser }} mode=0700
+
+
+- name: ensure autostart folder 
+  file: path=/home2/{{ localuser }}/.config/autostart state=directory owner={{ localuser }} group={{ localuser }} mode=0700
+
+
+- name: copy desktopfile to local user/autostart
+  copy: src=webuntis.desktop dest=/home2/{{ localuser }}/.config/autostart/webuntis.desktop owner={{ localuser }} group={{ localuser }} mode=0700
+

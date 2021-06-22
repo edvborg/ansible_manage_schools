@@ -1,0 +1,29 @@
+--- 
+
+- name: install autofs package
+  apt: 
+    name: 
+    - nfs-common 
+    - autofs5
+    state: present
+  notify: reload autofs  
+
+
+- name: create entry for auto.home
+  lineinfile:
+    dest: /etc/auto.master
+    state: present
+    backup: yes
+    regexp: "/home"
+    line: "/home	/etc/auto.home    --ghost"
+  notify: reload autofs  
+
+
+- name: copy auto.home.fs1 to remote host
+  copy:
+    src: auto.home.fs1
+    dest: /etc/auto.home
+    mode: 0644
+    owner: root  
+  notify: reload autofs  
+

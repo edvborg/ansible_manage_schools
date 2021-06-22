@@ -1,0 +1,40 @@
+{
+  "policies": {
+    "Bookmarks": [
+      {
+        "Placement": "toolbar",
+        "Title": "BORG",
+        "URL": "https://www.borg-ibk.tsn.at"
+      },
+      {
+        "Placement": "toolbar",
+        "Title": "Intranet",
+        "URL": "http://intranet"
+      },
+      {
+        "Placement": "toolbar",
+        "Title": "Webuntis",
+        "URL": "https://mese.webuntis.com/WebUntis/?school=borg-ibk#/basic/main"
+      },
+      {
+        "Placement": "toolbar",
+        "Title": "DIGI4SCHOOL Bücher",
+        "URL": "https://digi4school.at/"
+      },
+      {
+        "Placement": "toolbar",
+        "Title": "Nextcloud",
+        "URL": "https://cloud.borg-ibk.tsn.at/lehrer"
+      }
+    ],
+    "DisplayBookmarksToolbar": true,
+    "DisplayMenuBar": true,
+    "NoDefaultBookmarks": true,
+    {% if firefox_save_logins == True %} 
+    "OfferToSaveLogins": true
+    {% else %}
+    "OfferToSaveLogins": false
+    {% endif %}
+  }
+}
+

@@ -13,5 +13,8 @@
       name:
       - musescore3
       state: latest 
-      update_cache: yes
+#      only_upgrade: yes
+      update_cache: yes 
+#      cache_valid_time: 3600
 
+# uncomment for only update #

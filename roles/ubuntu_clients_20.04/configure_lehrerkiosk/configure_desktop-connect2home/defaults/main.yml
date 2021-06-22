@@ -1,0 +1,5 @@
+---
+
+fach: "konf"
+localuser: "{{ fach }}-user"
+iconposition_x: 1200

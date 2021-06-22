@@ -1,0 +1,16 @@
+---
+## ldap_BORG.inf
+full_machine_name: ldap21.borg-ibk.local
+instance_name: ldap_BORG
+root_password: {{ vaulted_Directory_Manager_Passwd }}
+suffix: dc=borg-ibk,dc=local
+
+## smbldap.conf
+sambaDomain: "borg-ibk.local"
+local_SID: S-1-5-21-2336030208-1547323707-3435355501
+## smbldap_bind.conf
+masterslaveDN: "cn=Directory Manager"
+
+## sssd.conf
+ldap_user_search_base: ou=people,dc=borg-ibk,dc=local
+ldap_group_search_base: ou=groups,dc=borg-ibk,dc=local

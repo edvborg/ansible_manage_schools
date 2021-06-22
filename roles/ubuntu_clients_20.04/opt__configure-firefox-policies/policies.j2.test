@@ -1,0 +1,10 @@
+{
+  "policies": {
+  {% if firefox_nosync == True %}
+  "DisableFirefoxAccounts": true
+  {% endif %}
+  {% if firefox_bookmarks_toolbar == True %}
+"DisplayBookmarksToolbar": true
+  {% endif %}
+  }
+}

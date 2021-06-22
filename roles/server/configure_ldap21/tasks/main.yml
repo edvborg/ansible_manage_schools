@@ -1,0 +1,210 @@
+---
+
+- name: Add EPEL Repository
+  dnf:
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+    state: present
+#  tags: step
+
+- name: enable codeready-builder-for-rhel-8-x86_64-rpms
+  command:
+    cmd: /usr/bin/subscription-manager repos --enable "codeready-builder-for-rhel-8-x86_64-rpms"
+#  tags: step
+
+- name: Install 389-ds
+  command:
+    cmd: dnf -y module install 389-directory-server:stable/default
+#  tags: step
+
+- name: copy ldap_BORG.inf to /root/
+  template:
+    src: ldap_BORG.inf.j2
+    dest: /root/ldap_BORG.inf
+    mode: 0770
+#  tags: step
+
+- name: Create ldap instance
+  command:
+    cmd: dscreate from-file /root/ldap_BORG.inf
+#  tags: step
+
+- name: Start cockpit.service
+  systemd:
+    name: cockpit
+    enabled: yes
+    state: started
+#  tags: step
+
+- name: Open ports on firewall 1
+  firewalld:
+    port: 389/tcp
+    permanent: yes
+    state: enabled
+#  tags: step
+
+- name: Open ports on firewall 2
+  firewalld:
+    port: 636/tcp
+    permanent: yes
+    state: enabled
+#  tags: step
+
+- name: Open ports on firewall 3
+  firewalld:
+    port: 9090/tcp
+    permanent: yes
+    state: enabled
+#  tags: step
+
+- name: install samba packages
+  dnf:
+    name: samba,samba-client,samba-common
+    state: present
+#  tags: step
+
+
+- name: copy samba-schema to dirsrv
+  copy:
+    src: /usr/share/doc/samba/LDAP/samba-schema-FDS.ldif
+    dest: /etc/dirsrv/slapd-{{ instance_name }}/schema/60samba.ldif
+    remote_src: True
+    mode: 0644
+#  tags: step
+
+## Nach verschiebung der samba.ldif müssen die Schemata neu eingelesen werden.
+
+################################# Install Apache Directory Studio ###
+
+- name: install latest java
+  dnf:
+    name: java-latest-openjdk,libglvnd-glx
+    state: present
+#  tags: step
+
+- name: switch to latest java
+  shell: echo 2 | alternatives --config java
+#  tags: step
+
+
+
+## Java muss auf die neueste Version gesetzt werden mit:
+## alternatives --config java
+## dann die entsprechende nummer wählen.
+
+- name: Download Apache Directory Studio
+  get_url:
+    url: https://downloads.apache.org/directory/studio/2.0.0.v20210213-M16/ApacheDirectoryStudio-2.0.0.v20210213-M16-linux.gtk.x86_64.tar.gz
+    dest: /root/ApacheDirectoryStudio-2.0.0.v20210213-M16-linux.gtk.x86_64.tar.gz
+    mode: '0644'
+#  tags: step
+
+- name: unpack archive ApacheDirectoryStudio...tar.gz
+  unarchive:
+    src: /root/ApacheDirectoryStudio-2.0.0.v20210213-M16-linux.gtk.x86_64.tar.gz
+    dest: /opt/
+    remote_src: yes
+#  tags: step
+
+- name: create symbolic link for ApacheDirectoryStudio
+  file:
+    src: /opt/ApacheDirectoryStudio/ApacheDirectoryStudio
+    dest: /usr/local/bin/ApacheDirectoryStudio
+    state: link
+#  tags: step
+
+
+
+######################### smbldap-tools installieren:
+
+## Zum Zeitpunkt der Erstellung (23.04.21) waren die smbldap-tools noch nicht im epel-Repo enthalten.
+## Daher muss das "LUX-Repo" installiert werden. 
+
+- name: Download lux-release...rpm
+  get_url:
+    url: http://repo.iotti.biz/CentOS/8/noarch/lux-release-8-1.noarch.rpm
+    dest: /tmp/lux-release-8-1.noarch.rpm
+    mode: '0644'
+#  tags: step
+
+- name: Install LUX-REPO
+  yum:
+    name: /tmp/lux-release-8-1.noarch.rpm
+    state: present
+#  tags: step
+
+- name: Install smbldap-tools
+  dnf:
+    name: smbldap-tools
+    state: present
+#  tags: step  | awk '{print $NF}'
+
+#- name: Get local SID and save to variable
+#  shell: net getlocalsid | awk '{print $NF}'
+#  register: local_SID_reg
+#  tags: step
+
+# Da die SIDs der User aus jener der Samba-Domäne generiert werden, muss die SID für die neue Instanz von der alten 
+# übernommen werden! Bei einer neuen SID funktioniert die authentifizierung der User über das smb Protokoll nicht!
+# S-1-5-21-2336030208-1547323707-3435355501
+# 
+
+# Steht jetzt in den Variablen!
+#- name: Set local_SID Variable
+#  set_fact:
+#    local_SID: S-1-5-21-2336030208-1547323707-3435355501
+#  tags: step
+
+- name: copy smbldap.conf to /etc/smbldap-tools/smbldap.conf
+  template:
+    src: smbldap.conf.j2
+    dest: /etc/smbldap-tools/smbldap.conf
+    mode: 0644
+    backup: yes
+#  tags: step
+
+- name: copy smbldap_bind.conf to /etc/smbldap-tools/smbldap_bind.conf
+  template:
+    src: smbldap_bind.conf.j2
+    dest: /etc/smbldap-tools/smbldap_bind.conf
+    mode: 0600
+    backup: yes
+#  tags: step
+
+## Bei den smbldap-tools funktioniert das smbldap-useradd nicht! Erst nachdem ich die ldif mit den Daten vom BORG eingespielt hatte, hat es funktioniert!
+
+
+####################################### SSSD:
+
+- name: install packages for LDAP Authentication
+  dnf: 
+    name: 
+    - sssd
+    - sssd-tools
+    - openldap-clients
+    - oddjob-mkhomedir
+    state: present
+#  tags: step
+
+- name: Switch the authentication provider to sssd
+  shell: authselect select sssd with-mkhomedir
+#  tags: step
+
+- name: copy sssd.conf to /etc/sssd/
+  template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    mode: 0600
+    backup: yes
+#  tags: step
+
+# Bei der Installation des 389-ds wird automatisch eine CA (Gültigkeit in ldap_BORG.inf) erstellt.
+# Deren Zertifikat muss nun auf alle Maschinen, die sich über sssd authentifizieren. Hier ist es die gleiche
+# (daher remote_src: True)
+- name: copy ca certificate to /etc/openldap/certs/
+  copy:
+    src: /etc/dirsrv/slapd-{{ instance_name }}/ca.crt
+    dest: /etc/openldap/certs/
+    remote_src: True
+    mode: 0640
+#  tags: step
+

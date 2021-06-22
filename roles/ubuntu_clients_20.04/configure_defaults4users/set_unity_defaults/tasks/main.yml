@@ -1,0 +1,7 @@
+--- 
+
+- name: set dconf-settings
+  template:
+    src: 01_ALL_site_settings.j2
+    dest: /etc/dconf/db/site.d/01_ALL_site_settings.j2
+  notify: update dconf

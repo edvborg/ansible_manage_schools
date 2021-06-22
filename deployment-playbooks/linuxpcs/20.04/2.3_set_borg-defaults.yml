@@ -1,0 +1,56 @@
+---
+- hosts: linuxpcs
+  
+  vars:
+    launcher_icon_size: 30
+
+
+  roles:
+## defaults for machine
+  - ubuntu_clients_20.04/configure_defaults4machine/configure_auto_hostname
+  - ubuntu_clients_20.04/configure_defaults4machine/configure_default-user_and_guest-user
+  - ubuntu_clients_20.04/configure_defaults4machine/configure_name_resolution
+  - ubuntu_clients_20.04/configure_defaults4machine/configure_ntp-client
+  - ubuntu_clients_20.04/configure_defaults4machine/configure_smb-client
+
+## defaults for all users
+
+  - ubuntu_clients_20.04/configure_defaults4users/create_dconf_directories
+  - ubuntu_clients_20.04/configure_defaults4users/set_launcher_in_schemafile
+
+
+  tasks:
+  - name: set distupgrade never
+    lineinfile:
+      dest: /etc/update-manager/release-upgrades
+      state: present
+      regexp: "^.*Prompt.*="
+      line: "Prompt=never"   
+
+  - name: disable apport
+    lineinfile:
+      dest: /etc/default/apport
+      state: present
+      regexp: '\senabled=.*'
+      line: "enabled=0"
+
+
+  
+  post_tasks:
+  - name: restart network manager
+    shell: sleep 2 && systemctl restart NetworkManager
+    async: 1
+    poll: 0
+
+    ignore_errors: true    
+
+      
+  - name: wait for host after network restart
+    local_action: 
+      module: wait_for 
+        host="{{inventory_hostname}}" 
+        delay=1 
+        state=started 
+        timeout=2
+  
+

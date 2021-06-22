@@ -1,0 +1,72 @@
+--- 
+
+- name: disable automatic login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "AutomaticLoginEnable = false" 
+    state: present
+    regexp: '^.*AutomaticLoginEnable'
+    insertafter: '[daemon]'
+
+
+- name: disable automatic login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "# AutomaticLogin = borgguest" 
+    state: present
+    regexp: '^AutomaticLogin = borgguest'
+    insertafter: '[daemon]' 
+
+
+- name: disable timed login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "TimedLoginEnable = false" 
+    state: present
+    regexp: 'TimedLoginEnable'
+    insertafter: '[daemon]' 
+
+
+- name: comment out user for timed login
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "# TimedLogin = borgguest" 
+    state: present
+    regexp: '^TimedLogin'
+    insertafter: '[daemon]' 
+
+
+- name: unset timed login delay
+  lineinfile:
+    dest: /etc/gdm3/custom.conf
+    line: "# TimedLoginDelay = 0" 
+    state: present
+    regexp: 'TimedLoginDelay'
+    insertafter: '[daemon]'
+  notify: restart gdm3
+
+
+
+- name: copy gdm file to /etc/dconf/profile/
+  copy: 
+    src: gdm
+    dest: /etc/dconf/profile/gdm 
+    owner: root 
+    mode: 0644 
+    backup: yes 
+
+- name: ensure directory /etc/dconf/db/gdm.d
+  file:
+    path: /etc/dconf/db/gdm.d
+    state: directory
+    owner: root
+    mode: 0644
+
+- name: copy 00-login-screen to /etc/dconf/db/gdm.d/
+  copy:
+    src: 00-login-screen
+    dest: /etc/dconf/db/gdm.d/00-login-screen
+    owner: root
+    mode: 0644
+  notify: update dconf
+

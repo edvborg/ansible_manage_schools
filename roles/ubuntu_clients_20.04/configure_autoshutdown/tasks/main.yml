@@ -1,0 +1,15 @@
+---
+
+- name: shutdown script zum Client kopieren
+  copy:
+    src: autoshutdown.sh
+    dest: /usr/local/sbin/autoshutdown.sh
+    mode: 0750
+
+
+- name: configure cron for autoshutdown
+  lineinfile:
+    dest: /etc/cron.d/shutdown_pc
+    create: yes
+    regexp: "autoshutdown.sh"
+    line: "{{ shutdown_time }} * * * root /usr/local/sbin/autoshutdown.sh >> /var/log/shutdown.log 2>&1" 

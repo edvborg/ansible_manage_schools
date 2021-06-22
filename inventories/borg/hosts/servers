@@ -27,9 +27,11 @@ boss
 
 [ldapservers]
 boss
+ldap21
 
 [sambaservers]
 samba
+samba21
 
 [installservers]
 laus
@@ -57,7 +59,6 @@ proxy
 
 [wikiservers]
 wiki
-172.16.1.37
 wiki2
 172.16.1.137
 
@@ -73,9 +74,11 @@ cloud
 
 [bbbservers]
 bbb
+172.16.1.37
 192.168.220.193
 
 [testservers]
+dirsvr2
 basicserver
 basicserver2
 testserver

@@ -25,6 +25,7 @@ packages_list_desktop_2004:
   - debconf-utils 
   - language-pack-de 
   - apt-rdepends
+  - tasksel
   - fonts-liberation
   - fonts-dejavu-core 
   - default-jre 
@@ -44,48 +45,4 @@ packages_list_desktop_2004:
   - gnome-tweaks
 
 
-############################################################################
 
-  
-list_services_to_disable_2004:
-  - bluetooth
-  - avahi-daemon
-  - ModemManager
-  - unattended-upgrades
-  - pppd-dns
-  - whoopsie
-  - apparmor
-
-
-###################################################################################################
-
-  
-applist_in_launcher_2004: "[ 'ubiquity.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'libreoffice-impress.desktop', 'yelp.desktop',   'gnome-terminal.desktop', 'virtualbox.desktop', 'gimp.desktop', 'inkscape.desktop' ]"
-
-
-
-#################################################################################################### 
-#
-#    desktopbackground: "file:///usr/share/backgrounds/clock_by_Bernhard_Hanakam.jpg"
-#    desktopbackground: "file:///usr/share/backgrounds/Flora_by_Marek_Koteluk.jpg"
-#    desktopbackground: "file:///usr/share/backgrounds/Cielo_estrellado_by_Eduardo_Diez_Viñuela.jpg"
-#    desktopbackground: "file:///usr/share/backgrounds/ubuntustudio/1604_ghostcolor.png"
-#
-desktopbackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"   
-num_of_workspaces: 1
-lock_on_suspend: False
-screen_lock_enabled: False
-screen_timeout: 3000                 ## Abschalten Monitor
-volumes_visible: True
-sort_dirs_first: True
-darken_display: False
-screensaver_timeout: 600
-sleep_timeout: 3600
-integrated_menus_enabled: True
-always_show_menus: True
-webapps_enabled: False
-launcher_icon_size: 40
-show_name_in_panel: True
-show_home_trash_network_icons: False
-power_button_shutdown: True
-firefox_save_logins: True

@@ -140,8 +140,32 @@
       zone: public
     tags: client_deploy
 
+###############################################################
+## Monitoring Tools ##
 
+  - name: Port in cachemgr.conf auf localhost:8080 ändern
+    lineinfile:
+      path: /etc/squid/cachemgr.conf
+      regexp: '^localhost'
+      line: "localhost:8080"
+    tags: CacheManagerInterface
 
+  - name: Datei cachemgr.cgi in CGI-Verzeichnis des Webservers /var/www/cgi-bin/
+    copy:
+      remote_src: yes
+      src: /usr/lib64/squid/cachemgr.cgi
+      dest: /var/www/cgi-bin/cachemgr.cgi
+    tags: CacheManagerInterface
+
+  - name: anpassen von /etc/httpd/conf.d/squid.conf
+    blockinfile:
+      path: /etc/httpd/conf.d/squid.conf
+      block: |1
+        # Vlan 140 und 160 erlauben:
+        Require ip 192.168.140.0/24
+        Require ip 192.168.160.0/24
+      insertbefore: '</Location>'
+    tags: CacheManagerInterface
 
 
 

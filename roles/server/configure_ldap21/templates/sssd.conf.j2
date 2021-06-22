@@ -1,0 +1,38 @@
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = LDAP
+
+[nss]
+
+[pam]
+offline_credentials_expiration = 3
+
+[domain/LDAP]
+id_provider = ldap
+auth_provider = ldap
+ldap_schema = rfc2307
+ldap_uri = ldap://{{ full_machine_name }}
+
+### ldap_default_bind_dn = uid=auth,ou=Users,dc=domain,dc=tld
+### ldap_default_authtok = something_very_secret
+
+ldap_default_authtok_type = password
+ldap_search_base = {{ suffix }}
+ldap_user_search_base  = {{ ldap_user_search_base }}
+ldap_group_search_base = {{ ldap_group_search_base }}
+ldap_user_object_class = inetOrgPerson
+ldap_user_gecos = cn
+
+ldap_id_use_start_tls = true
+ldap_tls_reqcert = demand
+ldap_tls_cacert = /etc/dirsrv/slapd-{{instance_name}}/ca.crt
+
+###  uncomment below if the SME is a “iPasserelle”
+### ldap_user_shell = desktopLoginShell
+###  comment below if the SME is a “iPasserelle”
+#override_shell = /bin/bash
+
+cache_credentials = true
+enumerate = true
+

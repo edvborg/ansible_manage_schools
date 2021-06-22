@@ -1,0 +1,108 @@
+[org/gnome/mutter]
+dynamic-workspaces=false
+
+[org/gnome/desktop/wm/preferences]
+num-workspaces=4
+
+[org/gnome/desktop/background]
+picture-uri="{{ desktopbackground }}"
+show-desktop-icons=true
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='list-view'
+
+# Home-Verzeichnis und Papierkorb vom Desktop entfernen:
+[org/gnome/shell/extensions/desktop-icons]
+show-trash=false
+show-home=false
+
+[org/gnome/desktop/screensaver]
+lock-enabled=false
+
+[org/gnome/desktop/screensaver]
+lock-delay=uint32 {{ screensaver_timeout }}
+
+[org/gnome/desktop/session]
+idle-delay=uint32 {{ screen_timeout }}
+
+# Bereitschaftsmodus, Ruhezustand oder keine Aktion bei Inaktivität
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+
+# Zeit (in Sekunden) bis in Energiesparmodus (0 bedeutet nie)
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-timeout=uint32 {{ sleep_timeout }}
+
+# Bildschirmhelligkeit nach einer inaktiven Zeit reduzieren:
+[org/gnome/settings-daemon/plugins/power]
+idle-dim=false
+
+# Bildschirm sperren, wenn System in Bereitschaft
+[org/gnome/desktop/screensaver]
+ubuntu-lock-on-suspend=false
+
+# Maximale dash icon Größe (16 ... 64)
+[org/gnome/shell/extensions/dash-to-dock]
+dash-max-icon-size=30
+
+# Datum bei Uhr anzeigen:
+[org/gnome/desktop/interface]
+clock-show-date=true
+
+# Aktion für den Einschaltknopf:
+[org/gnome/settings-daemon/plugins/power]
+button-power='shutdown'
+
+
+# In 20.04 nicht mehr vorhanden!
+# [com/canonical/unity]
+# {% if integrated_menus_enabled %}
+# integrated-menus=true
+# {% else %}
+# integrated-menus=false
+# {% endif %}
+
+# In 20.04 nicht mehr vorhanden!
+#[com/canonical/unity]
+#{% if always_show_menus %}
+#always-show-menus=true
+#{% else %}
+#always-show-menus=false
+#{% endif %}
+
+# In 20.04 nicht mehr vorhanden!
+#[com/canonical/unity/webapps]
+#{% if webapps_enabled %}
+#integration-allowed=true
+#{% else %}
+#integration-allowed=false
+#{% endif %}
+
+# In 20.04 nicht mehr vorhanden!
+#[com/canonical/indicator/session]
+#{% if show_name_in_panel %}
+#show-real-name-on-panel=true
+#{% else %}
+#show-real-name-on-panel=false
+#{% endif %}
+
+# In 20.04 nicht mehr vorhanden!
+# [org/gnome/nautilus/desktop]
+# {% if volumes_visible %}
+# volumes-visible=true
+# {% else %}
+# volumes-visible=false
+# {% endif %}
+
+# In 20.04 nicht mehr vorhanden!
+# [org/gnome/nautilus/preferences]
+# {% if sort_dirs_first %}
+# sort-directories-first=true
+# {% else %}
+# sort-directories-first=false
+# {% endif %}
+
+
+
+
+

@@ -1,0 +1,92 @@
+---
+    
+- name: create directory
+  file:
+    path: "{{ mscore_install_dir }}"
+    state: directory
+    mode: 0755 
+    owner: root
+    group: root
+
+- name: copy appimage file
+  copy:
+    src: MuseScore-3.5.0-x86_64.AppImage
+    dest: "{{ mscore_install_dir }}/MuseScore-3.5.0-x86_64.AppImage"
+    mode: 0755
+    owner: root
+    group: root
+
+- name: copy dektop file to remote host
+  copy:
+    src: mscore3.desktop
+    dest: "/usr/share/applications/"
+
+- name: copy icons 1
+  copy:
+    src: mscore3_24.png
+    dest: /usr/share/icons/hicolor/24x24/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 2
+  copy:
+    src: mscore3_scale.svg
+    dest: /usr/share/icons/hicolor/scalable/apps/mscore3.svg
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 3
+  copy:
+    src: mscore3_512.png
+    dest: /usr/share/icons/hicolor/512x512/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 4
+  copy:
+    src: mscore3_16.png
+    dest: /usr/share/icons/hicolor/16x16/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 5
+  copy:
+    src: mscore3_32.png
+    dest: /usr/share/icons/hicolor/32x32/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 6
+  copy:
+    src: mscore3_96.png
+    dest: /usr/share/icons/hicolor/96x96/apps/mscore3.png
+
+- name: copy icons 7
+  copy:
+    src: mscore3_128.png
+    dest: /usr/share/icons/hicolor/128x128/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 8
+  copy:
+    src: mscore3_64.png
+    dest: /usr/share/icons/hicolor/64x64/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy icons 9
+  copy:
+    src: mscore3_48.png
+    dest: /usr/share/icons/hicolor/48x48/apps/mscore3.png
+    mode: 0644
+    owner: root
+    group: root
+

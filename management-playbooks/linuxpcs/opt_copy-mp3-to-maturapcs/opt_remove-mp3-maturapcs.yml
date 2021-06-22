@@ -2,8 +2,8 @@
 - hosts: maturapcs
 
   vars: 
-    filename: KL20_PT1_ALL_ENG_HO_B2.mp3
-
+    filename: KL21_PT1_ALL_ENG_HO_B2_SF.mp3
+    #filename: test.txt
   tasks:
   - name: remove mp3 from desktop
     file:

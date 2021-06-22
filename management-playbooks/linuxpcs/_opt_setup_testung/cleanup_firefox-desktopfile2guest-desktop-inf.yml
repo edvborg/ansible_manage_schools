@@ -1,0 +1,14 @@
+---
+- hosts: inf2pcs inf1pcs inf3pcs
+
+  vars:
+    url_shortname: "Test-ID:28568"
+
+  tasks:
+  - name: remove desktop file with link from guest account
+    file: 
+      path: "/etc/guest-session/skel/Schreibtisch/firefox-{{ url_shortname }}.desktop"
+      state: absent
+
+      
+      

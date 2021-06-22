@@ -1,10 +1,13 @@
 ---
 - hosts: inf2pcs inf1pcs inf3pcs
 
+  vars: 
+    url_shortname: "Sportpsychologische Testung"
+
   tasks:
   - name: remove desktop file with link from guest account
     file: 
-      path: /etc/guest-session/skel/Schreibtisch/chromium-browser.desktop
+      path: /etc/guest-session/skel/Schreibtisch/chromium-browser_{{ url_shortname }}.desktop
       state: absent
 
       

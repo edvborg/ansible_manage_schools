@@ -1,0 +1,18 @@
+---
+
+- name: copy gui-from-cron.sh to client 
+  copy:
+    src: gui-from-cron.sh
+    dest: /usr/local/bin/gui-from-cron.sh
+    mode: 0755
+ 
+- name: Installationsscript zum Client kopieren
+  copy:
+    src: sessionrestart.1804
+    dest: /etc/cron.d/sessionrestart
+    mode: 0644
+
+- name: restart cron
+  service:
+    name: cron
+    state: restarted

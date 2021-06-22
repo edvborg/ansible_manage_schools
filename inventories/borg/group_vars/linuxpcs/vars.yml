@@ -9,7 +9,9 @@ virtualbox_machines_dir: /virtualbox-machines
 
 applist_in_launcher: ['application://org.gnome.Nautilus.desktop', 'application://firefox.desktop', 'application://libreoffice-writer.desktop', 'application://libreoffice-calc.desktop', 'application://libreoffice-impress.desktop', 'application://gnome-terminal.desktop', 'unity://running-apps', 'application://virtualbox.desktop', 'unity://expo-icon', 'unity://devices']
 
-applist_in_launcher_1804: "[ 'ubiquity.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'libreoffice-impress.desktop', 'yelp.desktop',   'gnome-terminal.desktop', 'virtualbox.desktop', 'gimp.desktop', 'inkscape.desktop' ]"
+applist_in_launcher_1804: "[ 'ubiquity.desktop','webuntis.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'libreoffice-impress.desktop', 'yelp.desktop',   'gnome-terminal.desktop', 'virtualbox.desktop', 'gimp.desktop', 'inkscape.desktop' ]"
+
+applist_in_launcher_2004: "[ 'ubiquity.desktop','webuntis.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'libreoffice-impress.desktop', 'yelp.desktop',   'gnome-terminal.desktop', 'virtualbox.desktop', 'gimp.desktop', 'inkscape.desktop' ]"
 
 
 packages_list_desktop_1604:

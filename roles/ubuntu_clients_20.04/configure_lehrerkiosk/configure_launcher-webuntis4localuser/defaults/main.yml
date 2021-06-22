@@ -1,0 +1,4 @@
+---
+
+fach: "konf"
+localuser: "{{ fach }}-user"

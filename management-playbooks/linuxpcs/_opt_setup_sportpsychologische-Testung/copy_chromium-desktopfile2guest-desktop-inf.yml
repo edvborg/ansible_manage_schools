@@ -1,5 +1,5 @@
 ---
-- hosts: inf2pcs inf1pcs inf3pcs
+- hosts: inf2pcs inf3pcs
 
   vars:
     weburl: "http://qdedemo.amescon.com/app/onlinefillout/2c51db65-bf8f-48be-b905-a2fd4e6517ba#stay" 

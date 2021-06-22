@@ -13,7 +13,7 @@ winpcs_laptops
 
 [winpcs_konf]
 O1-29-PC01
-O1-29-PC02
+#O1-29-PC02
 
 [winpcs_test]
 #O2-10-PCT1

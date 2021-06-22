@@ -1,0 +1,39 @@
+--- 
+
+- name: copy certificate to client
+  copy: 
+    src: ldap21_BORG_CA.crt
+    dest: /etc/ssl/certs/ldap21_BORG_CA.crt
+    mode: 644
+    owner: root
+    group: root
+  notify: reload services sssd and gdm
+     
+- name: configure openldap client
+  copy: 
+    src: ldap.conf
+    dest: /etc/ldap/ldap.conf
+    mode: 644
+    owner: root
+    group: root
+  notify: reload services sssd and gdm
+     
+- name: install packages for LDAP Authentication
+  apt: 
+    name:
+    - sssd
+    - sssd-tools
+    - libsasl2-modules-ldap  
+    state: present
+  notify: reload services sssd and gdm
+    
+- name: create sssd.conf
+  template: 
+    src:  sssd.conf.j2  
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify: reload services sssd and gdm
+  
+  

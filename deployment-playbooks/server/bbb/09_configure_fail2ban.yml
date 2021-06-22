@@ -1,5 +1,5 @@
 ---
-- hosts: 172.16.1.37
+- hosts: bbb
 
   tasks:
   - name: Install fail2ban
@@ -12,7 +12,7 @@
     file:
       path: "/etc/fail2ban/jail.local"    
       state: absent
-      
+
   - name: enable sshd jail
     blockinfile:
       path: "/etc/fail2ban/jail.local"    
@@ -28,11 +28,12 @@
       name: fail2ban
       enabled: yes
     notify: restart fail2ban
-     
+    tags: step
       
   handlers:
   - name: restart fail2ban
     service: 
       name:  fail2ban 
-      state: restarted 
+      state: restarted
+    tags: step 
        

@@ -1,0 +1,36 @@
+---
+
+- name: install dependencies | 1804
+  apt: 
+    name: 
+    - libqt5webkit5 
+    - libqt5multimediawidgets5 
+    - libqt5svg5 
+    - libqt5script5 
+    - libqt5scripttools5 
+    - libqt5sql5
+    - xz-utils
+    state: present
+#  when: ansible_distribution_version == "18.04"
+#  tags: step
+
+- name: install libpng12 deb from debian repo
+  apt:
+    deb: http://ftp.us.debian.org/debian/pool/main/libp/libpng/libpng12-0_1.2.50-2+deb8u3_amd64.deb 
+    # deb: /root/PT/libpng12-0_1.2.50-2+deb8u3_amd64.deb
+    state: present
+#  when: ansible_distribution_version == "18.04"
+#  tags: step
+
+- name: copy packettracer to remote host
+  copy:
+    src: Packettracer.deb
+    dest: "/tmp/Packettracer.deb"
+#  tags: step
+
+- name: install packettracer.deb
+  apt:
+    deb: /tmp/Packettracer.deb
+    state: present
+#  when: ansible_distribution_version == "18.04"
+#  tags: final

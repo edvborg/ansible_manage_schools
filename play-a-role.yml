@@ -1,0 +1,6 @@
+---
+
+- hosts: "{{ playon }}"
+
+  roles:
+  - "{{role}}"

@@ -18,7 +18,7 @@ klassenpcs_O1
 klassenpcs_O2
 klassenpcs_CO
 klassenpcs_lehrer
-
+maturapcs
 
 [klassenpcs_UG]
 UG-13-PC01
@@ -72,8 +72,9 @@ CO-04-PC01
 EG-27-PC01  # Lehrergarderobe LÜ
 O1-24-PC01  # Lehrergarderobe LÜ
 O1-06-PC01  # Kustodiat GW
-O2-10-PCV9  # Master , auf PVE01
+# O2-10-PCV9  # Master , auf PVE01
 O2-10-PCV6  # Klassenmaster
+klasse-client # Klassenmaster UB20.04
 
 ###
 ### Informatiksäle und Bibliothek
@@ -93,6 +94,8 @@ O2-10-PCT5
 [inf2pcs]
 inf-2-[01:15]
 inf-2-le
+inf-client
+test
 
 [inf3pcs]
 inf-3-[01:15]
@@ -159,6 +162,7 @@ O2-32-PC01
 # Konferenzzimmer
 
 [lehrerpcs_konf]
+O1-29-PC02
 O1-29-PC03
 O1-29-PC04
 
@@ -178,15 +182,15 @@ O2-10-LP11   ##
 
 [maturapcs]
 EG-01-PC01
-EG-02-PC01
+EG-03-PC01
 EG-04-PC01
-EG-21-PC01
+EG-29-PC01
 EG-28-PC01
 EG-30-PC01
-EG-31-PC01
-O1-03-PC01  
+#EG-31-PC01
+O1-04-PC01  
 O1-05-PC01 
-O1-07-PC01 
+#O1-07-PC01 
 O1-25-PC01 
 O1-26-PC01 
 O1-27-PC01
@@ -208,11 +212,13 @@ O1-27-PC01
 ###
 
 [testpcs]
+192.168.140.[1:99]
 O2-10-PCT[1:9]
 O2-10-PCV[1:9]
 192.168.120.41
 ## auf PVE
 O2-10-PCV11
+O2-10-PC20
 HOMEOFFICE-PC01
 HOMEOFFICE-PC02
 HOMEOFFICE-PC03

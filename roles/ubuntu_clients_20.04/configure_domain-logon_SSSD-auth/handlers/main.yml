@@ -1,0 +1,10 @@
+---
+
+- name: reload sssd
+  listen: reload services sssd and gdm
+  service: name=sssd enabled=yes state=restarted
+  # notify: reload lightdm
+
+- name: reload gdm 
+  listen: reload services sssd and gdm
+  service: name=gdm enabled=yes state=restarted

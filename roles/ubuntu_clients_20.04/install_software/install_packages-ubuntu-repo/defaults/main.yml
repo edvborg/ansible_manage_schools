@@ -1,58 +1,16 @@
-###
-### definition of software packages ############
-###
-
-
-
-
-
 ############################################################################
 
 ### definition of software packages ############
 
-packages_list_desktop_2004:
-  - ubuntu-desktop
-  - language-pack-gnome-en
-  - language-pack-gnome-de
-  - openssh-server 
-  - ssh 
-  - nfs-common
-  - cifs-utils 
-  - ntpdate 
-  - wget 
-  - screen 
-  - smartmontools
-  - debconf-utils 
-  - language-pack-de 
-  - apt-rdepends
-  - fonts-liberation
-  - fonts-dejavu-core 
-  - default-jre 
-  - autofs 
-  - cups 
-  - gparted
-  - ntp
-  - net-tools
-  - apt-file
-  - apt-transport-https
-  - at
-  - ack-grep
-  - quota
-  - quotatool
-  - tracker                      ## für Dateisuche
-  - ubuntustudio-wallpapers
-  - gnome-tweaks
 
 packages_list_graphics_2004:
   - gimp 			#
   - gimp-help-en 		#
   - gimp-help-de 		#
-  - dia 			#
-  - inkscape 			#
-#  - digikam 			#
-#  - digikam-doc 		#
-  - blender 			#
-  - easytag			#
+#  - dia 			#
+#  - inkscape 			#
+#  - blender 			#
+#  - easytag			#
 
 packages_list_internet_2004:
   - firefox-locale-de 			# Firefox deutsch
@@ -60,15 +18,14 @@ packages_list_internet_2004:
   - chromium-browser 			# Chromium Browser
   - chromium-browser-l10n 		#  
   - chromium-codecs-ffmpeg-extra 		#  
-  - thunderbird 			# Kommentar
-  - thunderbird-locale-de 		# 
-  - thunderbird-locale-en 		# 
-  - filezilla  			# 
+#  - thunderbird 			# Kommentar
+#  - thunderbird-locale-de 		# 
+#  - thunderbird-locale-en 		# 
+#  - filezilla  			# 
   - transmission 		# 
-  - wireshark 			# Kommentar
-  - ettercap-text-only 		# Kommentar
-#  - ekiga 			# Kommentar
-  - empathy 			# Kommentar
+#  - wireshark 			# Kommentar
+#  - ettercap-text-only 		# Kommentar
+#  - empathy 			# Kommentar
   - vinagre 			# Kommentar
   - ftp 			# ftp Client CLI
   - gftp-gtk 			# ftp Client GUI
@@ -83,17 +40,13 @@ packages_list_internet_2004:
 packages_list_multimedia_2004:
   - vlc 			# Medienplayer
   - vlc-plugin-fluidsynth 	#
-#  - browser-plugin-vlc 		#
   - mplayer 			# Medienplayer
-#  - transcode 			#
   - audacity 			# Audio-Editor
   - muse 			#
   - gtkpod 			#
   - x264 			# 
   - sound-juicer 
   - brasero
-#  - gxmms2
-#  - xmms2-plugin-all
   - musescore3
   - musescore-general-soundfont 
   - fluidsynth 
@@ -105,8 +58,8 @@ packages_list_multimedia_2004:
   - handbrake			# Videos/DVDs konvertieren
   - mediainfo
   - mediainfo-gui
-  - pitivi 			# Video-Editor 
-  - kino 
+#  - pitivi 			# Video-Editor 
+#  - kino 
   - mjpegtools 
   - cheese 
   - mencoder 
@@ -115,11 +68,9 @@ packages_list_multimedia_2004:
   - libxvidcore4  
   - libfaac0 
   - ubuntu-restricted-extras
-  #- oxideqt-codecs-extra 
-#  - gstreamer1.0-fluendo-mp3
   - gstreamer1.0-plugins-bad 
   - gstreamer1.0-plugins-ugly
-  - kazam   # session recorder
+#  - kazam   # session recorder
   - simplescreenrecorder
 
 packages_list_office_2004:
@@ -165,10 +116,10 @@ packages_list_office_2004:
   - fonts-crosextra-carlito
 
 packages_list_science_2004:
-  - openuniverse		#
-  - wxmaxima 		#
-  - marble 		#
-  - stellarium 
+#  - openuniverse		#
+#  - wxmaxima 		#
+#  - marble 		#
+#  - stellarium 
 
 packages_list_softwaredevelopment_2004:
   - openjdk-11-jre 
@@ -178,8 +129,8 @@ packages_list_softwaredevelopment_2004:
   - idle 		# kleine Python IDE
   - python-usb 		#
 #  - eclipse 		#
-  - scratch 		#
-  - arduino
+#  - scratch 		#
+#  - arduino
 
 packages_list_tools_2004:
    - tree 		#
@@ -192,11 +143,11 @@ packages_list_tools_2004:
    - exfat-fuse 		#
    - sysbench
    - kleopatra
-   - virtualbox
-   - virtualbox-qt
+#   - virtualbox
+#   - virtualbox-qt
    ##- vde2
    ## - virtualbox-ext-pack has to be preseeded -> install_packages_others
-   - virtualbox-guest-additions-iso 
+#   - virtualbox-guest-additions-iso 
    - smbclient
    - apt-file
    - dconf-editor
@@ -212,48 +163,5 @@ packages_list_tools_2004:
    - mc
    - gnome-calculator
 
-############################################################################
-
-  
-list_services_to_disable_2004:
-  - bluetooth
-  - avahi-daemon
-  - ModemManager
-  - unattended-upgrades
-  - pppd-dns
-  - whoopsie
-  - apparmor
 
 
-###################################################################################################
-
-  
-applist_in_launcher_2004: "[ 'ubiquity.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'libreoffice-impress.desktop', 'yelp.desktop',   'gnome-terminal.desktop', 'virtualbox.desktop', 'gimp.desktop', 'inkscape.desktop' ]"
-
-
-
-#################################################################################################### 
-#
-#    desktopbackground: "file:///usr/share/backgrounds/clock_by_Bernhard_Hanakam.jpg"
-#    desktopbackground: "file:///usr/share/backgrounds/Flora_by_Marek_Koteluk.jpg"
-#    desktopbackground: "file:///usr/share/backgrounds/Cielo_estrellado_by_Eduardo_Diez_Viñuela.jpg"
-#    desktopbackground: "file:///usr/share/backgrounds/ubuntustudio/1604_ghostcolor.png"
-#
-desktopbackground: "file:///usr/share/backgrounds/warty-final-ubuntu.png"   
-num_of_workspaces: 1
-lock_on_suspend: False
-screen_lock_enabled: False
-screen_timeout: 3000                 ## Abschalten Monitor
-volumes_visible: True
-sort_dirs_first: True
-darken_display: False
-screensaver_timeout: 600
-sleep_timeout: 3600
-integrated_menus_enabled: True
-always_show_menus: True
-webapps_enabled: False
-launcher_icon_size: 40
-show_name_in_panel: True
-show_home_trash_network_icons: False
-power_button_shutdown: True
-firefox_save_logins: True

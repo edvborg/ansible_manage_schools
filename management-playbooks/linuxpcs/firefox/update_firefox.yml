@@ -3,7 +3,12 @@
 
   tasks:
   - name: update firefox
-    apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+    apt: 
+     name: " {{ item }} "
+     state: latest 
+     only_upgrade: yes
+     update_cache: yes 
+     cache_valid_time: 3600
     with_items:
       - firefox
       - firefox-locale-de

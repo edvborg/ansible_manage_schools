@@ -1,0 +1,26 @@
+---
+
+- name: install dependencies
+  apt: 
+    name: 
+    - libqt5webkit5 
+    - libqt5multimediawidgets5 
+    - libqt5svg5 
+    - libqt5script5 
+    - libqt5scripttools5 
+    - libqt5sql5
+    - xz-utils
+    state: present
+#  tags: step
+
+- name: copy packettracer to remote host
+  copy:
+    src: Packettracer.deb
+    dest: "/tmp/Packettracer.deb"
+#  tags: step
+
+- name: install packettracer.deb
+  apt:
+    deb: /tmp/Packettracer.deb
+    state: present
+#  tags: final

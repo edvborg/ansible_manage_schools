@@ -1,0 +1,19 @@
+---
+- hosts: inf2pcs 
+
+
+
+- name: reconfigure fstab | sda or nvmen1
+  import_playbook: ../common/0_reconfigure_fstab.yml hostlist=inf2pcs
+    
+
+- name: do configurations for inf-2
+  import_playbook: 1_configurations_for_inf2pcs.yml 
+
+#- name: import winontop
+#  import_playbook: ../common/5_configure_winontop.yml hostlist=inf2pcs
+
+
+- name: reboot and wait for host
+  import_playbook: ../common/9_reboot_and_wait.yml hostlist=inf2pcs
+

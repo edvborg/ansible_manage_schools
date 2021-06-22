@@ -25,7 +25,7 @@
   - ubuntu_clients/configure_defaults4users/set_launcher_in_schemafile
   - ubuntu_clients/configure_defaults4users/set_unity_defaults
   - ubuntu_clients/configure_defaults4users/disable_user_services
-  - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
+#  - ubuntu_clients/configure_defaults4users/set_opera_cachedir-in-tmp
   - ubuntu_clients/configure_defaults4users/set_firefox_startup-homepage
   - ubuntu_clients/configure_defaults4users/set_firefox_cachedir-in-tmp
 

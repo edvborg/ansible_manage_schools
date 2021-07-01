@@ -23,7 +23,7 @@
     ignore_errors: true
       
   - name: wait for host after reboot
-    local_action: 
+    local_action:
       module: wait_for 
         host="{{inventory_hostname}}" 
         delay=15 

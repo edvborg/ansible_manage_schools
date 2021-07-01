@@ -14,7 +14,7 @@
 #│   └── magic
 #├── conf.d
 #│   ├── autoindex.conf
-#│   ├── README
+#│   ├── README.md
 #│   ├── userdir.conf
 #│   └── welcome.conf
 #├── conf.modules.d
@@ -28,7 +28,7 @@
 #│   ├── 01-cgi.conf
 #│   ├── 10-h2.conf
 #│   ├── 10-proxy_h2.conf
-#│   └── README
+#│   └── README.md
 #├── logs -> ../../var/log/httpd
 #├── modules -> ../../usr/lib64/httpd/modules
 #├── run -> /run/httpd

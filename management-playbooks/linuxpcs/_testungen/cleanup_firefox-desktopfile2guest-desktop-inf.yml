@@ -1,0 +1,11 @@
+---
+- hosts: inf2pcs inf1pcs inf3pcs
+
+  vars:
+    url_shortname: "Test-ID:12345"
+
+  tasks:
+  - name: remove desktop file 1
+    file: 
+      path: "/home2/admin/Schreibtisch/firefox-{{ url_shortname }}.desktop"
+      state: absent

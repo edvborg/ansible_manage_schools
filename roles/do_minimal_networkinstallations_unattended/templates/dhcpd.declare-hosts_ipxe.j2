@@ -2,7 +2,7 @@ group {
 
 ##  unattended installation
 
-{% for key, value in macaddresses_of_hostnames.iteritems() %}
+{% for key, value in macaddresses_of_hostnames.items() %}
 host {{ key }} {
   hardware ethernet {{ value }};
   next-server {{ tftpserver_address }};

@@ -8,7 +8,7 @@ PASSWORD=$(zenity --entry --title="Passwort" --hide-text --text="Geben Sie das P
 #
 #
 #
-gio mount "smb://samba/$USERNAME" <<EOF
+gio mount "smb://samba21/$USERNAME" <<EOF
 $USERNAME
 BORG-IBK.LOCAL
 $PASSWORD
@@ -16,5 +16,5 @@ EOF
 #
 sleep 1
 #
-nautilus smb://samba/$USERNAME &
+nautilus smb://samba21/$USERNAME &
  

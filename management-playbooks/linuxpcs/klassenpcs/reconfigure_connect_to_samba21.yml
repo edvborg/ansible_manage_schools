@@ -1,0 +1,32 @@
+---
+- hosts: klassenpcs
+
+    - name: Ersetze samba durch samba21 in audioserver.desktop
+      replace:
+        path: /etc/home2/admin/Schreibtisch/audioserver.desktop
+        regexp: '(^Exec)(.*)'
+        replace: 'Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba21/audio/'
+
+    - name: Ersetze sabma durch samba21 in videoserver.desktop
+      replace:
+        path: /etc/home2/admin/Schreibtisch/videoserver.desktop
+        regexp: '(^Exec)(.*)'
+        replace: 'Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba21/audio/'
+
+    - name: Ersetze sabma durch samba21 in material.desktop
+        replace:
+          path: /etc/home2/admin/Schreibtisch/material.desktop
+          regexp: '(^Exec)(.*)'
+          replace: 'Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba21/audio/'
+
+    - name: Ersetze sabma durch samba21 in connect2home.sh 1
+        replace:
+          path: /usr/local/bin/connect2home.sh
+          regexp: '(^gio)(.*)'
+          replace: 'gio mount "smb://samba21/$USERNAME" <<EOF'
+
+    - name: Ersetze sabma durch samba21 in connect2home.sh 2
+        replace:
+          path: /usr/local/bin/connect2home.sh
+          regexp: '(^nautilus)(.*)'
+          replace: 'nautilus smb://samba21/$USERNAME &'

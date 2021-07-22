@@ -36,15 +36,15 @@
     - network_test
 
 
-#- debug: msg={{ netplan_files.files[0].path }}
+- debug: msg={{ netplan_files.files[0].path }}
 #  tags:
 #    - network_test
     
 - name: delete interface yaml file in /etc/netplan
-  file: 
+  file:
     path: "{{ item.path }}"
     state: absent
-    backup: yes
+#    backup: yes  ## backup gibt es im file modul nicht mehr!
   with_items: "{{ netplan_files.files }}"
   when: netplan_files.files is defined
   notify: reload networking and network manager  

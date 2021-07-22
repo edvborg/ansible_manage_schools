@@ -9,48 +9,48 @@
 
 #######################################
 
-- name: copy audioserver.desktop to remote host 1804
+- name: copy audioserver.desktop to remote host
   copy:
-    src: audioserver.desktop.1804
+    src: audioserver.desktop
     dest: /home2/{{ localuser }}/Schreibtisch/audioserver.desktop
     mode: 0755
     owner: "{{ localuser }}"  
 
-- name: copy audioserver.desktop to remote host 1804
+- name: copy audioserver.desktop to remote host
   copy:
-    src: audioserver.desktop.1804
+    src: audioserver.desktop
     dest: /usr/share/applications/audioserver.desktop
     mode: 0644
     owner: root 
 
 ###
 
-- name: copy videoserver.desktop to remote host 1804
+- name: copy videoserver.desktop to remote host
   copy:
-    src: videoserver.desktop.1804
+    src: videoserver.desktop
     dest: /home2/{{ localuser }}/Schreibtisch/videoserver.desktop
     mode: 0755
     owner: "{{ localuser }}"  
 
-- name: copy videoserver.desktop to remote host 1804
+- name: copy videoserver.desktop to remote host
   copy:
-    src: videoserver.desktop.1804
+    src: videoserver.desktop
     dest: /usr/share/applications/videoserver.desktop
     mode: 0644
     owner: root  
 
 ###
 
-- name: copy material.desktop to remote host 1804
+- name: copy material.desktop to remote host
   copy:
-    src: material.desktop.1804
+    src: material.desktop
     dest: /home2/{{ localuser }}/Schreibtisch/material.desktop
     mode: 0755
     owner: "{{ localuser }}" 
 
-- name: copy material.desktop to remote host 1804
+- name: copy material.desktop to remote host
   copy:
-    src: material.desktop.1804
+    src: material.desktop
     dest: /usr/share/applications/material.desktop
     mode: 0644
     owner: root  

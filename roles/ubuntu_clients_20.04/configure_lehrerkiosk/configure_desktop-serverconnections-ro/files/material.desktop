@@ -2,8 +2,8 @@
 Version=1.0
 Name=zum Unterrichtsmaterial
 Comment=zum Unterrichtsmaterial
-Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba/material/
+Exec=nautilus smb://BORG-IBK.LOCAL;borg-user@samba21/material/
 Type=Application
-Icon=/usr/share/icons/unity-icon-theme/places/svg/group-folders.svg
+Icon=folder-symbolic
 Categories=GTK;GNOME;Application;Utility;
 

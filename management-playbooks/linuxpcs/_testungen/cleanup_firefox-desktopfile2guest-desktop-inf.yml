@@ -2,7 +2,7 @@
 - hosts: inf2pcs inf1pcs inf3pcs
 
   vars:
-    url_shortname: "Test-ID:12345"
+    url_shortname: "Test-ID:11111"
 
   tasks:
   - name: remove desktop file 1
